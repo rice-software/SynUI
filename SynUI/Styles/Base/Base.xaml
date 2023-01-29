@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="BaseDark.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <FontFamily x:Key="Inter">pack://application:,,,/Assets/Fonts/#Inter</FontFamily>
+    <FontFamily x:Key="Codicon">pack://application:,,,/Assets/Fonts/#codicon</FontFamily>
+
+    <sys:Double x:Key="FontSizeLarge">16</sys:Double>
+    <sys:Double x:Key="FontSizeMedium">14</sys:Double>
+    <sys:Double x:Key="FontSizeSmall">12</sys:Double>
+</ResourceDictionary>
