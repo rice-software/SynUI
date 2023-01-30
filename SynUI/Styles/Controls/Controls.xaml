@@ -9,5 +9,7 @@
         <ResourceDictionary Source="ListBoxItem.xaml" />
         <ResourceDictionary Source="TreeView.xaml" />
         <ResourceDictionary Source="TreeViewItem.xaml" />
+        <ResourceDictionary Source="ScrollBar.xaml" />
+        <ResourceDictionary Source="ScrollViewer.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

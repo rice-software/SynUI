@@ -46,14 +46,15 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        CloseCommand = new DelegateCommand<object>(
-            _ =>
-            {
-                Sxlib.ScriptHubMarkAsClosed();
-                Sxlib.Close();
-                Application.Current.MainWindow.Close();
-            },
-            _ => SynLoadState == SxLibBase.SynLoadEvents.READY);
+        CloseCommand = new DelegateCommand<SxLibBase.SynLoadEvents>(_ =>
+        {
+            if (SynLoadState != SxLibBase.SynLoadEvents.READY)
+                return;
+
+            Sxlib?.ScriptHubMarkAsClosed();
+            Sxlib?.Close();
+            Application.Current.MainWindow?.Close();
+        });
 
         StateCommand = new DelegateCommand<object>(_ => WindowState = WindowState switch
         {
@@ -66,7 +67,7 @@ public class MainWindowViewModel : ViewModelBase
         LoadedCommand = new DelegateCommand<object>(_initializeSynapse);
     }
 
-    public DelegateCommand<object> CloseCommand { get; set; }
+    public DelegateCommand<SxLibBase.SynLoadEvents> CloseCommand { get; set; }
     public DelegateCommand<object> StateCommand { get; set; }
     public DelegateCommand<object> MinimizeCommand { get; set; }
     public DelegateCommand<object> LoadedCommand { get; set; }

@@ -52,6 +52,7 @@
                     FontFamily="{StaticResource Codicon}" />
                 <Button
                     Command="{Binding CloseCommand}"
+                    CommandParameter="{Binding SynLoadState}"
                     Content="&#xeab8;" Width="48" FontSize="16"
                     Style="{StaticResource CaptionButton}"
                     FontFamily="{StaticResource Codicon}" />
@@ -126,8 +127,8 @@
                     BorderThickness="0 0 1 0"
                     Padding="4">
                     <TextBlock>
-                        <Run Text="Synapse X:" />
-                        <Run Text="{Binding SynLoadState}" />
+                        <Run Text="Status:" />
+                        <Run Text="{Binding SynAttachState}" />
                     </TextBlock>
                 </Border>
             </StackPanel>

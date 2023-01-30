@@ -69,7 +69,7 @@
                         <Trigger Property="HasItems" Value="false">
                             <Setter Property="Visibility" TargetName="Expander" Value="Hidden"/>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
+                        <Trigger SourceName="Bd" Property="IsMouseOver" Value="true">
                             <Setter Property="Background" TargetName="Bd" Value="{StaticResource ThemeControlHighlightLowBrush}"/>
                             <Setter Property="Foreground" Value="{StaticResource ThemeForegroundMidBrush}"/>
                         </Trigger>
@@ -80,7 +80,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
-                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition SourceName="Bd" Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
 
                             <Setter Property="Background" TargetName="Bd" Value="{StaticResource ThemeControlHighlightHighBrush}"/>

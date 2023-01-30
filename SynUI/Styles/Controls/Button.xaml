@@ -4,7 +4,7 @@
         <Setter Property="Background" Value="{StaticResource ThemeControlMidBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ThemeBorderLowBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="4 2" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -16,8 +16,7 @@
                         x:Name="PART_LayoutRoot"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="4">
+                        BorderThickness="{TemplateBinding BorderThickness}">
                         <ContentPresenter
                             x:Name="PART_ContentPresenter"
                             Margin="{TemplateBinding Padding}"

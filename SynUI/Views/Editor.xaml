@@ -70,7 +70,41 @@
             VerticalAlignment="Stretch"
             Background="{StaticResource ThemeBorderHighBrush}" />
 
-        <DockPanel Grid.Column="2" Grid.Row="1"></DockPanel>
+        <DockPanel Grid.Column="2" Grid.Row="1">
+            <ScrollViewer DockPanel.Dock="Top" Style="{StaticResource HorizontalListBoxScrollViewer}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
+                <StackPanel Orientation="Horizontal">
+                    <ListBox Style="{StaticResource HorizontalListBox}">
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                        <ListBoxItem Content="Test" Padding="12 6" />
+                    </ListBox>
+                    <Button
+                        Content="&#xea60;"
+                        Width="12" Height="12"
+                        Padding="0" Margin="8 0 0 0"
+                        Background="Transparent"
+                        FontFamily="{StaticResource Codicon}"
+                        FontSize="8" VerticalAlignment="Center" />
+                </StackPanel>
+            </ScrollViewer>
+
+            <Border BorderBrush="{StaticResource ThemeBorderHighBrush}" BorderThickness="0 1 0 0">
+
+            </Border>
+        </DockPanel>
 
         <GridSplitter
             Grid.Column="2" Grid.Row="2"
