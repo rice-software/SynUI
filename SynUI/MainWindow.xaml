@@ -18,12 +18,17 @@
     <Window.Resources>
         <c:WindowStateConverter x:Key="WindowStateConverter" />
     </Window.Resources>
+
     <Window.DataContext>
         <vm:MainWindowViewModel Title="SynUI" />
     </Window.DataContext>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded" SourceName="{Binding ElementName=AppWindow}">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+
+        <i:EventTrigger EventName="Closed" SourceName="{Binding ElementName=AppWindow}">
+            <i:InvokeCommandAction Command="{Binding ClosedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
@@ -51,17 +56,21 @@
                     Width="48" FontSize="16" Style="{StaticResource CaptionButton}"
                     FontFamily="{StaticResource Codicon}" />
                 <Button
-                    Command="{Binding CloseCommand}"
-                    CommandParameter="{Binding SynLoadState}"
                     Content="&#xeab8;" Width="48" FontSize="16"
                     Style="{StaticResource CaptionButton}"
-                    FontFamily="{StaticResource Codicon}" />
+                    FontFamily="{StaticResource Codicon}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:CallMethodAction TargetObject="{Binding ElementName=AppWindow}" MethodName="Close" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <Image Source="/Assets/Images/synapse_x_16.png" Width="16"
                        RenderOptions.BitmapScalingMode="HighQuality" Margin="8 0" />
-                <TextBlock Text="{Binding Title}" />
+                <TextBlock Text="{Binding Title, Mode=OneWay}" />
             </StackPanel>
         </DockPanel>
 
@@ -85,26 +94,6 @@
                         Foreground="{Binding ElementName=AppWindow, Path=Foreground}"
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                 </TabItem>
-                <TabItem>
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xebaa;" FontSize="{StaticResource FontSizeMedium}"
-                                       FontFamily="{StaticResource Codicon}" VerticalAlignment="Center" />
-                            <TextBlock Text="Script hub" FontSize="{StaticResource FontSizeMedium}" Margin="4 0 0 0"
-                                       VerticalAlignment="Center" />
-                        </StackPanel>
-                    </TabItem.Header>
-                </TabItem>
-                <TabItem>
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xeaf8;" FontSize="{StaticResource FontSizeMedium}"
-                                       FontFamily="{StaticResource Codicon}" VerticalAlignment="Center" />
-                            <TextBlock Text="Settings" FontSize="{StaticResource FontSizeMedium}" Margin="4 0 0 0"
-                                       VerticalAlignment="Center" />
-                        </StackPanel>
-                    </TabItem.Header>
-                </TabItem>
             </TabControl>
         </Border>
 
@@ -119,7 +108,7 @@
                     Padding="4">
                     <TextBlock>
                         <Run Text="Synapse X:" />
-                        <Run Text="{Binding SynLoadState}" />
+                        <Run Text="{Binding SynLoadState, Mode=OneWay}" />
                     </TextBlock>
                 </Border>
                 <Border
@@ -128,7 +117,7 @@
                     Padding="4">
                     <TextBlock>
                         <Run Text="Status:" />
-                        <Run Text="{Binding SynAttachState}" />
+                        <Run Text="{Binding SynAttachState, Mode=OneWay}" />
                     </TextBlock>
                 </Border>
             </StackPanel>

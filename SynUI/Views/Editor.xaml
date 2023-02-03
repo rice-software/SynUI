@@ -5,6 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:SynUI.ViewModels"
              xmlns:c="clr-namespace:SynUI.Converters"
+             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:behaviour="clr-namespace:SynUI.Behaviour"
+             xmlns:models="clr-namespace:SynUI.Models"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
@@ -17,11 +21,45 @@
     <UserControl.Resources>
         <c:OutputTypeToBrushConverter x:Key="OutputTypeToBrushConverter" />
         <c:OutputTypeToCodiconGlyphConverter x:Key="OutputTypeToCodiconGlyphConverter" />
+        <c:VisibilityHiddenConverter x:Key="VisibilityHiddenConverters" />
+
+        <Style x:Key="EditorTabControl" TargetType="{x:Type TabControl}">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ThemeBorderHighBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabControl}">
+                        <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                            <Grid.RowDefinitions>
+                                <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                                <RowDefinition x:Name="RowDefinition1" Height="*"/>
+                            </Grid.RowDefinitions>
+                            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <TabPanel Grid.Column="0" x:Name="headerPanel" Background="Transparent" IsItemsHost="true"/>
+                                    <Button Grid.Column="1" Command="{Binding AddItemCommand}" Content="&#xea60;" Background="Transparent" FontFamily="{StaticResource Codicon}" Margin="8 0" Padding="2" VerticalAlignment="Center" />
+                                </Grid>
+                            </ScrollViewer>
+                            <Border x:Name="contentPanel" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0 1 0 0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                                <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="3*" />
             <RowDefinition Height="1" />
             <RowDefinition Height="*" MinHeight="150" MaxHeight="300" />
@@ -35,10 +73,24 @@
 
         <Border
             Grid.Row="0"
-            Grid.Column="0" Grid.ColumnSpan="3"
+            Grid.Column="0"
             BorderThickness="0 0 0 1"
             BorderBrush="{StaticResource ThemeBorderHighBrush}"
-            Height="32" />
+            Padding="8">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <TextBlock Text="&#xeb6a;" FontFamily="{StaticResource Codicon}" VerticalAlignment="Center" />
+                <TextBlock Text="Scripts" Margin="8 0 0 0" VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+
+        <Border
+            Grid.Row="0"
+            Grid.Column="2"
+            BorderThickness="0 0 0 1"
+            BorderBrush="{StaticResource ThemeBorderHighBrush}"
+            Padding="4">
+            
+        </Border>
 
         <TreeView
             Grid.Column="0"
@@ -65,46 +117,48 @@
 
         <GridSplitter
             Grid.Column="1"
-            Grid.Row="1" Grid.RowSpan="3"
+            Grid.Row="0" Grid.RowSpan="4"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="{StaticResource ThemeBorderHighBrush}" />
 
-        <DockPanel Grid.Column="2" Grid.Row="1">
-            <ScrollViewer DockPanel.Dock="Top" Style="{StaticResource HorizontalListBoxScrollViewer}" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
-                <StackPanel Orientation="Horizontal">
-                    <ListBox Style="{StaticResource HorizontalListBox}">
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                        <ListBoxItem Content="Test" Padding="12 6" />
-                    </ListBox>
-                    <Button
-                        Content="&#xea60;"
-                        Width="12" Height="12"
-                        Padding="0" Margin="8 0 0 0"
+        <TabControl Style="{DynamicResource EditorTabControl}" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding EditorItems}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" MaxWidth="256" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center" />
+
+                        <Button
+                            Grid.Column="1"
+                            Background="Transparent"
+                            Content="&#xea76;"
+                            FontFamily="{StaticResource Codicon}"
+                            FontSize="{StaticResource FontSizeSmall}"
+                            Margin="8 0 0 0" Padding="0"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type models:EditorItem}">
+                    <avalonedit:TextEditor
                         Background="Transparent"
-                        FontFamily="{StaticResource Codicon}"
-                        FontSize="8" VerticalAlignment="Center" />
-                </StackPanel>
-            </ScrollViewer>
-
-            <Border BorderBrush="{StaticResource ThemeBorderHighBrush}" BorderThickness="0 1 0 0">
-
-            </Border>
-        </DockPanel>
+                        Foreground="{StaticResource ThemeForegroundLowBrush}"
+                        BorderThickness="0" ShowLineNumbers="True"
+                        HorizontalScrollBarVisibility="Auto">
+                        <b:Interaction.Behaviors>
+                            <behaviour:AvalonEditBehaviour Text="{Binding Content}" />
+                        </b:Interaction.Behaviors>
+                    </avalonedit:TextEditor>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
 
         <GridSplitter
             Grid.Column="2" Grid.Row="2"

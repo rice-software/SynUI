@@ -50,7 +50,7 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
-                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition SourceName="PART_LayoutRoot" Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
 
                             <Setter TargetName="PART_LayoutRoot" Property="Background"

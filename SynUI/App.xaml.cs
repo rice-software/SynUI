@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using SynUI.Properties;
 
 namespace SynUI;
 
@@ -7,4 +8,9 @@ namespace SynUI;
 /// </summary>
 public partial class App : Application
 {
+    public App()
+    {
+        Settings.Default.PropertyChanged += (_, _) =>
+            Settings.Default.Save();
+    }
 }
