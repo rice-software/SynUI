@@ -82,7 +82,7 @@ jobs:
         
     # Build the application
     - name: Build the application
-      run: msbuild $env:Project_Path /t:Build /p:Configuration=$env:Configuration
+      run: msbuild $env:Project_Path /t:Build /p:Platform=x86 /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
 
