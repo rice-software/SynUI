@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using SynUI.ViewModels;
 
 namespace SynUI.Views;
 

@@ -38,13 +38,13 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_LayoutRoot" Property="Background"
                                     Value="{StaticResource ThemeControlHighlightLowBrush}" />
-                            <Setter TargetName="PART_ContentPresenter" Property="TextBlock.Foreground"
+                            <Setter TargetName="PART_ContentPresenter" Property="TextElement.Foreground"
                                     Value="{StaticResource ThemeForegroundMidBrush}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="PART_LayoutRoot" Property="Background"
                                     Value="{StaticResource ThemeControlHighlightMidBrush}" />
-                            <Setter TargetName="PART_ContentPresenter" Property="TextBlock.Foreground"
+                            <Setter TargetName="PART_ContentPresenter" Property="TextElement.Foreground"
                                     Value="{StaticResource ThemeForegroundHighBrush}" />
                         </Trigger>
                         <MultiTrigger>

@@ -2,56 +2,110 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Net.WebSockets;
 using System.Reflection;
+using System.Text;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
+using sxlib.Specialized;
 using SynUI.Models;
+using SynUI.Services;
+using WatsonWebsocket;
+using JsonSerializer = Newtonsoft.Json.JsonSerializer;
 
 namespace SynUI.ViewModels;
 
 public class EditorViewModel : ViewModelBase
 {
-    private OutputPlayer _selectedOutput;
+    private WatsonWsServer? _outputServer;
+    private Output? _selectedOutput;
+    private EditorItem? _selectedEditorItem;
+    private ISynapseService _synapse;
 
-    private void _addItemCommand() =>
-        EditorItems.Add(new EditorItem { Name = "new tab", Content = "hello world" });
-
-    public EditorViewModel()
+    public ISynapseService Synapse
     {
-        EditorItems = new ObservableCollection<EditorItem>();
-        Outputs = new ObservableCollection<OutputPlayer>();
-
-        AddItemCommand = new RelayCommand(_addItemCommand);
-
-        EditorItems.Add(new EditorItem { Name = "tab 1", Content = "your mom 1" });
-        EditorItems.Add(new EditorItem { Name = "tab 2", Content = "your mom 2" });
-        EditorItems.Add(new EditorItem { Name = "tab 3", Content = "your mom 3" });
-        EditorItems.Add(new EditorItem { Name = "tab 4", Content = "your mom 4" });
-
-        var one = new OutputPlayer { Name = "retard 1" };
-        one.Outputs.Add(new Output { Content = "this is output\nnew line!", Type = OutputType.Output });
-        one.Outputs.Add(new Output { Content = "this is info", Type = OutputType.Info });
-        one.Outputs.Add(new Output { Content = "this is warning", Type = OutputType.Warning });
-        one.Outputs.Add(new Output { Content = "this is error", Type = OutputType.Error });
-
-        var two = new OutputPlayer { Name = "retard 2" };
-        two.Outputs.Add(new Output { Content = "this is output", Type = OutputType.Output });
-        two.Outputs.Add(new Output { Content = "this is info", Type = OutputType.Info });
-        two.Outputs.Add(new Output { Content = "this is warning", Type = OutputType.Warning });
-        two.Outputs.Add(new Output { Content = "this is error", Type = OutputType.Error });
-
-        Outputs.Add(one);
-        Outputs.Add(two);
+        get => _synapse;
+        set => SetProperty(ref _synapse, value);
     }
 
-    public ObservableCollection<EditorItem> EditorItems { get; }
-    public ObservableCollection<OutputPlayer> Outputs { get; }
+    private void _addItemCommand() =>
+        EditorItems.Add(new EditorItem());
+
+    private void _removeItemCommand(EditorItem? parameter)
+    {
+        if (parameter != null)
+            EditorItems.Remove(parameter);
+    }
+
+    private void _outputServer_MessageReceived(object sender, MessageReceivedEventArgs e) =>
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            Debug.WriteLine($"received: \n{Encoding.UTF8.GetString(e.Data.Array!)}\ntype:{e.MessageType}");
+            if (e.MessageType != WebSocketMessageType.Text)
+                return;
+
+            var json = Encoding.UTF8.GetString(e.Data.Array!);
+            var deserialized = JsonConvert.DeserializeObject<OutputResponse>(json);
+
+            var message = Outputs.FirstOrDefault(o => o.Name == deserialized!.Name);
+
+            if (message == null)
+            {
+                message = new Output { Name = deserialized!.Name };
+                Outputs.Add(message);
+            }
+
+            message.Outputs.Add(new OutputMessage { Content = deserialized!.Message, Type = deserialized.Type });
+        });
+
+    private void _initializeServer()
+    {
+        _outputServer = new WatsonWsServer(port: 7500);
+        _outputServer.ClientConnected += (_, e) => Debug.WriteLine("connected: " + e.Client.Name);
+        _outputServer.ClientDisconnected += (_, e) => Debug.WriteLine("disconnected: " + e.Client.Name);
+        _outputServer.MessageReceived += _outputServer_MessageReceived;
+        _outputServer.Start();
+    }
+
+    private void _executeCommand() =>
+        _synapse.Api.Execute(SelectedEditorItem!.Document.Text);
+
+    private void _attachCommand() =>
+        _synapse.Api.Attach();
+
+    public EditorViewModel(ISynapseService synapseService)
+    {
+        _synapse = synapseService;
+        
+        AddItemCommand = new RelayCommand(_addItemCommand);
+        RemoveItemCommand = new RelayCommand<EditorItem>(_removeItemCommand);
+        ExecuteCommand = new RelayCommand(_executeCommand);
+        AttachCommand = new RelayCommand(_attachCommand);
+
+        _initializeServer();
+    }
+
+    public ObservableCollection<EditorItem> EditorItems { get; } = new() { new EditorItem() };
+    public ObservableCollection<Output> Outputs { get; } = new();
 
     public ICommand AddItemCommand { get; }
+    public ICommand RemoveItemCommand { get; }
+    public ICommand ExecuteCommand { get; }
+    public ICommand AttachCommand { get; }
 
-    public OutputPlayer SelectedOuput
+    public Output? SelectedOuput
     {
         get => _selectedOutput;
         set => SetProperty(ref _selectedOutput, value);
+    }
+
+    public EditorItem? SelectedEditorItem
+    {
+        get => _selectedEditorItem;
+        set => SetProperty(ref _selectedEditorItem, value);
     }
 }

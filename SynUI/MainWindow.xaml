@@ -14,23 +14,12 @@
         Background="{StaticResource ThemeBackgroundBrush}"
         Foreground="{StaticResource ThemeForegroundLowBrush}"
         WindowState="{Binding WindowState}"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         Title="MainWindow" Height="750" Width="1200">
     <Window.Resources>
         <c:WindowStateConverter x:Key="WindowStateConverter" />
     </Window.Resources>
 
-    <Window.DataContext>
-        <vm:MainWindowViewModel Title="SynUI" />
-    </Window.DataContext>
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded" SourceName="{Binding ElementName=AppWindow}">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-
-        <i:EventTrigger EventName="Closed" SourceName="{Binding ElementName=AppWindow}">
-            <i:InvokeCommandAction Command="{Binding ClosedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -79,22 +68,24 @@
             Background="{StaticResource ThemeControlLowBrush}"
             BorderBrush="{StaticResource ThemeBorderHighBrush}"
             BorderThickness="0 1 0 0">
-            <TabControl TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <TabItem>
-                    <TabItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xeac4;" FontSize="{StaticResource FontSizeMedium}"
-                                       FontFamily="{StaticResource Codicon}" VerticalAlignment="Center" />
-                            <TextBlock Text="Editor" FontSize="{StaticResource FontSizeMedium}" Margin="4 0 0 0"
-                                       VerticalAlignment="Center" />
-                        </StackPanel>
-                    </TabItem.Header>
-
-                    <views:Editor
-                        Foreground="{Binding ElementName=AppWindow, Path=Foreground}"
-                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                </TabItem>
-            </TabControl>
+            <!-- <TabControl TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"> -->
+            <!--     <TabItem> -->
+            <!--         <TabItem.Header> -->
+            <!--             <StackPanel Orientation="Horizontal"> -->
+            <!--                 <TextBlock Text="&#xeac4;" FontSize="{StaticResource FontSizeMedium}" -->
+            <!--                            FontFamily="{StaticResource Codicon}" VerticalAlignment="Center" /> -->
+            <!--                 <TextBlock Text="Editor" FontSize="{StaticResource FontSizeMedium}" Margin="4 0 0 0" -->
+            <!--                            VerticalAlignment="Center" /> -->
+            <!--             </StackPanel> -->
+            <!--         </TabItem.Header> -->
+            <!-- -->
+            <!--         <views:Editor -->
+            <!--             Foreground="{Binding ElementName=AppWindow, Path=Foreground}" -->
+            <!--             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" /> -->
+            <!--     </TabItem> -->
+            <!-- </TabControl> -->
+            
+            <ContentControl Content="{Binding Navigation.CurrentView}" />
         </Border>
 
         <Border

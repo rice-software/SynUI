@@ -22,18 +22,13 @@
                             x:Name="headerPanel"
                             Background="Transparent"
                             Grid.Column="0" Grid.Row="0"
-                            IsItemsHost="true"
-                            KeyboardNavigation.TabIndex="1"
-                            Panel.ZIndex="1" />
+                            IsItemsHost="true"/>
                         <Border
                             x:Name="contentPanel"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="0 1 0 0"
-                            Grid.Row="1" Grid.Column="0"
-                            KeyboardNavigation.DirectionalNavigation="Contained"
-                            KeyboardNavigation.TabNavigation="Local"
-                            KeyboardNavigation.TabIndex="2">
+                            Grid.Row="1" Grid.Column="0">
                             <ContentPresenter
                                 x:Name="PART_SelectedContentHost"
                                 ContentSource="SelectedContent"

@@ -6,18 +6,15 @@
              xmlns:vm="clr-namespace:SynUI.ViewModels"
              xmlns:c="clr-namespace:SynUI.Converters"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
-             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:behaviour="clr-namespace:SynUI.Behaviour"
              xmlns:models="clr-namespace:SynUI.Models"
              mc:Ignorable="d"
+             x:Name="EditorView"
              d:DesignHeight="450" d:DesignWidth="800"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-             Foreground="{StaticResource ThemeForegroundLowBrush}">
-    <UserControl.DataContext>
-        <vm:EditorViewModel />
-    </UserControl.DataContext>
-
+             Foreground="{StaticResource ThemeForegroundLowBrush}"
+             Background="Transparent"
+             d:DataContext="{d:DesignInstance vm:EditorViewModel}">
     <UserControl.Resources>
         <c:OutputTypeToBrushConverter x:Key="OutputTypeToBrushConverter" />
         <c:OutputTypeToCodiconGlyphConverter x:Key="OutputTypeToCodiconGlyphConverter" />
@@ -60,6 +57,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
+            <RowDefinition Height="1" />
             <RowDefinition Height="3*" />
             <RowDefinition Height="1" />
             <RowDefinition Height="*" MinHeight="150" MaxHeight="300" />
@@ -71,11 +69,11 @@
             <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
+        <Border Background="{StaticResource ThemeBorderHighBrush}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" />
+
         <Border
             Grid.Row="0"
             Grid.Column="0"
-            BorderThickness="0 0 0 1"
-            BorderBrush="{StaticResource ThemeBorderHighBrush}"
             Padding="8">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                 <TextBlock Text="&#xeb6a;" FontFamily="{StaticResource Codicon}" VerticalAlignment="Center" />
@@ -85,16 +83,19 @@
 
         <Border
             Grid.Row="0"
-            Grid.Column="2"
-            BorderThickness="0 0 0 1"
-            BorderBrush="{StaticResource ThemeBorderHighBrush}"
-            Padding="4">
-            
+            Grid.Column="2">
+            <DockPanel LastChildFill="False">
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button Command="{Binding ExecuteCommand}" Width="32" Height="32" Content="&#xeb2c;" Background="Transparent" FontFamily="{StaticResource Codicon}" />
+                    <Button Command="{Binding AttachCommand}" Width="32" Height="32" Content="&#xead8;" Background="Transparent" FontFamily="{StaticResource Codicon}" />
+                    <Button Width="32" Height="32" Content="&#xead7;" Background="Transparent" FontFamily="{StaticResource Codicon}" />
+                </StackPanel>
+            </DockPanel>
         </Border>
 
         <TreeView
             Grid.Column="0"
-            Grid.Row="1" Grid.RowSpan="3">
+            Grid.Row="2" Grid.RowSpan="3">
             <TreeViewItem Header="item 1">
                 <TreeViewItem Header="item 1" />
                 <TreeViewItem Header="item 2" />
@@ -117,12 +118,12 @@
 
         <GridSplitter
             Grid.Column="1"
-            Grid.Row="0" Grid.RowSpan="4"
+            Grid.Row="1" Grid.RowSpan="4"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="{StaticResource ThemeBorderHighBrush}" />
 
-        <TabControl Style="{DynamicResource EditorTabControl}" Grid.Column="2" Grid.Row="1" ItemsSource="{Binding EditorItems}">
+        <TabControl Style="{DynamicResource EditorTabControl}" Grid.Column="2" Grid.Row="2" SelectedItem="{Binding SelectedEditorItem}" ItemsSource="{Binding EditorItems}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -140,7 +141,9 @@
                             FontFamily="{StaticResource Codicon}"
                             FontSize="{StaticResource FontSizeSmall}"
                             Margin="8 0 0 0" Padding="0"
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center"
+                            Command="{Binding ElementName=EditorView, Path=DataContext.RemoveItemCommand}"
+                            CommandParameter="{Binding}" />
                     </Grid>
                 </DataTemplate>
             </TabControl.ItemTemplate>
@@ -151,23 +154,20 @@
                         Background="Transparent"
                         Foreground="{StaticResource ThemeForegroundLowBrush}"
                         BorderThickness="0" ShowLineNumbers="True"
-                        HorizontalScrollBarVisibility="Auto">
-                        <b:Interaction.Behaviors>
-                            <behaviour:AvalonEditBehaviour Text="{Binding Content}" />
-                        </b:Interaction.Behaviors>
-                    </avalonedit:TextEditor>
+                        HorizontalScrollBarVisibility="Auto"
+                        Document="{Binding Document, Mode=OneWay}" />
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
 
         <GridSplitter
-            Grid.Column="2" Grid.Row="2"
+            Grid.Column="2" Grid.Row="3"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Background="{StaticResource ThemeBorderHighBrush}" />
 
         <Grid
-            Grid.Column="2" Grid.Row="3">
+            Grid.Column="2" Grid.Row="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -185,7 +185,7 @@
                 Padding="8">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xea85;" FontFamily="{DynamicResource Codicon}" VerticalAlignment="Center" />
-                    <TextBlock Text="Output" Margin="8 0 0 0" VerticalAlignment="Center" />
+                    <TextBlock Text="OutputMessage" Margin="8 0 0 0" VerticalAlignment="Center" />
                 </StackPanel>
             </Border>
 
