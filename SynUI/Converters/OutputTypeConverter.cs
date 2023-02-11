@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using SynUI.Models;
@@ -19,7 +15,7 @@ public class OutputTypeToBrushConverter : IValueConverter
             OutputType.Info => Application.Current.TryFindResource("InformationOutputBrush"),
             OutputType.Warning => Application.Current.TryFindResource("WarningOutputBrush"),
             OutputType.Error => Application.Current.TryFindResource("ErrorOutputBrush"),
-            _ => Application.Current.TryFindResource("ThemeForegroundLowBrush"),
+            _ => Application.Current.TryFindResource("ThemeForegroundLowBrush")
         };
     }
 

@@ -9,7 +9,7 @@
                 <ResourceDictionary Source="Styles/Base/Base.xaml" />
                 <ResourceDictionary Source="Styles/Controls/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <DataTemplate DataType="{x:Type viewModels:EditorViewModel}">
                 <views:Editor />
             </DataTemplate>

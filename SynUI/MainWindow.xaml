@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:SynUI.ViewModels"
         xmlns:c="clr-namespace:SynUI.Converters"
-        xmlns:views="clr-namespace:SynUI.Views"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         x:Name="AppWindow"
         mc:Ignorable="d" Style="{StaticResource {x:Type Window}}"
@@ -16,6 +15,12 @@
         WindowState="{Binding WindowState}"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         Title="MainWindow" Height="750" Width="1200">
+    <i:Interaction.Triggers>
+        <i:EventTrigger SourceName="AppWindow" EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Window.Resources>
         <c:WindowStateConverter x:Key="WindowStateConverter" />
     </Window.Resources>
@@ -84,7 +89,7 @@
             <!--             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" /> -->
             <!--     </TabItem> -->
             <!-- </TabControl> -->
-            
+
             <ContentControl Content="{Binding Navigation.CurrentView}" />
         </Border>
 
@@ -99,7 +104,7 @@
                     Padding="4">
                     <TextBlock>
                         <Run Text="Synapse X:" />
-                        <Run Text="{Binding SynLoadState, Mode=OneWay}" />
+                        <Run Text="{Binding Synapse.LoadState, Mode=OneWay}" />
                     </TextBlock>
                 </Border>
                 <Border
@@ -108,7 +113,7 @@
                     Padding="4">
                     <TextBlock>
                         <Run Text="Status:" />
-                        <Run Text="{Binding SynAttachState, Mode=OneWay}" />
+                        <Run Text="{Binding Synapse.AttachState, Mode=OneWay}" />
                     </TextBlock>
                 </Border>
             </StackPanel>

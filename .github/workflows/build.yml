@@ -36,7 +36,7 @@
 # For a complete CI/CD sample to get started with GitHub Action workflows for Desktop Applications,
 # refer to https://github.com/microsoft/github-actions-for-desktop-apps
 
-name: .NET Core Desktop
+name: SynUI
 
 on:
   push:
@@ -75,7 +75,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.1
         
     # Restore the application
-    - name: Build the application
+    - name: Restore the application
       run: msbuild $env:Project_Path /t:Restore /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}

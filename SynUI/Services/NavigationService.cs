@@ -15,15 +15,15 @@ public class NavigationService : ObservableObject, INavigationService
     private readonly Func<Type, ViewModelBase> _viewModelFactory;
     private ViewModelBase _currentView;
 
+    public NavigationService(Func<Type, ViewModelBase> viewModelFactory)
+    {
+        _viewModelFactory = viewModelFactory;
+    }
+
     public ViewModelBase CurrentView
     {
         get => _currentView;
         private set => SetProperty(ref _currentView, value);
-    }
-
-    public NavigationService(Func<Type, ViewModelBase> viewModelFactory)
-    {
-        _viewModelFactory = viewModelFactory;
     }
 
     public void NavigateTo<TViewModel>() where TViewModel : ViewModelBase

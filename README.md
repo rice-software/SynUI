@@ -1,3 +1,6 @@
+# Development postponed until Synapse X v3 is released.
+Because Sxlib is just too retarded to work with right now.
+
 # SynUI
 just another [Synapse X](https://x.synapse.to) ui lol.
 
@@ -10,7 +13,8 @@ just another [Synapse X](https://x.synapse.to) ui lol.
 	1. [Prerequisite](#building-from-source/prerequisite)
 	2. [Manually](#building-from-source/manually)
 4. [Bug reporting](#bug-reporting)
-5. [Licensing](#licensing)
+5. [Known issues](#known-issues)
+6. [Licensing](#licensing)
 
 ## Installation {#installation}
 ### Prerequisite {#installation/prerequisite}
@@ -20,6 +24,7 @@ just another [Synapse X](https://x.synapse.to) ui lol.
 
 ### Installation {#installation/installation}
 - Download SynUI from the [release](https://github.com/Rice-Software/SynUI/releases) page.
+  - Alternatively, you can download the development builds [here](https://github.com/Rice-Software/SynUI/actions).
 - Extract the zip file.
 - Launch SynUI.exe
 - profits.
@@ -49,6 +54,10 @@ msbuild /t:Build
 
 ## Bug reporting {#bug-reporting}
 If you encounter a bug, please make an [issue](https://github.com/Rice-Software/SynUI/issues).
+
+## Known issues {#known-issues}
+### SynUI still runs after closing
+- This is an issue from SxLib.
 
 ## Licensing {#licensing}
 This project is licensed under the [GNU General Public License v3.0](https://choosealicense.com/licenses/gpl-3.0/) license. Any forks of this project must be disclosed.

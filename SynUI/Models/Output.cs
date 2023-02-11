@@ -6,12 +6,11 @@ namespace SynUI.Models;
 
 public class OutputResponse
 {
-    [JsonProperty("name")]
-    public string? Name { get; set; }
-    [JsonProperty("message")]
-    public string? Message { get; set; }
-    [JsonProperty("messageType")]
-    public OutputType Type { get; set; }
+    [JsonProperty("name")] public string? Name { get; set; }
+
+    [JsonProperty("message")] public string? Message { get; set; }
+
+    [JsonProperty("messageType")] public OutputType Type { get; set; }
 }
 
 public class Output
@@ -28,12 +27,8 @@ public class OutputMessage
 
 public enum OutputType
 {
-    [EnumMember(Value = "MessageOutput")]
-    Output,
-    [EnumMember(Value = "MessageInfo")]
-    Info,
-    [EnumMember(Value = "MessageWarning")]
-    Warning,
-    [EnumMember(Value = "MessageError")]
-    Error
+    [EnumMember(Value = "MessageOutput")] Output,
+    [EnumMember(Value = "MessageInfo")] Info,
+    [EnumMember(Value = "MessageWarning")] Warning,
+    [EnumMember(Value = "MessageError")] Error
 }

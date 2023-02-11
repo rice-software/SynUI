@@ -22,7 +22,7 @@
                             x:Name="headerPanel"
                             Background="Transparent"
                             Grid.Column="0" Grid.Row="0"
-                            IsItemsHost="true"/>
+                            IsItemsHost="true" />
                         <Border
                             x:Name="contentPanel"
                             Background="{TemplateBinding Background}"

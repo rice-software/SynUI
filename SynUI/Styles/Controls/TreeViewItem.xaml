@@ -5,17 +5,17 @@
 
     <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Foreground" Value="{StaticResource ThemeForegroundLowBrush}" />
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="Width" Value="16"/>
-        <Setter Property="Height" Value="16"/>
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border x:Name="PART_LayoutRoot" RenderTransformOrigin="0.5 0.5">
                         <TextBlock
                             x:Name="PART_Chevron"
-                            Text="&#xeab6;" 
-                            Foreground="{TemplateBinding Foreground}" 
+                            Text="&#xeab6;"
+                            Foreground="{TemplateBinding Foreground}"
                             FontFamily="{StaticResource Codicon}"
                             FontSize="16" />
                     </Border>
@@ -29,53 +29,67 @@
                             </Setter>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" TargetName="PART_Chevron" Value="{StaticResource ThemeForegroundMidBrush}"/>
+                            <Setter Property="Foreground" TargetName="PART_Chevron"
+                                    Value="{StaticResource ThemeForegroundMidBrush}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Foreground" TargetName="PART_Chevron" Value="{StaticResource ThemeForegroundHighBrush}"/>
+                            <Setter Property="Foreground" TargetName="PART_Chevron"
+                                    Value="{StaticResource ThemeForegroundHighBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="{x:Type TreeViewItem}">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        <Setter Property="Padding" Value="4 2"/>
-        <Setter Property="Foreground" Value="{StaticResource ThemeForegroundLowBrush}"/>
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="VerticalContentAlignment"
+                Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+        <Setter Property="Padding" Value="4 2" />
+        <Setter Property="Foreground" Value="{StaticResource ThemeForegroundLowBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
-                        <Border Grid.Row="0" x:Name="Bd" Background="{TemplateBinding Background}" Padding="{Binding RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TreeViewItemLeftIndentConverter}}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                        <Border Grid.Row="0" x:Name="Bd" Background="{TemplateBinding Background}"
+                                Padding="{Binding RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TreeViewItemLeftIndentConverter}}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
                             <StackPanel Orientation="Horizontal">
-                                <ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ExpandCollapseToggleStyle}"/>
-                                <ContentPresenter x:Name="PART_Header" Margin="{TemplateBinding Padding}" ContentSource="Header" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                <ToggleButton x:Name="Expander" ClickMode="Press"
+                                              IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{StaticResource ExpandCollapseToggleStyle}" />
+                                <ContentPresenter x:Name="PART_Header" Margin="{TemplateBinding Padding}"
+                                                  ContentSource="Header"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </StackPanel>
                         </Border>
-                        <ItemsPresenter x:Name="ItemsHost" Grid.Row="1"/>
+                        <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="false">
-                            <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed"/>
+                            <Setter Property="Visibility" TargetName="ItemsHost" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="HasItems" Value="false">
-                            <Setter Property="Visibility" TargetName="Expander" Value="Hidden"/>
+                            <Setter Property="Visibility" TargetName="Expander" Value="Hidden" />
                         </Trigger>
                         <Trigger SourceName="Bd" Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource ThemeControlHighlightLowBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource ThemeForegroundMidBrush}"/>
+                            <Setter Property="Background" TargetName="Bd"
+                                    Value="{StaticResource ThemeControlHighlightLowBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource ThemeForegroundMidBrush}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource ThemeControlHighlightMidBrush}"/>
-                            <Setter Property="Foreground" Value="{StaticResource ThemeForegroundHighBrush}"/>
+                            <Setter Property="Background" TargetName="Bd"
+                                    Value="{StaticResource ThemeControlHighlightMidBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource ThemeForegroundHighBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -83,7 +97,8 @@
                                 <Condition SourceName="Bd" Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
 
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource ThemeControlHighlightHighBrush}"/>
+                            <Setter Property="Background" TargetName="Bd"
+                                    Value="{StaticResource ThemeControlHighlightHighBrush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -94,7 +109,7 @@
                 <Setter Property="ItemsPanel">
                     <Setter.Value>
                         <ItemsPanelTemplate>
-                            <VirtualizingStackPanel/>
+                            <VirtualizingStackPanel />
                         </ItemsPanelTemplate>
                     </Setter.Value>
                 </Setter>
