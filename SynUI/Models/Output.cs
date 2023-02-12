@@ -6,22 +6,22 @@ namespace SynUI.Models;
 
 public class OutputResponse
 {
-    [JsonProperty("name")] public string? Name { get; set; }
+    [JsonProperty("name")] public string Name { get; set; }
 
-    [JsonProperty("message")] public string? Message { get; set; }
+    [JsonProperty("message")] public string Message { get; set; }
 
     [JsonProperty("messageType")] public OutputType Type { get; set; }
 }
 
 public class Output
 {
-    public string? Name { get; set; }
+    public string Name { get; set; }
     public ObservableCollection<OutputMessage> Outputs { get; } = new();
 }
 
 public class OutputMessage
 {
-    public string? Content { get; set; }
+    public string Content { get; set; }
     public OutputType? Type { get; set; }
 }
 

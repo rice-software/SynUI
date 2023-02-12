@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -76,53 +76,49 @@
             <SpecificVersion>False</SpecificVersion>
             <HintPath>Dependencies\sxlib.dll</HintPath>
         </Reference>
-        <Reference Include="System"/>
-        <Reference Include="System.Data"/>
-        <Reference Include="System.Numerics"/>
-        <Reference Include="System.Runtime.Serialization"/>
-        <Reference Include="System.Xml"/>
-        <Reference Include="Microsoft.CSharp"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Xml.Linq"/>
-        <Reference Include="System.Data.DataSetExtensions"/>
-        <Reference Include="System.Net.Http"/>
+        <Reference Include="System" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Runtime.Serialization" />
+        <Reference Include="System.Xml" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="System.Net.Http" />
         <Reference Include="System.Xaml">
             <RequiredTargetFramework>4.0</RequiredTargetFramework>
         </Reference>
-        <Reference Include="WindowsBase"/>
-        <Reference Include="PresentationCore"/>
-        <Reference Include="PresentationFramework"/>
+        <Reference Include="WindowsBase" />
+        <Reference Include="PresentationCore" />
+        <Reference Include="PresentationFramework" />
     </ItemGroup>
     <ItemGroup>
         <ApplicationDefinition Include="App.xaml">
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
-        <Compile Include="Converters\OutputTypeConverter.cs"/>
-        <Compile Include="Converters\TreeViewItemLeftIndentConverter.cs"/>
-        <Compile Include="Converters\VisibilityHiddenConverter.cs"/>
-        <Compile Include="Converters\WindowStateConverter.cs"/>
-        <Compile Include="Models\Editor.cs"/>
-        <Compile Include="Models\Output.cs"/>
-        <Compile Include="Services\NavigationService.cs"/>
-        <Compile Include="Services\SynapseService.cs"/>
-        <Compile Include="ViewModels\EditorViewModel.cs"/>
-        <Compile Include="ViewModels\MainWindowViewModel.cs"/>
-        <Compile Include="ViewModels\ViewModelBase.cs"/>
+        <Compile Include="Converters\OutputTypeConverter.cs" />
+        <Compile Include="Converters\TreeViewItemLeftIndentConverter.cs" />
+        <Compile Include="Converters\VisibilityHiddenConverter.cs" />
+        <Compile Include="Converters\WindowStateConverter.cs" />
+        <Compile Include="Models\Editor.cs" />
+        <Compile Include="Models\Output.cs" />
+        <Compile Include="Services\NavigationService.cs" />
+        <Compile Include="Services\SynapseService.cs" />
+        <Compile Include="ViewModels\EditorViewModel.cs" />
+        <Compile Include="ViewModels\MainWindowViewModel.cs" />
+        <Compile Include="ViewModels\ViewModelBase.cs" />
         <Compile Include="Views\Editor.xaml.cs">
             <DependentUpon>Editor.xaml</DependentUpon>
         </Compile>
-        <Page Include="MainWindow.xaml">
-            <Generator>MSBuild:Compile</Generator>
-            <SubType>Designer</SubType>
-        </Page>
         <Compile Include="App.xaml.cs">
             <DependentUpon>App.xaml</DependentUpon>
             <SubType>Code</SubType>
         </Compile>
-        <Compile Include="MainWindow.xaml.cs">
-            <DependentUpon>MainWindow.xaml</DependentUpon>
-            <SubType>Code</SubType>
+        <Compile Include="Views\MainWindow.xaml.cs">
+          <DependentUpon>MainWindow.xaml</DependentUpon>
+          <SubType>Code</SubType>
         </Compile>
         <Page Include="Styles\Base\Base.xaml">
             <Generator>MSBuild:Compile</Generator>
@@ -180,6 +176,10 @@
             <SubType>Designer</SubType>
             <Generator>MSBuild:Compile</Generator>
         </Page>
+        <Page Include="Views\MainWindow.xaml">
+          <Generator>MSBuild:Compile</Generator>
+          <SubType>Designer</SubType>
+        </Page>
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs">
@@ -199,66 +199,66 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-        <None Include="Resources\synui-auto-exec.lua"/>
-        <Resource Include="Assets\Fonts\codicon.ttf"/>
-        <Resource Include="Assets\Fonts\Inter-Black.ttf"/>
-        <Resource Include="Assets\Fonts\Inter-Bold.ttf"/>
-        <Resource Include="Assets\Fonts\Inter-ExtraBold.ttf"/>
-        <Resource Include="Assets\Fonts\Inter-ExtraLight.ttf"/>
-        <Resource Include="Assets\Fonts\Inter-Light.ttf"/>
-        <Resource Include="Assets\Fonts\Inter-Medium.ttf"/>
-        <Resource Include="Assets\Fonts\Inter-Regular.ttf"/>
-        <Resource Include="Assets\Fonts\Inter-SemiBold.ttf"/>
-        <Resource Include="Assets\Fonts\Inter-Thin.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-Bold.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-BoldItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-ExtraBold.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-ExtraBoldItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-ExtraLight.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-ExtraLightItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-Italic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-Light.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-LightItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-Medium.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-MediumItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-Regular.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-SemiBold.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-SemiBoldItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-Thin.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMono-ThinItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Bold.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-BoldItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ExtraBold.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ExtraBoldItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ExtraLight.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ExtraLightItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Italic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Light.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-LightItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Medium.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-MediumItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Regular.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-SemiBold.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-SemiBoldItalic.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Thin.ttf"/>
-        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ThinItalic.ttf"/>
-        <None Include="app.manifest"/>
+        <None Include="Resources\synui-auto-exec.lua" />
+        <Resource Include="Assets\Fonts\codicon.ttf" />
+        <Resource Include="Assets\Fonts\Inter-Black.ttf" />
+        <Resource Include="Assets\Fonts\Inter-Bold.ttf" />
+        <Resource Include="Assets\Fonts\Inter-ExtraBold.ttf" />
+        <Resource Include="Assets\Fonts\Inter-ExtraLight.ttf" />
+        <Resource Include="Assets\Fonts\Inter-Light.ttf" />
+        <Resource Include="Assets\Fonts\Inter-Medium.ttf" />
+        <Resource Include="Assets\Fonts\Inter-Regular.ttf" />
+        <Resource Include="Assets\Fonts\Inter-SemiBold.ttf" />
+        <Resource Include="Assets\Fonts\Inter-Thin.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-Bold.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-BoldItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-ExtraBold.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-ExtraBoldItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-ExtraLight.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-ExtraLightItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-Italic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-Light.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-LightItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-Medium.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-MediumItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-Regular.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-SemiBold.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-SemiBoldItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-Thin.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMono-ThinItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Bold.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-BoldItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ExtraBold.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ExtraBoldItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ExtraLight.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ExtraLightItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Italic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Light.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-LightItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Medium.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-MediumItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Regular.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-SemiBold.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-SemiBoldItalic.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-Thin.ttf" />
+        <Resource Include="Assets\Fonts\JetBrainsMonoNL-ThinItalic.ttf" />
+        <None Include="app.manifest" />
         <None Include="Properties\Settings.settings">
             <Generator>SettingsSingleFileGenerator</Generator>
             <LastGenOutput>Settings.Designer.cs</LastGenOutput>
         </None>
     </ItemGroup>
     <ItemGroup>
-        <None Include="App.config"/>
+        <None Include="App.config" />
     </ItemGroup>
     <ItemGroup>
-        <Content Include="Dependencies\sxlib.dll"/>
-        <Resource Include="Assets\Images\synapse_x.ico"/>
-        <Content Include="Assets\Images\synapse_x.svg"/>
-        <Resource Include="Assets\Images\synapse_x_128.png"/>
-        <Resource Include="Assets\Images\synapse_x_16.png"/>
-        <Resource Include="Assets\Images\synapse_x_32.png"/>
-        <Resource Include="Assets\Images\synapse_x_64.png"/>
+        <Content Include="Dependencies\sxlib.dll" />
+        <Resource Include="Assets\Images\synapse_x.ico" />
+        <Content Include="Assets\Images\synapse_x.svg" />
+        <Resource Include="Assets\Images\synapse_x_128.png" />
+        <Resource Include="Assets\Images\synapse_x_16.png" />
+        <Resource Include="Assets\Images\synapse_x_32.png" />
+        <Resource Include="Assets\Images\synapse_x_64.png" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="AvalonEdit">
@@ -317,13 +317,13 @@
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
-        <Folder Include="Assets\Bin\"/>
-        <Folder Include="Services\"/>
+        <Folder Include="Assets\Bin\" />
+        <Folder Include="Services\" />
     </ItemGroup>
     <ItemGroup>
-        <WCFMetadata Include="Connected Services\"/>
+        <WCFMetadata Include="Connected Services\" />
     </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
+    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <PropertyGroup>
         <PostBuildEvent>
         </PostBuildEvent>

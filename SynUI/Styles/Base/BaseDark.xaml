@@ -12,8 +12,8 @@
     <Color x:Key="ThemeControlHighlightLowColor">#232323</Color>
     <Color x:Key="ThemeControlHighlightMidColor">#282828</Color>
     <Color x:Key="ThemeControlHighlightHighColor">#2D2D2D</Color>
-    <Color x:Key="ThemeForegroundLowColor">#646464</Color>
-    <Color x:Key="ThemeForegroundMidColor">#A0A0A0</Color>
+    <Color x:Key="ThemeForegroundLowColor">#A0A0A0</Color>
+    <Color x:Key="ThemeForegroundMidColor">#BEBEBE</Color>
     <Color x:Key="ThemeForegroundHighColor">#DCDCDC</Color>
 
     <!-- Output type colors -->

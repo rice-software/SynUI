@@ -2,8 +2,10 @@
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using sxlib.Specialized;
 using SynUI.Services;
 using SynUI.ViewModels;
+using SynUI.Views;
 
 namespace SynUI;
 
@@ -37,7 +39,7 @@ public partial class App : Application
             .Build();
     }
 
-    public static IHost? AppHost { get; private set; }
+    public static IHost AppHost { get; private set; }
 
     protected override async void OnStartup(StartupEventArgs e)
     {

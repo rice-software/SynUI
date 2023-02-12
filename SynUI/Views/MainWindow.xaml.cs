@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace SynUI;
+namespace SynUI.Views;
 
 /// <summary>
 ///     Interaction logic for MainWindow.xaml

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using SynUI.Services;
@@ -20,13 +21,15 @@ public class MainWindowViewModel : ViewModelBase
         StateCommand = new RelayCommand(_stateCommand);
         MinimizeCommand = new RelayCommand(_minimizeCommand);
         LoadedCommand = new RelayCommand(Synapse.Initialize);
-
+        ClosingCommand = new RelayCommand(() => Environment.Exit(0));
+        
         Navigation.NavigateTo<EditorViewModel>();
     }
 
     public ICommand StateCommand { get; }
     public ICommand MinimizeCommand { get; }
     public ICommand LoadedCommand { get; }
+    public ICommand ClosingCommand { get; }
 
     public INavigationService Navigation
     {

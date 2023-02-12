@@ -32,7 +32,6 @@ public class SynapseService : ObservableObject, ISynapseService
         "bin/SLAgent.dll"
     };
 
-    private SxLibWPF _api;
     private SxLibBase.SynAttachEvents _attachState;
     private SxLibBase.SynLoadEvents _loadState;
 
@@ -48,12 +47,8 @@ public class SynapseService : ObservableObject, ISynapseService
 
     public RelayCommand<string> ExecuteCommand { get; }
     public RelayCommand AttachCommand { get; }
-
-    public SxLibWPF Api
-    {
-        get => _api;
-        private set => SetProperty(ref _api, value);
-    }
+    
+    public SxLibWPF Api { get; private set; }
 
     public SxLibBase.SynLoadEvents LoadState
     {
