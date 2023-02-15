@@ -1,9 +1,22 @@
-﻿using ICSharpCode.AvalonEdit.Document;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ICSharpCode.AvalonEdit.Document;
 
 namespace SynUI.Models;
 
-public class EditorItem
+public class EditorItem : ObservableObject
 {
-    public string Name { get; set; } = "Untitled";
-    public TextDocument Document { get; set; } = new("-- print(\"Hello World\")");
+    private string _name = "Untitled";
+    private TextDocument _document = new("-- print(\"Hello World\")");
+
+    public string Name
+    {
+        get => _name;
+        set => SetProperty(ref _name, value);
+    }
+
+    public TextDocument Document
+    {
+        get => _document;
+        set => SetProperty(ref _document, value);
+    }
 }

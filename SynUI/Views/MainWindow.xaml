@@ -41,7 +41,7 @@
                 WindowChrome.IsHitTestVisibleInChrome="True">
                 <Button
                     Command="{Binding MinimizeCommand}"
-                    Content="&#xeaba;" Width="48" FontSize="16"
+                    Content="&#xeaba;" Width="48"
                     Style="{StaticResource CaptionButton}"
                     FontFamily="{StaticResource Codicon}" />
                 <Button
@@ -50,10 +50,10 @@
                         ElementName=AppWindow,
                         Path=WindowState,
                         Converter={StaticResource WindowStateConverter}}"
-                    Width="48" FontSize="16" Style="{StaticResource CaptionButton}"
+                    Width="48" Style="{StaticResource CaptionButton}"
                     FontFamily="{StaticResource Codicon}" />
                 <Button
-                    Content="&#xeab8;" Width="48" FontSize="16"
+                    Content="&#xeab8;" Width="48"
                     Style="{StaticResource CaptionButton}"
                     FontFamily="{StaticResource Codicon}">
                     <i:Interaction.Triggers>
@@ -62,6 +62,20 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
+            </StackPanel>
+            <StackPanel
+                DockPanel.Dock="Right" Orientation="Horizontal"
+                WindowChrome.IsHitTestVisibleInChrome="True">
+                <Button
+                    Command="{Binding NavigateToEditorCommand}"
+                    Content="&#xeac4;" Padding="8 0"
+                    Style="{StaticResource CaptionButton}"
+                    FontFamily="{StaticResource Codicon}" />
+                <Button
+                    Command="{Binding NavigateToSettingsCommand}"
+                    Content="&#xeb51;" Padding="8 0"
+                    Style="{StaticResource CaptionButton}"
+                    FontFamily="{StaticResource Codicon}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">

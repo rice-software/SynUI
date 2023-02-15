@@ -3,11 +3,11 @@
 namespace SynUI.Views;
 
 /// <summary>
-///     Interaction logic for Editor.xaml
+///     Interaction logic for EditorView.xaml
 /// </summary>
-public partial class Editor : UserControl
+public partial class EditorView : UserControl
 {
-    public Editor()
+    public EditorView()
     {
         InitializeComponent();
     }

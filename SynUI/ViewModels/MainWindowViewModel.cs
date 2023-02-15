@@ -8,22 +8,25 @@ namespace SynUI.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private INavigationService _navigation;
-    private ISynapseService _synapse;
-    private string _title;
+    private INavigationService? _navigation;
+    private ISynapseService? _synapse;
+    private string _title = "SynUI";
     private WindowState _windowState;
 
-    public MainWindowViewModel(INavigationService navigationService, ISynapseService synapseService)
+    public MainWindowViewModel(INavigationService? navigationService, ISynapseService? synapseService)
     {
         Navigation = navigationService;
         Synapse = synapseService;
 
         StateCommand = new RelayCommand(_stateCommand);
         MinimizeCommand = new RelayCommand(_minimizeCommand);
-        LoadedCommand = new RelayCommand(Synapse.Initialize);
+        LoadedCommand = new RelayCommand(Synapse!.Initialize);
         ClosingCommand = new RelayCommand(() => Environment.Exit(0));
-        
-        Navigation.NavigateTo<EditorViewModel>();
+
+        NavigateToEditorCommand = new RelayCommand(() => Navigation!.NavigateTo<EditorViewModel>());
+        NavigateToSettingsCommand = new RelayCommand(() => Navigation!.NavigateTo<SettingsViewModel>());
+
+        Navigation!.NavigateTo<EditorViewModel>();
     }
 
     public ICommand StateCommand { get; }
@@ -31,13 +34,16 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand LoadedCommand { get; }
     public ICommand ClosingCommand { get; }
 
-    public INavigationService Navigation
+    public ICommand NavigateToEditorCommand { get; }
+    public ICommand NavigateToSettingsCommand { get; }
+
+    public INavigationService? Navigation
     {
         get => _navigation;
         set => SetProperty(ref _navigation, value);
     }
 
-    public ISynapseService Synapse
+    public ISynapseService? Synapse
     {
         get => _synapse;
         set => SetProperty(ref _synapse, value);

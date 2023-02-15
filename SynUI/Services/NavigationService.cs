@@ -6,21 +6,21 @@ namespace SynUI.Services;
 
 public interface INavigationService
 {
-    ViewModelBase CurrentView { get; }
+    ViewModelBase? CurrentView { get; }
     void NavigateTo<T>() where T : ViewModelBase;
 }
 
 public class NavigationService : ObservableObject, INavigationService
 {
     private readonly Func<Type, ViewModelBase> _viewModelFactory;
-    private ViewModelBase _currentView;
+    private ViewModelBase? _currentView;
 
     public NavigationService(Func<Type, ViewModelBase> viewModelFactory)
     {
         _viewModelFactory = viewModelFactory;
     }
 
-    public ViewModelBase CurrentView
+    public ViewModelBase? CurrentView
     {
         get => _currentView;
         private set => SetProperty(ref _currentView, value);
