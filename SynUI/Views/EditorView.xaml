@@ -215,7 +215,7 @@
                 Grid.Row="1" Grid.Column="2" Padding="0"
                 BorderBrush="{StaticResource ThemeBorderHighBrush}"
                 SelectedItem="{Binding SelectedOuput, Mode=TwoWay}"
-                ItemsSource="{Binding Outputs}">
+                ItemsSource="{Binding SocketService.Outputs}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}" />
