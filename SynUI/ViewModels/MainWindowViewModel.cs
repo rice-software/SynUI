@@ -8,25 +8,25 @@ namespace SynUI.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private INavigationService? _navigation;
-    private ISynapseService? _synapse;
+    private INavigationService? _navigationService;
+    private ISynapseService? _synapseService;
     private string _title = "SynUI";
     private WindowState _windowState;
 
-    public MainWindowViewModel(INavigationService? navigationService, ISynapseService? synapseService)
+    public MainWindowViewModel(INavigationService? navigationServiceService, ISynapseService? synapseServiceService)
     {
-        Navigation = navigationService;
-        Synapse = synapseService;
+        NavigationService = navigationServiceService;
+        SynapseService = synapseServiceService;
 
         StateCommand = new RelayCommand(_stateCommand);
         MinimizeCommand = new RelayCommand(_minimizeCommand);
-        LoadedCommand = new RelayCommand(Synapse!.Initialize);
+        LoadedCommand = new RelayCommand(SynapseService!.Initialize);
         ClosingCommand = new RelayCommand(() => Environment.Exit(0));
 
-        NavigateToEditorCommand = new RelayCommand(() => Navigation!.NavigateTo<EditorViewModel>());
-        NavigateToSettingsCommand = new RelayCommand(() => Navigation!.NavigateTo<SettingsViewModel>());
+        NavigateToEditorCommand = new RelayCommand(() => NavigationService!.NavigateTo<EditorViewModel>());
+        NavigateToSettingsCommand = new RelayCommand(() => NavigationService!.NavigateTo<SettingsViewModel>());
 
-        Navigation!.NavigateTo<EditorViewModel>();
+        NavigationService!.NavigateTo<EditorViewModel>();
     }
 
     public ICommand StateCommand { get; }
@@ -37,16 +37,16 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand NavigateToEditorCommand { get; }
     public ICommand NavigateToSettingsCommand { get; }
 
-    public INavigationService? Navigation
+    public INavigationService? NavigationService
     {
-        get => _navigation;
-        set => SetProperty(ref _navigation, value);
+        get => _navigationService;
+        set => SetProperty(ref _navigationService, value);
     }
 
-    public ISynapseService? Synapse
+    public ISynapseService? SynapseService
     {
-        get => _synapse;
-        set => SetProperty(ref _synapse, value);
+        get => _synapseService;
+        set => SetProperty(ref _synapseService, value);
     }
 
     public string Title

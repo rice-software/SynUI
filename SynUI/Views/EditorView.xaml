@@ -95,11 +95,11 @@
             Grid.Column="2">
             <DockPanel LastChildFill="False">
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                    <Button Command="{Binding Synapse.ExecuteCommand}"
+                    <Button Command="{Binding SynapseService.ExecuteCommand}"
                             CommandParameter="{Binding SelectedEditorItem.Document.Text}"
                             IsEnabled="{Binding IsTabSelected}" Width="32" Height="32" Content="&#xeb2c;"
                             Background="Transparent" FontFamily="{StaticResource Codicon}" />
-                    <Button Command="{Binding Synapse.AttachCommand}" Width="32" Height="32" Content="&#xead8;"
+                    <Button Command="{Binding SynapseService.AttachCommand}" Width="32" Height="32" Content="&#xead8;"
                             Background="Transparent" FontFamily="{StaticResource Codicon}" />
                     <Button Width="32" Height="32" Content="&#xead7;" Background="Transparent"
                             FontFamily="{StaticResource Codicon}" />
@@ -110,7 +110,7 @@
         <TreeView
             Grid.Column="0"
             Grid.Row="2" Grid.RowSpan="3"
-            ItemsSource="{Binding ExplorerNodes}">
+            ItemsSource="{Binding DirectoryService.Items}">
             <TreeView.Resources>
                 <HierarchicalDataTemplate
                     ItemsSource="{Binding Nodes}"

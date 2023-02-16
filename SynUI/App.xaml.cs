@@ -8,6 +8,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using sxlib;
 using SynUI.Properties;
 using SynUI.Services;
+using SynUI.Utilities;
 using SynUI.ViewModels;
 using SynUI.Views;
 
@@ -18,43 +19,39 @@ namespace SynUI;
 /// </summary>
 public partial class App : Application
 {
-    private static readonly string[] RequiredFiles =
-    {
-        "auth/options.bin",
-        "auth/sessiontoken.bin",
-        "bin/SLAgent.dll"
-    };
-
     public static IHost? AppHost { get; private set; }
 
-    // i have no idea what im doing.
-    public App()
+    private static void _initializeEnvironment()
     {
         while (
             string.IsNullOrWhiteSpace(Settings.Default.SynapseDirectory) ||
             !Directory.Exists(Settings.Default.SynapseDirectory) ||
-            !_isDirectorySynapse(Settings.Default.SynapseDirectory))
+            !FileSystem.IsDirectorySynapse(Settings.Default.SynapseDirectory))
         {
             var dialog = new CommonOpenFileDialog
             {
-                Title = "Select your Synapse X's installation folder.",
+                Title = "Select your SynapseService X's installation folder.",
                 IsFolderPicker = true,
                 Multiselect = false
             };
 
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok && _isDirectorySynapse(dialog.FileName))
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok && FileSystem.IsDirectorySynapse(dialog.FileName))
                 Settings.Default.SynapseDirectory = dialog.FileName;
             else
                 MessageBox.Show(
-                    "Please choose your Synapse X Installation folder!\n" +
-                    "Your folder is missing these files:\n" +
-                    string.Join("\n", RequiredFiles),
+                    "Please choose your SynapseService X Installation folder!",
                     "Error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
         }
 
         Environment.CurrentDirectory = Settings.Default.SynapseDirectory;
+    }
+
+    // i have no idea what im doing.
+    protected override async void OnStartup(StartupEventArgs e)
+    {
+        _initializeEnvironment();
 
         AppHost = Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
@@ -75,16 +72,12 @@ public partial class App : Application
                     viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType));
 
                 services.AddSingleton<ISynapseService, SynapseService>();
+                services.AddSingleton<IDirectoryService, DirectoryService>();
+                services.AddSingleton<ISocketService, SocketService>();
             })
             .Build();
-    }
 
-    private static bool _isDirectorySynapse(string path) =>
-        RequiredFiles.All(p => File.Exists(Path.Combine(path, p)));
-
-    protected override async void OnStartup(StartupEventArgs e)
-    {
-        await AppHost!.StartAsync();
+        await AppHost.StartAsync();
 
         var startupView = AppHost.Services.GetRequiredService<MainWindow>();
         startupView.Show();

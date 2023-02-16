@@ -107,7 +107,7 @@
             <!--     </TabItem> -->
             <!-- </TabControl> -->
 
-            <ContentControl Content="{Binding Navigation.CurrentView}" />
+            <ContentControl Content="{Binding NavigationService.CurrentView}" />
         </Border>
 
         <Border
@@ -120,8 +120,8 @@
                     BorderThickness="0 0 1 0"
                     Padding="4">
                     <TextBlock>
-                        <Run Text="Synapse X:" />
-                        <Run Text="{Binding Synapse.LoadState, Mode=OneWay}" />
+                        <Run Text="SynapseService X:" />
+                        <Run Text="{Binding SynapseService.LoadState, Mode=OneWay}" />
                     </TextBlock>
                 </Border>
                 <Border
@@ -130,7 +130,7 @@
                     Padding="4">
                     <TextBlock>
                         <Run Text="Status:" />
-                        <Run Text="{Binding Synapse.AttachState, Mode=OneWay}" />
+                        <Run Text="{Binding SynapseService.AttachState, Mode=OneWay}" />
                     </TextBlock>
                 </Border>
             </StackPanel>
