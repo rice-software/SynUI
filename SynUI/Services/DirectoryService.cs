@@ -40,7 +40,7 @@ public class DirectoryService : IDirectoryService
             EnableRaisingEvents = true
         };
 
-        _initFolder(Path.Combine(Directory.GetCurrentDirectory(), "scripts"), Items);
+        _initFolder(Path.Combine(Directory.GetCurrentDirectory(),  "scripts"), new[] { ".txt", ".lua" }, Items);
     }
 
     private void _initFile(string path, ICollection<ExplorerNode> nodes)
@@ -62,7 +62,7 @@ public class DirectoryService : IDirectoryService
         nodes.Add(item);
     }
 
-    private void _initFolder(string path, ICollection<ExplorerNode> nodes)
+    private void _initFolder(string path, string[] extensions, ICollection<ExplorerNode> nodes)
     {
         var item = new ExplorerDirectory { FullPath = path };
 
@@ -81,17 +81,17 @@ public class DirectoryService : IDirectoryService
         _directoryWatcher.Created += (_, e) => Application.Current.Dispatcher.Invoke(() =>
         {
             if (FileSystem.IsPathEquals(true, Path.GetDirectoryName(e.FullPath)!, item.FullPath))
-                _initFolder(e.FullPath, item.Nodes);
+                _initFolder(e.FullPath, extensions, item.Nodes);
         });
 
         _fileWatcher.Created += (_, e) => Application.Current.Dispatcher.Invoke(() =>
         {
-            if (FileSystem.IsPathEquals(true, Path.GetDirectoryName(e.FullPath)!, item.FullPath))
+            if (FileSystem.IsPathEquals(true, Path.GetDirectoryName(e.FullPath)!, item.FullPath) && extensions.Contains(Path.GetExtension(e.FullPath)))
                 _initFile(e.FullPath, item.Nodes);
         });
 
         foreach (var dir in Directory.GetDirectories(item.FullPath))
-            _initFolder(dir, item.Nodes);
+            _initFolder(dir, extensions, item.Nodes);
 
         foreach (var file in Directory.GetFiles(item.FullPath))
             _initFile(file, item.Nodes);

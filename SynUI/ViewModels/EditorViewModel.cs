@@ -9,6 +9,8 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using CommunityToolkit.Mvvm.Input;
+using ICSharpCode.AvalonEdit.Document;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using SynUI.Models;
 using SynUI.Services;
@@ -26,22 +28,13 @@ public class EditorViewModel : ViewModelBase
     private IDirectoryService? _directoryService;
     private ISocketService? _socketService;
 
-    public EditorViewModel(ISynapseService? synapseServiceService, IDirectoryService directoryService, ISocketService socketService)
-    {
-        SynapseService = synapseServiceService;
-        DirectoryService = directoryService;
-        SocketService = socketService;
-
-        AddItemCommand = new RelayCommand(_addItemCommand);
-        RemoveItemCommand = new RelayCommand<EditorItem>(_removeItemCommand);
-        KillRobloxItemCommand = new RelayCommand(_killRobloxCommand);
-    }
-
-    public ObservableCollection<EditorItem> EditorItems { get; } = new() { new EditorItem() };
-
     public ICommand AddItemCommand { get; }
     public ICommand RemoveItemCommand { get; }
     public ICommand KillRobloxItemCommand { get; }
+    public ICommand SelectedExplorerNodeChangedCommand { get; }
+    public RelayCommand SaveCommand { get; }
+
+    public ObservableCollection<EditorItem> EditorItems { get; } = new() { new EditorItem() };
 
     public Output? SelectedOuput
     {
@@ -73,11 +66,22 @@ public class EditorViewModel : ViewModelBase
         set
         {
             SetProperty(ref _selectedEditorItem, value);
-            OnPropertyChanged(nameof(IsTabSelected));
+            SaveCommand.NotifyCanExecuteChanged();
         }
     }
 
-    public bool IsTabSelected => SelectedEditorItem != null;
+    public EditorViewModel(ISynapseService? synapseServiceService, IDirectoryService directoryService, ISocketService socketService)
+    {
+        SynapseService = synapseServiceService;
+        DirectoryService = directoryService;
+        SocketService = socketService;
+
+        AddItemCommand = new RelayCommand(_addItemCommand);
+        RemoveItemCommand = new RelayCommand<EditorItem>(_removeItemCommand);
+        KillRobloxItemCommand = new RelayCommand(_killRobloxCommand);
+        SelectedExplorerNodeChangedCommand = new RelayCommand<ExplorerNode>(_selectedExplorerNodeChangedCommand);
+        SaveCommand = new RelayCommand(_saveCommand, () => SelectedEditorItem != null);
+    }
 
     private void _addItemCommand()
     {
@@ -94,5 +98,47 @@ public class EditorViewModel : ViewModelBase
     {
         foreach (var process in Process.GetProcessesByName("RobloxPlayerBeta"))
             process.Kill();
+    }
+
+    private void _selectedExplorerNodeChangedCommand(ExplorerNode? parameter)
+    {
+        if (parameter is not ExplorerFile || parameter.FullPath == null)
+            return;
+
+        var item = EditorItems.FirstOrDefault(o =>
+            o.Document.FileName != null && FileSystem.IsPathEquals(false, o.Document.FileName, parameter.FullPath));
+
+        if (item == null)
+        {
+            item = new EditorItem
+            {
+                Document = { FileName = parameter.FullPath },
+                IsAnchored = true
+            };
+
+            EditorItems.Add(item);
+        }
+        
+        SelectedEditorItem = item;
+    }
+
+    private void _saveCommand()
+    {
+        if (string.IsNullOrWhiteSpace(SelectedEditorItem!.Document.FileName))
+        {
+            var dialog = new SaveFileDialog
+            {
+                Title = "Save untitled file",
+                Filter = "LUA file (*.lua)|*.lua|Text document (*.txt)|*.txt",
+                RestoreDirectory = true
+            };
+            
+            if (dialog.ShowDialog() != true)
+                return;
+
+            SelectedEditorItem!.Document.FileName = dialog.FileName;
+        }
+
+        File.WriteAllText(SelectedEditorItem!.Document.FileName, SelectedEditorItem.Document.Text);
     }
 }

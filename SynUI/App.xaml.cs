@@ -30,7 +30,7 @@ public partial class App : Application
         {
             var dialog = new CommonOpenFileDialog
             {
-                Title = "Select your SynapseService X's installation folder.",
+                Title = "Select your Synapse X's installation folder.",
                 IsFolderPicker = true,
                 Multiselect = false
             };
@@ -39,7 +39,7 @@ public partial class App : Application
                 Settings.Default.SynapseDirectory = dialog.FileName;
             else
                 MessageBox.Show(
-                    "Please choose your SynapseService X Installation folder!",
+                    "Please choose your Synapse X Installation folder!",
                     "Error",
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
@@ -67,13 +67,12 @@ public partial class App : Application
                 services.AddSingleton<SettingsViewModel>();
 
                 // Add services
-                services.AddSingleton<INavigationService, NavigationService>();
-                services.AddSingleton<Func<Type, ViewModelBase>>(provider =>
-                    viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType));
-
                 services.AddSingleton<ISynapseService, SynapseService>();
                 services.AddSingleton<IDirectoryService, DirectoryService>();
                 services.AddSingleton<ISocketService, SocketService>();
+                services.AddSingleton<INavigationService, NavigationService>();
+                services.AddSingleton<Func<Type, ViewModelBase>>(provider =>
+                    viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType));
             })
             .Build();
 

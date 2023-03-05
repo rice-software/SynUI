@@ -118,6 +118,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\FullPathConverter.cs" />
+    <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\OutputTypeConverter.cs" />
     <Compile Include="Converters\TreeViewItemLeftIndentConverter.cs" />
     <Compile Include="Converters\VisibilityHiddenConverter.cs" />
@@ -285,6 +286,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Dependencies\sxlib.dll" />
+    <None Include="Resources\syntax.xshd" />
     <Resource Include="Assets\Images\synapse_x.ico" />
     <Content Include="Assets\Images\synapse_x.svg" />
     <Resource Include="Assets\Images\synapse_x_128.png" />

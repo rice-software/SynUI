@@ -1,6 +1,3 @@
-# Development postponed until Synapse X v3 is released.
-Because Sxlib is just too retarded to work with right now.
-
 # SynUI
 just another [Synapse X](https://x.synapse.to) ui lol.
 

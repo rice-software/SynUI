@@ -120,7 +120,7 @@
                     BorderThickness="0 0 1 0"
                     Padding="4">
                     <TextBlock>
-                        <Run Text="SynapseService X:" />
+                        <Run Text="Synapse X:" />
                         <Run Text="{Binding SynapseService.LoadState, Mode=OneWay}" />
                     </TextBlock>
                 </Border>
