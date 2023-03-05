@@ -1,5 +1,5 @@
 # SynUI
-just another [Synapse X](https://x.synapse.to) ui lol.
+the predecessor to [BetterSynapse](https://github.com/rice-cracker-2234/BetterSynapse).
 
 <a name=""></a>
 ## Table of contents 
