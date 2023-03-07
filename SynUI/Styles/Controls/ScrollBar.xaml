@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style x:Key="ScrollBarThumb"
            TargetType="{x:Type Thumb}">
-        <Setter Property="Background" Value="{StaticResource ThemeControlHighlightLowBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeControlHighlightLowBrush}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="IsTabStop" Value="false" />
@@ -15,11 +15,11 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_LayoutRoot" Property="Background"
-                                    Value="{StaticResource ThemeControlHighlightMidBrush}" />
+                                    Value="{DynamicResource ThemeControlHighlightMidBrush}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="True">
                             <Setter TargetName="PART_LayoutRoot" Property="Background"
-                                    Value="{StaticResource ThemeControlHighlightHighBrush}" />
+                                    Value="{DynamicResource ThemeControlHighlightHighBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -29,11 +29,11 @@
 
     <ControlTemplate x:Key="VerticalScrollBar" TargetType="{x:Type ScrollBar}">
         <Grid>
-            <Border BorderBrush="{StaticResource ThemeBorderHighBrush}"
+            <Border BorderBrush="{DynamicResource ThemeBorderHighBrush}"
                     BorderThickness="1 0 0 0" />
             <Track x:Name="PART_Track" IsDirectionReversed="true">
                 <Track.Thumb>
-                    <Thumb Style="{StaticResource ScrollBarThumb}" />
+                    <Thumb Style="{DynamicResource ScrollBarThumb}" />
                 </Track.Thumb>
             </Track>
         </Grid>
@@ -41,11 +41,11 @@
 
     <ControlTemplate x:Key="HorizontalScrollBar" TargetType="{x:Type ScrollBar}">
         <Grid>
-            <Border BorderBrush="{StaticResource ThemeBorderHighBrush}"
+            <Border BorderBrush="{DynamicResource ThemeBorderHighBrush}"
                     BorderThickness="0 1 0 0" />
             <Track x:Name="PART_Track" IsDirectionReversed="False">
                 <Track.Thumb>
-                    <Thumb Style="{StaticResource ScrollBarThumb}" />
+                    <Thumb Style="{DynamicResource ScrollBarThumb}" />
                 </Track.Thumb>
             </Track>
         </Grid>
@@ -57,7 +57,7 @@
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
                     <Track x:Name="PART_Track" IsDirectionReversed="False" Opacity="0">
                         <Track.Thumb>
-                            <Thumb Style="{StaticResource ScrollBarThumb}" />
+                            <Thumb Style="{DynamicResource ScrollBarThumb}" />
                         </Track.Thumb>
                     </Track>
 
@@ -78,12 +78,12 @@
             <Trigger Property="Orientation" Value="Horizontal">
                 <Setter Property="Width" Value="Auto" />
                 <Setter Property="Height" Value="10" />
-                <Setter Property="Template" Value="{StaticResource HorizontalScrollBar}" />
+                <Setter Property="Template" Value="{DynamicResource HorizontalScrollBar}" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
                 <Setter Property="Width" Value="10" />
                 <Setter Property="Height" Value="Auto" />
-                <Setter Property="Template" Value="{StaticResource VerticalScrollBar}" />
+                <Setter Property="Template" Value="{DynamicResource VerticalScrollBar}" />
             </Trigger>
         </Style.Triggers>
     </Style>

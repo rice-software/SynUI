@@ -3,7 +3,7 @@
     <Style TargetType="{x:Type TabControl}">
         <Setter Property="Padding" Value="0" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{StaticResource ThemeBorderHighBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderHighBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}" />
         <Setter Property="Template">
             <Setter.Value>

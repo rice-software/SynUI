@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="{StaticResource ThemeControlMidBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ThemeBorderLowBrush}" />
+        <Setter Property="Background" Value="{DynamicResource ThemeControlMidBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderLowBrush}" />
         <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="4 2" />
@@ -30,30 +30,30 @@
                             <Setter
                                 TargetName="PART_LayoutRoot"
                                 Property="Background"
-                                Value="{StaticResource ThemeControlHighlightLowBrush}" />
+                                Value="{DynamicResource ThemeControlHighlightLowBrush}" />
                             <Setter
                                 TargetName="PART_LayoutRoot"
                                 Property="BorderBrush"
-                                Value="{StaticResource ThemeBorderMidBrush}" />
+                                Value="{DynamicResource ThemeBorderMidBrush}" />
                             <Setter
                                 TargetName="PART_ContentPresenter"
                                 Property="TextBlock.Foreground"
-                                Value="{StaticResource ThemeForegroundMidBrush}" />
+                                Value="{DynamicResource ThemeForegroundMidBrush}" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
                             <Setter
                                 TargetName="PART_LayoutRoot"
                                 Property="Background"
-                                Value="{StaticResource ThemeControlHighlightMidBrush}" />
+                                Value="{DynamicResource ThemeControlHighlightMidBrush}" />
                             <Setter
                                 TargetName="PART_LayoutRoot"
                                 Property="BorderBrush"
-                                Value="{StaticResource ThemeBorderHighBrush}" />
+                                Value="{DynamicResource ThemeBorderHighBrush}" />
                             <Setter
                                 TargetName="PART_ContentPresenter"
                                 Property="TextBlock.Foreground"
-                                Value="{StaticResource ThemeForegroundHighBrush}" />
+                                Value="{DynamicResource ThemeForegroundHighBrush}" />
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">
@@ -87,22 +87,22 @@
                             <Setter
                                 TargetName="PART_LayoutRoot"
                                 Property="Background"
-                                Value="{StaticResource ThemeControlHighlightLowBrush}" />
+                                Value="{DynamicResource ThemeControlHighlightLowBrush}" />
                             <Setter
                                 TargetName="PART_ContentPresenter"
                                 Property="TextBlock.Foreground"
-                                Value="{StaticResource ThemeForegroundMidBrush}" />
+                                Value="{DynamicResource ThemeForegroundMidBrush}" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
                             <Setter
                                 TargetName="PART_LayoutRoot"
                                 Property="Background"
-                                Value="{StaticResource ThemeControlHighlightMidBrush}" />
+                                Value="{DynamicResource ThemeControlHighlightMidBrush}" />
                             <Setter
                                 TargetName="PART_ContentPresenter"
                                 Property="TextBlock.Foreground"
-                                Value="{StaticResource ThemeForegroundHighBrush}" />
+                                Value="{DynamicResource ThemeForegroundHighBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

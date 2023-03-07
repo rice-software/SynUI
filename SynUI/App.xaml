@@ -2,12 +2,16 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:viewModels="clr-namespace:SynUI.ViewModels"
-             xmlns:views="clr-namespace:SynUI.Views">
+             xmlns:views="clr-namespace:SynUI.Views"
+             xmlns:ui="http://schemas.modernwpf.com/2019">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ui:ThemeResources />
+                <ui:XamlControlsResources />
+
+                <ResourceDictionary Source="Styles/Base/BaseDark.xaml" />
                 <ResourceDictionary Source="Styles/Base/Base.xaml" />
-                <ResourceDictionary Source="Styles/Controls/Controls.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModels:EditorViewModel}">

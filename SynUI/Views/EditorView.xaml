@@ -13,7 +13,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
              HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
-             Foreground="{StaticResource ThemeForegroundLowBrush}"
+             Foreground="{DynamicResource ThemeForegroundLowBrush}"
              d:DataContext="{d:DesignInstance vm:EditorViewModel}">
     <UserControl.Resources>
         <c:OutputTypeToBrushConverter x:Key="OutputTypeToBrushConverter" />
@@ -24,7 +24,7 @@
         <Style x:Key="EditorTabControl" TargetType="{x:Type TabControl}">
             <Setter Property="Padding" Value="0" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderBrush" Value="{StaticResource ThemeBorderHighBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderHighBrush}" />
             <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}" />
             <Setter Property="Template">
                 <Setter.Value>
@@ -46,7 +46,7 @@
                                     <TabPanel Grid.Column="0" x:Name="headerPanel" Background="Transparent"
                                               IsItemsHost="true" />
                                     <Button Grid.Column="1" Command="{Binding AddItemCommand}" Content="&#xea60;"
-                                            Background="Transparent" FontFamily="{StaticResource Codicon}" Margin="8 0"
+                                            Background="Transparent" FontFamily="{DynamicResource Codicon}" Margin="8 0"
                                             Padding="2" VerticalAlignment="Center" />
                                 </Grid>
                             </ScrollViewer>
@@ -80,13 +80,13 @@
             <ColumnDefinition Width="4*" />
         </Grid.ColumnDefinitions>
 
-        <Border Background="{StaticResource ThemeBorderHighBrush}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" />
+        <Border Background="{DynamicResource ThemeBorderHighBrush}" Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" />
 
         <Border
             Grid.Row="0"
             Grid.Column="0">
             <StackPanel Margin="8" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                <TextBlock Text="&#xeb6a;" FontFamily="{StaticResource Codicon}" VerticalAlignment="Center" />
+                <TextBlock Text="&#xeb6a;" FontFamily="{DynamicResource Codicon}" VerticalAlignment="Center" />
                 <TextBlock Text="Scripts" Margin="8 0 0 0" VerticalAlignment="Center" />
             </StackPanel>
         </Border>
@@ -96,30 +96,30 @@
             Grid.Column="2">
             <DockPanel LastChildFill="False">
                 <StackPanel DockPanel.Dock="Left" Margin="8" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                    <TextBlock Text="&#xeac4;" FontFamily="{StaticResource Codicon}" VerticalAlignment="Center" />
+                    <TextBlock Text="&#xeac4;" FontFamily="{DynamicResource Codicon}" VerticalAlignment="Center" />
                     <TextBlock Text="Editor" Margin="8 0 0 0" VerticalAlignment="Center" />
                 </StackPanel>
 
-                <Border DockPanel.Dock="Right" BorderThickness="1 0 0 0" BorderBrush="{StaticResource ThemeBorderHighBrush}">
+                <Border DockPanel.Dock="Right" BorderThickness="1 0 0 0" BorderBrush="{DynamicResource ThemeBorderHighBrush}">
                     <StackPanel Orientation="Horizontal">
                         <Button Command="{Binding SynapseService.ExecuteCommand}"
                                 CommandParameter="{Binding SelectedEditorItem.Document.Text}"
                                 IsEnabled="{Binding SelectedEditorItem, Converter={StaticResource NullToBooleanConverter}}" Width="32" Height="32" Content="&#xeb2c;"
-                                Background="Transparent" FontFamily="{StaticResource Codicon}" />
+                                Background="Transparent" FontFamily="{DynamicResource Codicon}" />
                         <Button Command="{Binding SynapseService.AttachCommand}" Width="32" Height="32" Content="&#xead8;"
-                                Background="Transparent" FontFamily="{StaticResource Codicon}" />
+                                Background="Transparent" FontFamily="{DynamicResource Codicon}" />
                         <Button Width="32" Height="32" Content="&#xead7;" Background="Transparent"
                                 Command="{Binding KillRobloxItemCommand}"
-                                FontFamily="{StaticResource Codicon}" />
+                                FontFamily="{DynamicResource Codicon}" />
                     </StackPanel>
                 </Border>
 
                 <Border DockPanel.Dock="Right">
                     <StackPanel Orientation="Horizontal">
                         <Button Width="32" Height="32" Content="&#xea7f;"
-                                Background="Transparent" FontFamily="{StaticResource Codicon}" />
+                                Background="Transparent" FontFamily="{DynamicResource Codicon}" />
                         <Button Width="32" Height="32" Content="&#xeb4b;" Command="{Binding SaveCommand}"
-                                Background="Transparent" FontFamily="{StaticResource Codicon}" />
+                                Background="Transparent" FontFamily="{DynamicResource Codicon}" />
                     </StackPanel>
                 </Border>
             </DockPanel>
@@ -157,7 +157,7 @@
             Grid.Row="0" Grid.RowSpan="5"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Background="{StaticResource ThemeBorderHighBrush}" />
+            Background="{DynamicResource ThemeBorderHighBrush}" />
 
         <TabControl Style="{DynamicResource EditorTabControl}" Grid.Column="2" Grid.Row="2"
                     SelectedItem="{Binding SelectedEditorItem}" ItemsSource="{Binding EditorItems}">
@@ -175,8 +175,8 @@
                             Grid.Column="1"
                             Background="Transparent"
                             Content="&#xea76;"
-                            FontFamily="{StaticResource Codicon}"
-                            FontSize="{StaticResource FontSizeSmall}"
+                            FontFamily="{DynamicResource Codicon}"
+                            FontSize="{DynamicResource FontSizeSmall}"
                             Margin="8 0 0 0" Padding="0"
                             VerticalAlignment="Center"
                             Command="{Binding ElementName=View, Path=DataContext.RemoveItemCommand}"
@@ -188,8 +188,8 @@
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type models:EditorItem}">
                     <avalonedit:TextEditor
-                        Background="Transparent"
-                        Foreground="{StaticResource ThemeForegroundLowBrush}"
+                        Background="{DynamicResource ThemeControlLowBrush}"
+                        Foreground="{DynamicResource ThemeForegroundLowBrush}"
                         BorderThickness="0" ShowLineNumbers="True"
                         HorizontalScrollBarVisibility="Auto"
                         SyntaxHighlighting="Lua"
@@ -202,7 +202,7 @@
             Grid.Column="2" Grid.Row="3"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Background="{StaticResource ThemeBorderHighBrush}" />
+            Background="{DynamicResource ThemeBorderHighBrush}" />
 
         <Grid
             Grid.Column="2" Grid.Row="4">
@@ -218,7 +218,7 @@
 
             <Border
                 Grid.Row="0" Grid.Column="0"
-                BorderBrush="{StaticResource ThemeBorderHighBrush}"
+                BorderBrush="{DynamicResource ThemeBorderHighBrush}"
                 BorderThickness="0 0 0 1"
                 Padding="8">
                 <StackPanel Orientation="Horizontal">
@@ -229,7 +229,7 @@
 
             <Border
                 Grid.Row="0" Grid.Column="2"
-                BorderBrush="{StaticResource ThemeBorderHighBrush}"
+                BorderBrush="{DynamicResource ThemeBorderHighBrush}"
                 BorderThickness="0 0 0 1"
                 Padding="8">
                 <StackPanel Orientation="Horizontal">
@@ -241,7 +241,7 @@
             <ListBox
                 x:Name="OutputPlayerList"
                 Grid.Row="1" Grid.Column="2" Padding="0"
-                BorderBrush="{StaticResource ThemeBorderHighBrush}"
+                BorderBrush="{DynamicResource ThemeBorderHighBrush}"
                 SelectedItem="{Binding SelectedOuput, Mode=TwoWay}"
                 ItemsSource="{Binding SocketService.Outputs}">
                 <ListBox.ItemTemplate>
@@ -268,11 +268,11 @@
                                 Text="{Binding Type, Converter={StaticResource OutputTypeToCodiconGlyphConverter}}"
                                 Foreground="{Binding Type, Converter={StaticResource OutputTypeToBrushConverter}}"
                                 Width="24"
-                                FontFamily="{StaticResource Codicon}"
+                                FontFamily="{DynamicResource Codicon}"
                                 VerticalAlignment="Center" />
 
                             <TextBox Background="Transparent"
-                                     Foreground="{Binding Type, Converter={StaticResource OutputTypeToBrushConverter}}"
+                                     Foreground="{Binding Type, Converter={DynamicResource OutputTypeToBrushConverter}}"
                                      BorderThickness="0"
                                      Text="{Binding Content, Mode=OneWay}"
                                      IsReadOnly="True"

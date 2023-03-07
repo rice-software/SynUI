@@ -5,6 +5,7 @@ using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using ModernWpf;
 using sxlib;
 using SynUI.Properties;
 using SynUI.Services;
@@ -20,6 +21,12 @@ namespace SynUI;
 public partial class App : Application
 {
     public static IHost? AppHost { get; private set; }
+
+    public App()
+    {
+        // Auto save settings
+        Settings.Default.PropertyChanged += (_, _) => Settings.Default.Save();
+    }
 
     private static void _initializeEnvironment()
     {

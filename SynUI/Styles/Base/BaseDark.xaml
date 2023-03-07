@@ -20,25 +20,4 @@
     <Color x:Key="InformationOutputColor">#4F84E2</Color>
     <Color x:Key="WarningOutputColor">#F2B335</Color>
     <Color x:Key="ErrorOutputColor">#F03649</Color>
-
-    <SolidColorBrush x:Key="ThemeBackgroundBrush" Color="{StaticResource ThemeBackgroundColor}" />
-    <SolidColorBrush x:Key="ThemeBorderLowBrush" Color="{StaticResource ThemeBorderLowColor}" />
-    <SolidColorBrush x:Key="ThemeBorderMidBrush" Color="{StaticResource ThemeBorderMidColor}" />
-    <SolidColorBrush x:Key="ThemeBorderHighBrush" Color="{StaticResource ThemeBorderHighColor}" />
-    <SolidColorBrush x:Key="ThemeControlLowBrush" Color="{StaticResource ThemeControlLowColor}" />
-    <SolidColorBrush x:Key="ThemeControlMidBrush" Color="{StaticResource ThemeControlMidColor}" />
-    <SolidColorBrush x:Key="ThemeControlMidHighBrush" Color="{StaticResource ThemeControlMidHighColor}" />
-    <SolidColorBrush x:Key="ThemeControlHighBrush" Color="{StaticResource ThemeControlHighColor}" />
-    <SolidColorBrush x:Key="ThemeControlVeryHighBrush" Color="{StaticResource ThemeControlVeryHighColor}" />
-    <SolidColorBrush x:Key="ThemeControlHighlightLowBrush" Color="{StaticResource ThemeControlHighlightLowColor}" />
-    <SolidColorBrush x:Key="ThemeControlHighlightMidBrush" Color="{StaticResource ThemeControlHighlightMidColor}" />
-    <SolidColorBrush x:Key="ThemeControlHighlightHighBrush" Color="{StaticResource ThemeControlHighlightHighColor}" />
-    <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{StaticResource ThemeForegroundLowColor}" />
-    <SolidColorBrush x:Key="ThemeForegroundMidBrush" Color="{StaticResource ThemeForegroundMidColor}" />
-    <SolidColorBrush x:Key="ThemeForegroundHighBrush" Color="{StaticResource ThemeForegroundHighColor}" />
-
-    <!-- Output type brushes -->
-    <SolidColorBrush x:Key="InformationOutputBrush" Color="{StaticResource InformationOutputColor}" />
-    <SolidColorBrush x:Key="WarningOutputBrush" Color="{StaticResource WarningOutputColor}" />
-    <SolidColorBrush x:Key="ErrorOutputBrush" Color="{StaticResource ErrorOutputColor}" />
 </ResourceDictionary>

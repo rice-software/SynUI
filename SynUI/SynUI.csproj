@@ -120,6 +120,7 @@
     <Compile Include="Converters\FullPathConverter.cs" />
     <Compile Include="Converters\NullToBooleanConverter.cs" />
     <Compile Include="Converters\OutputTypeConverter.cs" />
+    <Compile Include="Converters\SynapseStateConverter.cs" />
     <Compile Include="Converters\TreeViewItemLeftIndentConverter.cs" />
     <Compile Include="Converters\VisibilityHiddenConverter.cs" />
     <Compile Include="Converters\WindowStateConverter.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Services\SocketService.cs" />
     <Compile Include="Services\SynapseService.cs" />
     <Compile Include="Utilities\FileSystem.cs" />
+    <Compile Include="Utilities\WindowBackdrop.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -318,6 +320,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
       <Version>1.1.39</Version>
+    </PackageReference>
+    <PackageReference Include="ModernWpfUI">
+      <Version>0.9.6</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.2</Version>

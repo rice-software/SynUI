@@ -7,11 +7,11 @@
         xmlns:c="clr-namespace:SynUI.Converters"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         x:Name="AppWindow"
-        mc:Ignorable="d" Style="{StaticResource {x:Type Window}}"
-        FontFamily="{StaticResource Inter}"
-        FontSize="{StaticResource FontSizeMedium}"
-        Background="{StaticResource ThemeBackgroundBrush}"
-        Foreground="{StaticResource ThemeForegroundLowBrush}"
+        mc:Ignorable="d" Style="{DynamicResource {x:Type Window}}"
+        FontFamily="{DynamicResource Inter}"
+        FontSize="{DynamicResource FontSizeMedium}"
+        Background="Transparent"
+        Foreground="{DynamicResource ThemeForegroundLowBrush}"
         WindowState="{Binding WindowState}"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         Title="MainWindow" Height="750" Width="1200">
@@ -26,11 +26,13 @@
 
     <Window.Resources>
         <c:WindowStateConverter x:Key="WindowStateConverter" />
+        <c:SynapseLoadStateConverter x:Key="SynapseLoadStateConverter" />
+        <c:SynapseAttachStateConverter x:Key="SynapseAttachStateConverter" />
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32" />
+            <RowDefinition Height="28" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -38,24 +40,25 @@
         <DockPanel Grid.Row="0" LastChildFill="False">
             <StackPanel
                 DockPanel.Dock="Right" Orientation="Horizontal"
-                WindowChrome.IsHitTestVisibleInChrome="True">
+                WindowChrome.IsHitTestVisibleInChrome="False"
+                Visibility="Collapsed">
                 <Button
                     Command="{Binding MinimizeCommand}"
                     Content="&#xeaba;" Width="48"
-                    Style="{StaticResource CaptionButton}"
-                    FontFamily="{StaticResource Codicon}" />
+                    Style="{DynamicResource CaptionButton}"
+                    FontFamily="{DynamicResource Codicon}" />
                 <Button
                     Command="{Binding StateCommand}"
                     Content="{Binding
                         ElementName=AppWindow,
                         Path=WindowState,
                         Converter={StaticResource WindowStateConverter}}"
-                    Width="48" Style="{StaticResource CaptionButton}"
-                    FontFamily="{StaticResource Codicon}" />
+                    Width="48" Style="{DynamicResource CaptionButton}"
+                    FontFamily="{DynamicResource Codicon}" />
                 <Button
                     Content="&#xeab8;" Width="48"
-                    Style="{StaticResource CaptionButton}"
-                    FontFamily="{StaticResource Codicon}">
+                    Style="{DynamicResource CaptionButton}"
+                    FontFamily="{DynamicResource Codicon}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:CallMethodAction TargetObject="{Binding ElementName=AppWindow}" MethodName="Close" />
@@ -65,38 +68,43 @@
             </StackPanel>
             <StackPanel
                 DockPanel.Dock="Right" Orientation="Horizontal"
-                WindowChrome.IsHitTestVisibleInChrome="True">
+                WindowChrome.IsHitTestVisibleInChrome="True"
+                Margin="0 0 144 0">
                 <Button
                     Command="{Binding NavigateToEditorCommand}"
-                    Content="&#xeac4;" Padding="8 0"
-                    Style="{StaticResource CaptionButton}"
-                    FontFamily="{StaticResource Codicon}" />
+                    Content="&#xeac4;" Padding="12 0"
+                    Style="{DynamicResource CaptionButton}"
+                    FontFamily="{DynamicResource Codicon}" />
                 <Button
                     Command="{Binding NavigateToSettingsCommand}"
-                    Content="&#xeb51;" Padding="8 0"
-                    Style="{StaticResource CaptionButton}"
-                    FontFamily="{StaticResource Codicon}" />
+                    Content="&#xeb51;" Padding="12 0"
+                    Style="{DynamicResource CaptionButton}"
+                    FontFamily="{DynamicResource Codicon}" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <Image Source="/Assets/Images/synapse_x_16.png" Width="16"
                        RenderOptions.BitmapScalingMode="HighQuality" Margin="8 0" />
-                <TextBlock Text="{Binding Title, Mode=OneWay}" />
+                <TextBlock>
+                    <Run Text="{Binding Title, Mode=OneWay}" />
+                    <Run Text="-" />
+                    <Run Text="{Binding SynapseService.LoadState, Mode=OneWay, Converter={StaticResource SynapseLoadStateConverter}}" />
+                </TextBlock>
             </StackPanel>
         </DockPanel>
 
         <Border
             Grid.Row="1"
-            Background="{StaticResource ThemeControlLowBrush}"
-            BorderBrush="{StaticResource ThemeBorderHighBrush}"
+            Background="{DynamicResource ThemeControlMidBrush}"
+            BorderBrush="{DynamicResource ThemeBorderHighBrush}"
             BorderThickness="0 1 0 0">
             <!-- <TabControl TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"> -->
             <!--     <TabItem> -->
             <!--         <TabItem.Header> -->
             <!--             <StackPanel Orientation="Horizontal"> -->
-            <!--                 <TextBlock Text="&#xeac4;" FontSize="{StaticResource FontSizeMedium}" -->
-            <!--                            FontFamily="{StaticResource Codicon}" VerticalAlignment="Center" /> -->
-            <!--                 <TextBlock Text="Editor" FontSize="{StaticResource FontSizeMedium}" Margin="4 0 0 0" -->
+            <!--                 <TextBlock Text="&#xeac4;" FontSize="{DynamicResource FontSizeMedium}" -->
+            <!--                            FontFamily="{DynamicResource Codicon}" VerticalAlignment="Center" /> -->
+            <!--                 <TextBlock Text="Editor" FontSize="{DynamicResource FontSizeMedium}" Margin="4 0 0 0" -->
             <!--                            VerticalAlignment="Center" /> -->
             <!--             </StackPanel> -->
             <!--         </TabItem.Header> -->
@@ -112,26 +120,15 @@
 
         <Border
             Grid.Row="2"
-            BorderBrush="{StaticResource ThemeBorderHighBrush}"
+            Background="{DynamicResource ThemeControlLowBrush}"
+            BorderBrush="{DynamicResource ThemeBorderHighBrush}"
             BorderThickness="0 1 0 0">
             <StackPanel Orientation="Horizontal">
                 <Border
-                    BorderBrush="{StaticResource ThemeBorderHighBrush}"
+                    BorderBrush="{DynamicResource ThemeBorderHighBrush}"
                     BorderThickness="0 0 1 0"
-                    Padding="4">
-                    <TextBlock>
-                        <Run Text="Synapse X:" />
-                        <Run Text="{Binding SynapseService.LoadState, Mode=OneWay}" />
-                    </TextBlock>
-                </Border>
-                <Border
-                    BorderBrush="{StaticResource ThemeBorderHighBrush}"
-                    BorderThickness="0 0 1 0"
-                    Padding="4">
-                    <TextBlock>
-                        <Run Text="Status:" />
-                        <Run Text="{Binding SynapseService.AttachState, Mode=OneWay}" />
-                    </TextBlock>
+                    Padding="8, 4">
+                    <TextBlock Text="{Binding SynapseService.AttachState, Mode=OneWay, Converter={StaticResource SynapseAttachStateConverter}}" />
                 </Border>
             </StackPanel>
         </Border>

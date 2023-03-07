@@ -4,7 +4,7 @@
     <c:TreeViewItemLeftIndentConverter x:Key="TreeViewItemLeftIndentConverter" />
 
     <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Foreground" Value="{StaticResource ThemeForegroundLowBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Width" Value="16" />
         <Setter Property="Height" Value="16" />
@@ -16,7 +16,7 @@
                             x:Name="PART_Chevron"
                             Text="&#xeab6;"
                             Foreground="{TemplateBinding Foreground}"
-                            FontFamily="{StaticResource Codicon}"
+                            FontFamily="{DynamicResource Codicon}"
                             FontSize="16" />
                     </Border>
 
@@ -30,11 +30,11 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" TargetName="PART_Chevron"
-                                    Value="{StaticResource ThemeForegroundMidBrush}" />
+                                    Value="{DynamicResource ThemeForegroundMidBrush}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Foreground" TargetName="PART_Chevron"
-                                    Value="{StaticResource ThemeForegroundHighBrush}" />
+                                    Value="{DynamicResource ThemeForegroundHighBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -48,8 +48,8 @@
                 Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="VerticalContentAlignment"
                 Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
-        <Setter Property="Padding" Value="4 2" />
-        <Setter Property="Foreground" Value="{StaticResource ThemeForegroundLowBrush}" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -64,8 +64,9 @@
                                 BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
                             <StackPanel Orientation="Horizontal">
                                 <ToggleButton x:Name="Expander" ClickMode="Press"
+                                              Margin="4 0 0 0"
                                               IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Style="{StaticResource ExpandCollapseToggleStyle}" />
+                                              Style="{DynamicResource ExpandCollapseToggleStyle}" />
                                 <ContentPresenter x:Name="PART_Header" Margin="{TemplateBinding Padding}"
                                                   ContentSource="Header"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -83,13 +84,13 @@
                         </Trigger>
                         <Trigger SourceName="Bd" Property="IsMouseOver" Value="true">
                             <Setter Property="Background" TargetName="Bd"
-                                    Value="{StaticResource ThemeControlHighlightLowBrush}" />
-                            <Setter Property="Foreground" Value="{StaticResource ThemeForegroundMidBrush}" />
+                                    Value="{DynamicResource ThemeControlHighlightLowBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundMidBrush}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="true">
                             <Setter Property="Background" TargetName="Bd"
-                                    Value="{StaticResource ThemeControlHighlightMidBrush}" />
-                            <Setter Property="Foreground" Value="{StaticResource ThemeForegroundHighBrush}" />
+                                    Value="{DynamicResource ThemeControlHighlightMidBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundHighBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -98,7 +99,7 @@
                             </MultiTrigger.Conditions>
 
                             <Setter Property="Background" TargetName="Bd"
-                                    Value="{StaticResource ThemeControlHighlightHighBrush}" />
+                                    Value="{DynamicResource ThemeControlHighlightHighBrush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
