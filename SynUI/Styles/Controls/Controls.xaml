@@ -11,5 +11,6 @@
         <ResourceDictionary Source="TreeViewItem.xaml" />
         <ResourceDictionary Source="ScrollBar.xaml" />
         <ResourceDictionary Source="ScrollViewer.xaml" />
+        <ResourceDictionary Source="Hyperlink.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

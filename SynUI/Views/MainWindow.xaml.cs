@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
-using ModernWpf;
 using SynUI.Utilities;
 using static SynUI.Utilities.WindowBackdrop.ParameterTypes;
 

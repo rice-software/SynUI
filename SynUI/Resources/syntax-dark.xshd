@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0"?>
 <SyntaxDefinition name="SharpLua" extensions=".slua;.lua" xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
   <!-- The named colors 'Comment' and 'String' are used in SharpDevelop to detect if a line is inside a multiline string/comment -->
-  <Color name="Comment" foreground="#ff999999" exampleText="-- comment" />
-  <Color name="String" foreground="#fff99157" />
+  <Color name="Comment" foreground="#85C46C" exampleText="-- comment" />
+  <Color name="String" foreground="#C9A26D" />
   <Color name="Punctuation" />
-  <Color name="MethodCall" foreground="#ffffcc66" fontWeight="bold"/>
-  <Color name="NumberLiteral" foreground="#ff99cc99"/>
-  <Color name="NilKeyword" fontWeight="bold"/>
-  <Color name="Keywords" fontWeight="bold" foreground="#ff6699cc" />
-  <Color name="GotoKeywords" foreground="#ffcc99cc" />
-  <Color name="Visibility" fontWeight="bold" foreground="#fff99157"/>
-  <Color name="TrueFalse" fontWeight="bold" foreground="#ff66cccc" />
-
+  <Color name="MethodCall" foreground="#39CC8F" />
+  <Color name="NumberLiteral" foreground="#ED94C0" />
+  <Color name="NilKeyword" foreground="#6C95EB" />
+  <Color name="Keywords" foreground="#6C95EB" />
+  <Color name="GotoKeywords" foreground="#6C95EB" />
+  <Color name="Visibility" foreground="#6C95EB" />
+  <Color name="TrueFalse" foreground="#6C95EB" />
+  
   <RuleSet name="CommentMarkerSet">
-    <Keywords fontWeight="bold" foreground="#fff2777a">
+    <Keywords fontWeight="bold" foreground="Red">
       <Word>TODO</Word>
       <Word>FIXME</Word>
     </Keywords>
-    <Keywords fontWeight="bold" foreground="#fff2777a">
+    <Keywords fontWeight="bold" foreground="#E0E000">
       <Word>HACK</Word>
       <Word>UNDONE</Word>
     </Keywords>
@@ -78,7 +78,7 @@
       <Word>break</Word>
       <Word>do</Word>
       <Word>else</Word>
-      <Word>else if</Word>
+      <Word>elseif</Word>
       <Word>end</Word>
       <Word>false</Word>
       <Word>for</Word>
@@ -113,44 +113,44 @@
     </Keywords>
 
     <!-- Mark previous rule-->
-    <Rule color="Method Call">
+    <Rule color="MethodCall">
       \b
-      [\d\w_]+ # an identifier
+      [\d\w_]+  # an identifier
       (?=\s*\() # followed by (
     </Rule>
-    <Rule color="Method Call">
+    <Rule color="MethodCall">
       \b
-      [\d\w_]+ # an identifier
+      [\d\w_]+  # an identifier
       (?=\s*\") # followed by "
     </Rule>
-    <Rule color="Method Call">
+    <Rule color="MethodCall">
       \b
-      [\d\w_]+ # an identifier
+      [\d\w_]+  # an identifier
       (?=\s*\') # followed by '
     </Rule>
-    <Rule color="Method Call">
+    <Rule color="MethodCall">
       \b
-      [\d\w_]+ # an identifier
+      [\d\w_]+  # an identifier
       (?=\s*\{) # followed by {
     </Rule>
-    <Rule color="Method Call">
+    <Rule color="MethodCall">
       \b
-      [\d\w_]+ # an identifier
+      [\d\w_]+  # an identifier
       (?=\s*\[) # followed by [
     </Rule>
 
     <!-- Digits -->
     <Rule color="NumberLiteral">
-      \b0[xX][0-9a-fA-F]+ # hex number
+      \b0[xX][0-9a-fA-F]+  # hex number
       |
-      ( \b\d+(\.[0-9]+)? #number with optional floating point
-      | \.[0-9]+ #or just starting with floating point
+      (	\b\d+(\.[0-9]+)?   #number with optional floating point
+      |	\.[0-9]+           #or just starting with floating point
       )
       ([eE][+-]?[0-9]+)? # optional exponent
     </Rule>
 
     <Rule color="Punctuation">
-      [?,.;()\[\]{}+\-/%*&lt;>^+~!|&]+
+      [?,.;()\[\]{}+\-/%*&lt;&gt;^+~!|&amp;]+
     </Rule>
   </RuleSet>
 </SyntaxDefinition>

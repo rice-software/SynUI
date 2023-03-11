@@ -1,11 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using ModernWpf;
+using Serilog;
+using Serilog.Exceptions;
+using Serilog.Formatting.Json;
 using sxlib;
 using SynUI.Properties;
 using SynUI.Services;
@@ -22,10 +27,25 @@ public partial class App : Application
 {
     public static IHost? AppHost { get; private set; }
 
+    public string Location => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+
     public App()
     {
         // Auto save settings
-        Settings.Default.PropertyChanged += (_, _) => Settings.Default.Save();
+        Settings.Default.PropertyChanged += (_, _) =>
+            Settings.Default.Save();
+        
+        // logging
+        var logFolder = Directory.CreateDirectory(Path.Combine(Location, "logs"));
+        var latestLog = Path.Combine(logFolder.FullName, "latest.log" + ".log");
+        var instanceLog = Path.Combine(logFolder.FullName, DateTime.Now.ToString("HH-mm-ss yy-MM-dd") + ".log");
+        File.WriteAllText(latestLog, string.Empty);
+        
+        AppDomain.CurrentDomain.FirstChanceException += (_, e) =>
+        {
+            File.AppendAllText(instanceLog, e.Exception.ToString());
+            File.AppendAllText(latestLog, e.Exception.ToString());
+        };
     }
 
     private static void _initializeEnvironment()
@@ -60,7 +80,13 @@ public partial class App : Application
     {
         _initializeEnvironment();
 
+        // Initialize hosting
         AppHost = Host.CreateDefaultBuilder()
+            .ConfigureAppConfiguration((context, configuration) =>
+            {
+                configuration.Sources.Clear();
+                configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            })
             .ConfigureServices((context, services) =>
             {
                 services.AddSingleton(s => new MainWindow
@@ -81,9 +107,17 @@ public partial class App : Application
                 services.AddSingleton<Func<Type, ViewModelBase>>(provider =>
                     viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType));
             })
+            // .UseSerilog((ctx, lc) => lc
+            //     .Enrich.WithExceptionDetails()
+            //     .WriteTo.Debug()
+            //     .WriteTo.File(
+            //         Path.Combine(Location, "logs", "log-.log"),
+            //         rollingInterval: RollingInterval.Day,
+            //         shared: true)
+            // )
             .Build();
 
-        await AppHost.StartAsync();
+        await AppHost!.StartAsync();
 
         var startupView = AppHost.Services.GetRequiredService<MainWindow>();
         startupView.Show();

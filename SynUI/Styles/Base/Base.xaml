@@ -3,11 +3,13 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:ui="http://schemas.modernwpf.com/2019">
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Styles/Base/BaseDark.xaml" />
         <ResourceDictionary Source="/Styles/Controls/Controls.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <FontFamily x:Key="Inter">pack://application:,,,/Assets/Fonts/#Inter</FontFamily>
     <FontFamily x:Key="Codicon">pack://application:,,,/Assets/Fonts/#codicon</FontFamily>
+    <FontFamily x:Key="Jetbrains Mono">pack://application:,,,/Assets/Fonts/#JetBrains Mono</FontFamily>
 
     <sys:Double x:Key="FontSizeLarge">16</sys:Double>
     <sys:Double x:Key="FontSizeMedium">14</sys:Double>
@@ -28,6 +30,17 @@
     <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource ThemeForegroundLowColor}" />
     <SolidColorBrush x:Key="ThemeForegroundMidBrush" Color="{DynamicResource ThemeForegroundMidColor}" />
     <SolidColorBrush x:Key="ThemeForegroundHighBrush" Color="{DynamicResource ThemeForegroundHighColor}" />
+    
+    <!-- Hyperlink -->
+    <SolidColorBrush x:Key="HyperlinkForegroundLowBrush" Color="{DynamicResource HyperlinkForegroundLowColor}" />
+    <SolidColorBrush x:Key="HyperlinkForegroundMidBrush" Color="{DynamicResource HyperlinkForegroundMidColor}" />
+    <SolidColorBrush x:Key="HyperlinkForegroundHighBrush" Color="{DynamicResource HyperlinkForegroundHighColor}" />
+
+    <!-- Chrome color -->
+    <SolidColorBrush x:Key="ChromeControlLowBrush" Color="{DynamicResource ChromeControlLowColor}" />
+    <SolidColorBrush x:Key="ChromeControlMidBrush" Color="{DynamicResource ChromeControlMidColor}" />
+    <SolidColorBrush x:Key="ChromeControlHighBrush" Color="{DynamicResource ChromeControlHighColor}" />
+    <SolidColorBrush x:Key="ChromeForegroundBrush" Color="{DynamicResource ChromeForegroundColor}" />
 
     <!-- Output type brushes -->
     <SolidColorBrush x:Key="InformationOutputBrush" Color="{DynamicResource InformationOutputColor}" />

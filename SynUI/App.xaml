@@ -7,10 +7,6 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ui:ThemeResources />
-                <ui:XamlControlsResources />
-
-                <ResourceDictionary Source="Styles/Base/BaseDark.xaml" />
                 <ResourceDictionary Source="Styles/Base/Base.xaml" />
             </ResourceDictionary.MergedDictionaries>
 

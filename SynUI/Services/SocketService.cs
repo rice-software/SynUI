@@ -31,7 +31,6 @@ public class SocketService : ISocketService
 
     private void _outputServer_MessageReceived(object sender, MessageReceivedEventArgs e) => Application.Current.Dispatcher.Invoke(() =>
     {
-        Debug.WriteLine($"received: \n{Encoding.UTF8.GetString(e.Data.Array!)}\ntype:{e.MessageType}");
         if (e.MessageType != WebSocketMessageType.Text)
             return;
 

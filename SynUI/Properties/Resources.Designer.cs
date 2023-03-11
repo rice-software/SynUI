@@ -58,15 +58,5 @@ namespace SynUI.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] synui_auto_exec {
-            get {
-                object obj = ResourceManager.GetObject("synui_auto_exec", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
     }
 }

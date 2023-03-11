@@ -52,17 +52,22 @@
     </ControlTemplate>
 
     <Style x:Key="HorizontalTransparentScrollBar" TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">
-                    <Track x:Name="PART_Track" IsDirectionReversed="False" Opacity="0">
-                        <Track.Thumb>
-                            <Thumb Style="{DynamicResource ScrollBarThumb}" />
-                        </Track.Thumb>
-                    </Track>
+                    <Grid x:Name="PART_LayoutRoot" Background="Transparent" Height="6">
+                        <Track x:Name="PART_Track" IsDirectionReversed="False" Opacity="0">
+                            <Track.Thumb>
+                                <Thumb Style="{DynamicResource ScrollBarThumb}" />
+                            </Track.Thumb>
+                        </Track>
+                    </Grid>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <Trigger SourceName="PART_LayoutRoot" Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_Track" Property="Opacity" Value="0.5" />
                         </Trigger>
                     </ControlTemplate.Triggers>

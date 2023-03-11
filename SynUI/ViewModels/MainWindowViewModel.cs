@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
@@ -36,6 +37,11 @@ public class MainWindowViewModel : ViewModelBase
 
     public ICommand NavigateToEditorCommand { get; }
     public ICommand NavigateToSettingsCommand { get; }
+
+    public string Version => Assembly
+        .GetExecutingAssembly()
+        .GetName()
+        .Version.ToString();
 
     public INavigationService? NavigationService
     {

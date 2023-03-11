@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="{x:Type ListBoxItem}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource ThemeForegroundLowBrush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundLowBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Padding" Value="8, 2" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -30,15 +30,15 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="PART_LayoutRoot" Property="Background"
-                                    Value="{StaticResource ThemeControlHighlightLowBrush}" />
+                                    Value="{DynamicResource ThemeControlHighlightLowBrush}" />
                             <Setter TargetName="PART_ContentPresenter" Property="TextBlock.Foreground"
-                                    Value="{StaticResource ThemeForegroundMidBrush}" />
+                                    Value="{DynamicResource ThemeForegroundMidBrush}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="PART_LayoutRoot" Property="Background"
-                                    Value="{StaticResource ThemeControlHighlightMidBrush}" />
+                                    Value="{DynamicResource ThemeControlHighlightMidBrush}" />
                             <Setter TargetName="PART_ContentPresenter" Property="TextBlock.Foreground"
-                                    Value="{StaticResource ThemeForegroundHighBrush}" />
+                                    Value="{DynamicResource ThemeForegroundHighBrush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -47,7 +47,7 @@
                             </MultiTrigger.Conditions>
 
                             <Setter TargetName="PART_LayoutRoot" Property="Background"
-                                    Value="{StaticResource ThemeControlHighlightHighBrush}" />
+                                    Value="{DynamicResource ThemeControlHighlightHighBrush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
