@@ -26,10 +26,9 @@ jobs:
       with:
         fetch-depth: 0
         
-    - name: Nerdbank.GitVersioning
+    - name: Get the version
       uses: dotnet/nbgv@v0.4.0
-      with:
-        setAllVars: true
+      id: nbgv
 
     # Install the .NET Core workload
     - name: Install .NET Core
@@ -57,5 +56,5 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ env.NGBV_SemVer2 }}-${{ matrix.configuration }}
+        name: ${{ steps.ngbv.outputs.SemVer2 }}-${{ matrix.configuration }}
         path: SynUI/bin/x86/${{ matrix.configuration }}
