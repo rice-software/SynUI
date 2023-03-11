@@ -38,7 +38,7 @@ public class EditorViewModel : ViewModelBase
     public RelayCommand LoadCommand { get; }
     public RelayCommand ToggleOutputVisibility { get; }
 
-    public ObservableCollection<EditorItem> EditorItems { get; } = new() { new EditorItem() };
+    public ObservableCollection<EditorItem> EditorItems { get; } = new();
 
     public Output? SelectedOuput
     {

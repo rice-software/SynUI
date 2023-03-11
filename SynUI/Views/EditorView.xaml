@@ -185,7 +185,7 @@
                                     
                                     <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 24">
                                         <TextBlock Text="SynUI" FontSize="20" Foreground="{DynamicResource ThemeForegroundHighBrush}" />
-                                        <TextBlock Text="a predecessor to BetterSynapse" Margin="0 4 0 0" />
+                                        <TextBlock Text="the successor to BetterSynapse" Margin="0 4 0 0" />
                                     </StackPanel>
                                     
                                     <StackPanel Grid.Row="1" Grid.Column="0">
