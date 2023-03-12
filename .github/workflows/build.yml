@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         configuration: [Debug, Release]
-        platform: [x86]
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -49,14 +48,13 @@ jobs:
         
     # Build the application
     - name: Build the application
-      run: msbuild $env:Project_Path /t:Build /p:Platform=$env:Platform /p:Configuration=$env:Configuration
+      run: msbuild $env:Project_Path /t:Build /p:Platform=x86 /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
-        Platform: ${{ matrix.platform }}
 
     # Upload the application
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: SynUI-${{ steps.nbgv.outputs.SemVer2 }}-${{ matrix.platform }}-${{ matrix.configuration }}
-        path: SynUI/bin/${{ matrix.platform }}/${{ matrix.configuration }}
+        name: ${{ steps.nbgv.outputs.SemVer2 }}-${{ matrix.configuration }}
+        path: SynUI/bin/x86/${{ matrix.configuration }}
