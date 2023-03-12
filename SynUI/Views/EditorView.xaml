@@ -9,6 +9,8 @@
              xmlns:models="clr-namespace:SynUI.Models"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:tabSystem="clr-namespace:SynUI.ViewModels.TabViewModels"
+             xmlns:tabViews="clr-namespace:SynUI.Views.TabViews"
              mc:Ignorable="d"
              x:Name="View"
              d:DesignHeight="450" d:DesignWidth="800"
@@ -136,9 +138,16 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock
-                                Text="{Binding Document.FileName, Converter={StaticResource FullPathConverter}}"
-                                MaxWidth="256" VerticalAlignment="Center" Padding="2" />
+                            <ContentControl VerticalAlignment="Center" Padding="2" Content="{Binding}">
+                                <ContentControl.Resources>
+                                    <DataTemplate DataType="{x:Type tabSystem:EditorTabViewModel}">
+                                        <TextBlock Text="{Binding Document.FileName, Converter={StaticResource FullPathConverter}}" />
+                                    </DataTemplate>
+                                    <DataTemplate DataType="{x:Type tabSystem:WelcomeTabViewModel}">
+                                        <TextBlock Text="Welcome" />
+                                    </DataTemplate>
+                                </ContentControl.Resources>
+                            </ContentControl>
                             
                             <Button
                                 Background="Transparent"
@@ -156,59 +165,20 @@
             
             <ContentControl Grid.Row="1">
                     <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type models:EditorItem}">
-                            <avalonedit:TextEditor
-                                Background="{DynamicResource ThemeControlLowBrush}"
-                                Foreground="{DynamicResource ThemeForegroundLowBrush}"
-                                BorderBrush="{DynamicResource ThemeBorderHighBrush}"
-                                FontFamily="{DynamicResource 'Jetbrains Mono'}"
-                                BorderThickness="0 1 0 0" ShowLineNumbers="True"
-                                HorizontalScrollBarVisibility="Auto"
-                                Document="{Binding Document, Mode=OneWay}"
-                                Loaded="TextEditor_OnLoad" />
+                        <DataTemplate DataType="{x:Type tabSystem:EditorTabViewModel}">
+                            <tabViews:EditorTabView />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type tabSystem:WelcomeTabViewModel}">
+                            <tabViews:WelcomeTabView />
                         </DataTemplate>
                     </ContentControl.Resources>
                 
                     <ContentControl.Content>
                         <Binding Path="SelectedEditorItem">
                             <Binding.TargetNullValue>
-                                <Grid Width="450" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    
-                                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0 0 0 24">
-                                        <TextBlock Text="SynUI" FontSize="20" Foreground="{DynamicResource ThemeForegroundHighBrush}" />
-                                        <TextBlock Text="the successor to BetterSynapse" Margin="0 4 0 0" />
-                                    </StackPanel>
-                                    
-                                    <StackPanel Grid.Row="1" Grid.Column="0">
-                                        <TextBlock Text="Actions" Margin="0 0 0 8" Foreground="{DynamicResource ThemeForegroundHighBrush}" />
-                                        
-                                        <TextBlock Margin="0 2">
-                                            <Hyperlink Command="{Binding AddItemCommand}">Create new file</Hyperlink>
-                                        </TextBlock>
-                                        <TextBlock Margin="0 2">
-                                            <Hyperlink Command="{Binding LoadCommand}">Open a file</Hyperlink>
-                                        </TextBlock>
-                                    </StackPanel>
-                                    
-                                    <StackPanel Grid.Row="1" Grid.Column="1">
-                                        <TextBlock Text="Recents" Margin="0 0 0 8" Foreground="{DynamicResource ThemeForegroundHighBrush}" />
-                                        
-                                        <TextBlock Margin="0 2">
-                                            <Hyperlink>gay.lua</Hyperlink>
-                                        </TextBlock>
-                                        <TextBlock Margin="0 2">
-                                            <Hyperlink>gay2.lua</Hyperlink>
-                                        </TextBlock>
-                                    </StackPanel>
+                                <Grid>
+                                    <Image Width="128" Opacity="0.1" Source="/Assets/Images/synapse_x_grayscale_256.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </Grid>
                             </Binding.TargetNullValue>
                         </Binding>

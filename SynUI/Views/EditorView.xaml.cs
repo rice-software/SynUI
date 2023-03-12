@@ -20,14 +20,4 @@ public partial class EditorView : UserControl
     {
         InitializeComponent();
     }
-
-    private void TextEditor_OnLoad(object sender, RoutedEventArgs e)
-    {
-        var editor = (TextEditor)sender;
-        using var reader = Assembly.GetExecutingAssembly().GetManifestResourceStream("SynUI.Resources.syntax-dark.xshd");
-        using var xml = new XmlTextReader(reader!);
-        var xshd = HighlightingLoader.LoadXshd(xml);
-
-        editor.SyntaxHighlighting = HighlightingLoader.Load(xshd, HighlightingManager.Instance);
-    }
 }

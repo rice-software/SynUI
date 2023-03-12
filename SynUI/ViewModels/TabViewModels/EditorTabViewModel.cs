@@ -1,12 +1,11 @@
 ﻿using System.IO;
 using System.Windows;
-using CommunityToolkit.Mvvm.ComponentModel;
 using ICSharpCode.AvalonEdit.Document;
 using SynUI.Utilities;
 
-namespace SynUI.Models;
+namespace SynUI.ViewModels.TabViewModels;
 
-public class EditorItem : ObservableObject
+public class EditorTabViewModel : ViewModelBase
 {
     private readonly FileSystemWatcher _watcher;
     
@@ -26,7 +25,7 @@ public class EditorItem : ObservableObject
 
     public TextDocument Document { get; } = new();
 
-    public EditorItem()
+    public EditorTabViewModel()
     {
         _watcher = new FileSystemWatcher();
 

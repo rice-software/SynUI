@@ -17,6 +17,7 @@ using SynUI.Services;
 using SynUI.Utilities;
 using SynUI.ViewModels;
 using SynUI.Views;
+using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
 namespace SynUI;
 
@@ -46,6 +47,40 @@ public partial class App : Application
             File.AppendAllText(instanceLog, e.Exception.ToString());
             File.AppendAllText(latestLog, e.Exception.ToString());
         };
+
+        _initializeEnvironment();
+
+        // Initialize hosting
+        AppHost = Host.CreateDefaultBuilder()
+            .ConfigureAppConfiguration(ConfigureAppConfiugration)
+            .ConfigureServices(ConfigureServices)
+            .Build();
+    }
+
+    private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
+    {
+        services.AddSingleton(s => new MainWindow
+        {
+            DataContext = s.GetRequiredService<MainWindowViewModel>()
+        });
+
+        // Add views
+        services.AddSingleton<MainWindowViewModel>();
+        services.AddSingleton<EditorViewModel>();
+
+        // Add services
+        services.AddSingleton<ISynapseService, SynapseService>();
+        services.AddSingleton<IDirectoryService, DirectoryService>();
+        services.AddSingleton<ISocketService, SocketService>();
+        services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<Func<Type, ViewModelBase>>(provider =>
+            viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType));
+    }
+
+    private void ConfigureAppConfiugration(HostBuilderContext context, IConfigurationBuilder configuration)
+    {
+        configuration.Sources.Clear();
+        configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
     }
 
     private static void _initializeEnvironment()
@@ -75,60 +110,16 @@ public partial class App : Application
         Environment.CurrentDirectory = Settings.Default.SynapseDirectory;
     }
 
-    // i have no idea what im doing.
-    protected override async void OnStartup(StartupEventArgs e)
+    private async void App_OnStartup(object sender, StartupEventArgs e)
     {
-        _initializeEnvironment();
-
-        // Initialize hosting
-        AppHost = Host.CreateDefaultBuilder()
-            .ConfigureAppConfiguration((context, configuration) =>
-            {
-                configuration.Sources.Clear();
-                configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            })
-            .ConfigureServices((context, services) =>
-            {
-                services.AddSingleton(s => new MainWindow
-                {
-                    DataContext = s.GetRequiredService<MainWindowViewModel>()
-                });
-
-                // Add views
-                services.AddSingleton<MainWindowViewModel>();
-                services.AddSingleton<EditorViewModel>();
-                services.AddSingleton<SettingsViewModel>();
-
-                // Add services
-                services.AddSingleton<ISynapseService, SynapseService>();
-                services.AddSingleton<IDirectoryService, DirectoryService>();
-                services.AddSingleton<ISocketService, SocketService>();
-                services.AddSingleton<INavigationService, NavigationService>();
-                services.AddSingleton<Func<Type, ViewModelBase>>(provider =>
-                    viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType));
-            })
-            // .UseSerilog((ctx, lc) => lc
-            //     .Enrich.WithExceptionDetails()
-            //     .WriteTo.Debug()
-            //     .WriteTo.File(
-            //         Path.Combine(Location, "logs", "log-.log"),
-            //         rollingInterval: RollingInterval.Day,
-            //         shared: true)
-            // )
-            .Build();
-
         await AppHost!.StartAsync();
 
         var startupView = AppHost.Services.GetRequiredService<MainWindow>();
         startupView.Show();
-
-        base.OnStartup(e);
     }
 
-    protected override async void OnExit(ExitEventArgs e)
+    private async void App_OnExit(object sender, ExitEventArgs e)
     {
         await AppHost!.StopAsync();
-
-        base.OnExit(e);
     }
 }

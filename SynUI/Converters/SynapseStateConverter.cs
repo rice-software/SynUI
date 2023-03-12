@@ -39,10 +39,6 @@ public class SynapseAttachStateConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-#if DEBUG
-        return value.ToString();
-#endif
-
         return (SxLibBase.SynAttachEvents)value switch
         {
             // Generic states

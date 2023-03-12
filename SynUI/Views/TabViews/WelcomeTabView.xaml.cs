@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SynUI.Views
+namespace SynUI.Views.TabViews
 {
     /// <summary>
-    /// Interaction logic for SettingsView.xaml
+    /// Interaction logic for WelcomeTabView.xaml
     /// </summary>
-    public partial class SettingsView : UserControl
+    public partial class WelcomeTabView : UserControl
     {
-        public SettingsView()
+        public WelcomeTabView()
         {
             InitializeComponent();
         }

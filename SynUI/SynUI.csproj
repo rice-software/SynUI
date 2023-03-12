@@ -124,7 +124,7 @@
     <Compile Include="Converters\TreeViewItemLeftIndentConverter.cs" />
     <Compile Include="Converters\VisibilityHiddenConverter.cs" />
     <Compile Include="Converters\WindowStateConverter.cs" />
-    <Compile Include="Models\Editor.cs" />
+    <Compile Include="ViewModels\TabViewModels\EditorTabViewModel.cs" />
     <Compile Include="Models\Explorer.cs" />
     <Compile Include="Models\Output.cs" />
     <Compile Include="Services\DirectoryService.cs" />
@@ -135,21 +135,24 @@
     <Compile Include="Utilities\WindowBackdrop.cs" />
     <Compile Include="ViewModels\EditorViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\TabViewModels\WelcomeTabViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\EditorView.xaml.cs">
-      <DependentUpon>EditorView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\EditorView.xaml.cs">
+      <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
+    <Compile Include="Views\TabViews\EditorTabView.xaml.cs">
+      <DependentUpon>EditorTabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TabViews\WelcomeTabView.xaml.cs">
+      <DependentUpon>WelcomeTabView.xaml</DependentUpon>
     </Compile>
     <Page Include="Styles\Base\Base.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -205,14 +208,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditorView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SettingsView.xaml">
+    <Page Include="Views\TabViews\EditorTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TabViews\WelcomeTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -279,6 +286,7 @@
     <Resource Include="Assets\Fonts\JetBrainsMonoNL-Thin.ttf" />
     <Resource Include="Assets\Fonts\JetBrainsMonoNL-ThinItalic.ttf" />
     <None Include="app.manifest" />
+    <Resource Include="Assets\Fonts\remixicon.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -291,6 +299,13 @@
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Images\synapse_x_grayscale.svg" />
+    <Resource Include="Assets\Images\synapse_x_grayscale_128.png" />
+    <Resource Include="Assets\Images\synapse_x_grayscale_16.png" />
+    <Resource Include="Assets\Images\synapse_x_grayscale_256.png" />
+    <Resource Include="Assets\Images\synapse_x_grayscale_32.png" />
+    <Resource Include="Assets\Images\synapse_x_grayscale_512.png" />
+    <Resource Include="Assets\Images\synapse_x_grayscale_64.png" />
     <Content Include="Dependencies\sxlib.dll" />
     <EmbeddedResource Include="Resources\syntax-dark.xshd" />
     <Resource Include="Assets\Images\synapse_x.ico" />

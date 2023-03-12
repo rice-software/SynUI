@@ -14,7 +14,7 @@
         Foreground="{DynamicResource ThemeForegroundLowBrush}"
         WindowState="{Binding WindowState}"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
-        Title="MainWindow" Height="750" Width="1200">
+        Title="{Binding Title}" Height="750" Width="1200">
     <i:Interaction.Triggers>
         <i:EventTrigger SourceName="AppWindow" EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
@@ -82,7 +82,7 @@
                     FontFamily="{DynamicResource Codicon}" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource ChromeForegroundBrush}">
                 <Image Source="/Assets/Images/synapse_x_16.png" Width="16"
                        RenderOptions.BitmapScalingMode="HighQuality" Margin="8 0" />
                 <TextBlock>

@@ -8,6 +8,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <FontFamily x:Key="Inter">pack://application:,,,/Assets/Fonts/#Inter</FontFamily>
+    <FontFamily x:Key="Remix">pack://application:,,,/Assets/Fonts/#remixicon</FontFamily>
     <FontFamily x:Key="Codicon">pack://application:,,,/Assets/Fonts/#codicon</FontFamily>
     <FontFamily x:Key="Jetbrains Mono">pack://application:,,,/Assets/Fonts/#JetBrains Mono</FontFamily>
 

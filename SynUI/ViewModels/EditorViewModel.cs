@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using ICSharpCode.AvalonEdit.Document;
 using Microsoft.Win32;
@@ -17,6 +18,7 @@ using Serilog;
 using SynUI.Models;
 using SynUI.Services;
 using SynUI.Utilities;
+using SynUI.ViewModels.TabViewModels;
 using WatsonWebsocket;
 
 namespace SynUI.ViewModels;
@@ -24,11 +26,8 @@ namespace SynUI.ViewModels;
 // TODO: Refactor this whole thing.
 public class EditorViewModel : ViewModelBase
 {
-    private EditorItem? _selectedEditorItem;
+    private ViewModelBase? _selectedEditorItem;
     private Output? _selectedOutput;
-    private ISynapseService? _synapseService;
-    private IDirectoryService? _directoryService;
-    private ISocketService? _socketService;
 
     public ICommand AddItemCommand { get; }
     public ICommand RemoveItemCommand { get; }
@@ -36,9 +35,8 @@ public class EditorViewModel : ViewModelBase
     public ICommand SelectedExplorerNodeChangedCommand { get; }
     public RelayCommand SaveCommand { get; }
     public RelayCommand LoadCommand { get; }
-    public RelayCommand ToggleOutputVisibility { get; }
 
-    public ObservableCollection<EditorItem> EditorItems { get; } = new();
+    public ObservableCollection<ViewModelBase> EditorItems { get; }
 
     public Output? SelectedOuput
     {
@@ -46,25 +44,13 @@ public class EditorViewModel : ViewModelBase
         set => SetProperty(ref _selectedOutput, value);
     }
 
-    public ISynapseService? SynapseService
-    {
-        get => _synapseService;
-        private set => SetProperty(ref _synapseService, value);
-    }
+    public ISynapseService? SynapseService { get; }
 
-    public IDirectoryService? DirectoryService
-    {
-        get => _directoryService;
-        private set => SetProperty(ref _directoryService, value);
-    }
+    public IDirectoryService? DirectoryService { get; }
 
-    public ISocketService? SocketService
-    {
-        get => _socketService;
-        private set => SetProperty(ref _socketService, value);
-    }
+    public ISocketService? SocketService { get; }
 
-    public EditorItem? SelectedEditorItem
+    public ViewModelBase? SelectedEditorItem
     {
         get => _selectedEditorItem;
         set
@@ -75,30 +61,34 @@ public class EditorViewModel : ViewModelBase
     }
 
     public EditorViewModel(
-        ISynapseService? synapseServiceService,
+        ISynapseService synapseServiceService,
         IDirectoryService directoryService,
         ISocketService socketService)
     {
         SynapseService = synapseServiceService;
         DirectoryService = directoryService;
         SocketService = socketService;
-
+        
         AddItemCommand = new RelayCommand(_addItemCommand);
-        RemoveItemCommand = new RelayCommand<EditorItem>(_removeItemCommand);
+        RemoveItemCommand = new RelayCommand<ViewModelBase>(_removeItemCommand);
         KillRobloxItemCommand = new RelayCommand(_killRobloxCommand);
         SelectedExplorerNodeChangedCommand = new RelayCommand<ExplorerNode>(_selectedExplorerNodeChangedCommand);
-        SaveCommand = new RelayCommand(_saveCommand, () => SelectedEditorItem != null);
+        SaveCommand = new RelayCommand(_saveCommand, () => SelectedEditorItem is EditorTabViewModel);
         LoadCommand = new RelayCommand(_loadCommand);
+
+        var welcomeModel = new WelcomeTabViewModel(this);
+        EditorItems = new ObservableCollection<ViewModelBase> { welcomeModel };
+        SelectedEditorItem = welcomeModel;
     }
 
     private void _addItemCommand()
     {
-        var item = new EditorItem();
+        var item = new EditorTabViewModel();
         EditorItems.Add(item);
         SelectedEditorItem = item;
     }
 
-    private void _removeItemCommand(EditorItem? parameter)
+    private void _removeItemCommand(ViewModelBase? parameter)
     {
         if (parameter != null)
             EditorItems.Remove(parameter);
@@ -119,11 +109,12 @@ public class EditorViewModel : ViewModelBase
             return;
 
         var item = EditorItems.FirstOrDefault(o =>
-            o.Document.FileName != null && FileSystem.IsPathEquals(false, o.Document.FileName, parameter.FullPath));
+            o is EditorTabViewModel { Document.FileName: { } } model &&
+            FileSystem.IsPathEquals(false, model.Document.FileName, parameter.FullPath));
 
         if (item == null)
         {
-            item = new EditorItem
+            item = new EditorTabViewModel
             {
                 Document = { FileName = parameter.FullPath },
                 IsAnchored = true
@@ -137,7 +128,9 @@ public class EditorViewModel : ViewModelBase
 
     private void _saveCommand()
     {
-        if (string.IsNullOrWhiteSpace(SelectedEditorItem!.Document.FileName))
+        if (SelectedEditorItem is not EditorTabViewModel model) return;
+        
+        if (string.IsNullOrWhiteSpace(model.Document.FileName))
         {
             var dialog = new SaveFileDialog
             {
@@ -146,14 +139,14 @@ public class EditorViewModel : ViewModelBase
                 InitialDirectory = Path.Combine(Directory.GetCurrentDirectory(), "scripts"),
                 RestoreDirectory = true
             };
-            
+
             if (dialog.ShowDialog() != true)
                 return;
 
-            SelectedEditorItem!.Document.FileName = dialog.FileName;
+            model!.Document.FileName = dialog.FileName;
         }
 
-        File.WriteAllText(SelectedEditorItem!.Document.FileName, SelectedEditorItem.Document.Text);
+        File.WriteAllText(model.Document.FileName, model.Document.Text);
     }
 
     private void _loadCommand()
@@ -167,7 +160,7 @@ public class EditorViewModel : ViewModelBase
         };
         
         if (dialog.ShowDialog() == true)
-            EditorItems.Add(new EditorItem
+            EditorItems.Add(new EditorTabViewModel
             {
                 Document = { FileName = dialog.FileName, Text = File.ReadAllText(dialog.FileName) },
                 IsAnchored = true,
