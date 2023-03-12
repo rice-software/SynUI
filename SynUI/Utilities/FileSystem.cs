@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SynUI.Utilities;
 
@@ -25,11 +22,16 @@ internal static class FileSystem
         return folderPath + Path.DirectorySeparatorChar;
     }
 
-    public static bool IsPathEquals(bool isFolder, string path, params string[] paths) =>
-        paths.All(p => isFolder ?
-            NormalizeDirectoryPath(Path.GetFullPath(p)) == NormalizeDirectoryPath(Path.GetFullPath(path)) :
-            Path.GetFullPath(p) == Path.GetFullPath(path));
+    public static bool IsPathEquals(bool isFolder, string path, params string[] paths)
+    {
+        return paths.All(p =>
+            isFolder
+                ? NormalizeDirectoryPath(Path.GetFullPath(p)) == NormalizeDirectoryPath(Path.GetFullPath(path))
+                : Path.GetFullPath(p) == Path.GetFullPath(path));
+    }
 
-    public static bool IsDirectorySynapse(string path) =>
-        RequiredFiles.All(p => File.Exists(Path.Combine(path, p)));
+    public static bool IsDirectorySynapse(string path)
+    {
+        return RequiredFiles.All(p => File.Exists(Path.Combine(path, p)));
+    }
 }

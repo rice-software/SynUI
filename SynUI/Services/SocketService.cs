@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Newtonsoft.Json;
 using SynUI.Models;
@@ -20,8 +16,6 @@ public interface ISocketService
 
 public class SocketService : ISocketService
 {
-    public ObservableCollection<Output> Outputs { get; } = new();
-
     public SocketService()
     {
         var outputServer = new WatsonWsServer(port: 7500);
@@ -29,22 +23,27 @@ public class SocketService : ISocketService
         outputServer.Start();
     }
 
-    private void _outputServer_MessageReceived(object sender, MessageReceivedEventArgs e) => Application.Current.Dispatcher.Invoke(() =>
+    public ObservableCollection<Output> Outputs { get; } = new();
+
+    private void _outputServer_MessageReceived(object sender, MessageReceivedEventArgs e)
     {
-        if (e.MessageType != WebSocketMessageType.Text)
-            return;
-
-        var json = Encoding.UTF8.GetString(e.Data.Array!);
-        var deserialized = JsonConvert.DeserializeObject<OutputResponse>(json);
-
-        var message = Outputs.FirstOrDefault(o => o.Name == deserialized!.Name);
-
-        if (message == null)
+        Application.Current.Dispatcher.Invoke(() =>
         {
-            message = new Output { Name = deserialized!.Name };
-            Outputs.Add(message);
-        }
+            if (e.MessageType != WebSocketMessageType.Text)
+                return;
 
-        message.Outputs.Add(new OutputMessage { Content = deserialized!.Message, Type = deserialized.Type });
-    });
+            var json = Encoding.UTF8.GetString(e.Data.Array!);
+            var deserialized = JsonConvert.DeserializeObject<OutputResponse>(json);
+
+            var message = Outputs.FirstOrDefault(o => o.Name == deserialized!.Name);
+
+            if (message == null)
+            {
+                message = new Output { Name = deserialized!.Name };
+                Outputs.Add(message);
+            }
+
+            message.Outputs.Add(new OutputMessage { Content = deserialized!.Message, Type = deserialized.Type });
+        });
+    }
 }

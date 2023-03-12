@@ -54,7 +54,7 @@
     <Style x:Key="HorizontalTransparentScrollBar" TargetType="{x:Type ScrollBar}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollBar}">

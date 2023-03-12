@@ -7,8 +7,8 @@ namespace SynUI.Models;
 
 public class OutputResponse : ObservableObject
 {
-    private string? _name;
     private string? _message;
+    private string? _name;
     private OutputType _type;
 
     [JsonProperty("name")]

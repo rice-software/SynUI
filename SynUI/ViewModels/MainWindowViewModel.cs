@@ -13,6 +13,24 @@ public class MainWindowViewModel : ViewModelBase
     private string _title = "SynUI";
     private WindowState _windowState;
 
+    public MainWindowViewModel(
+        INavigationService navigationServiceService,
+        ISynapseService synapseServiceService,
+        EditorViewModel editorViewModel)
+    {
+        NavigationService = navigationServiceService;
+        SynapseService = synapseServiceService;
+
+        StateCommand = new RelayCommand(_stateCommand);
+        MinimizeCommand = new RelayCommand(_minimizeCommand);
+        LoadedCommand = new RelayCommand(SynapseService!.Initialize);
+        ClosingCommand = new RelayCommand(() => Environment.Exit(0));
+
+        NavigateToEditorCommand = new RelayCommand(() => NavigationService!.NavigateTo<EditorViewModel>());
+
+        NavigationService!.NavigateTo<EditorViewModel>();
+    }
+
     public ICommand StateCommand { get; }
     public ICommand MinimizeCommand { get; }
     public ICommand LoadedCommand { get; }
@@ -36,21 +54,6 @@ public class MainWindowViewModel : ViewModelBase
     {
         get => _windowState;
         set => SetProperty(ref _windowState, value);
-    }
-
-    public MainWindowViewModel(INavigationService navigationServiceService, ISynapseService synapseServiceService)
-    {
-        NavigationService = navigationServiceService;
-        SynapseService = synapseServiceService;
-
-        StateCommand = new RelayCommand(_stateCommand);
-        MinimizeCommand = new RelayCommand(_minimizeCommand);
-        LoadedCommand = new RelayCommand(SynapseService!.Initialize);
-        ClosingCommand = new RelayCommand(() => Environment.Exit(0));
-
-        NavigateToEditorCommand = new RelayCommand(() => NavigationService!.NavigateTo<EditorViewModel>());
-
-        NavigationService!.NavigateTo<EditorViewModel>();
     }
 
     private void _stateCommand()

@@ -7,6 +7,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Media.Animation;
+using SynUI.Configurations;
+using SynUI.ViewModels;
+
 namespace SynUI.Properties {
     
     
@@ -31,6 +37,25 @@ namespace SynUI.Properties {
             }
             set {
                 this["SynapseDirectory"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SettingsSerializeAs(System.Configuration.SettingsSerializeAs.Binary)]
+        [global::System.Configuration.DefaultSettingValueAttribute(null)]
+        public List<EditorTabSettingsItem> EditorItems
+        {
+            get
+            {
+                if (this["EditorItems"] == null)
+                    this["EditorItems"] = new List<EditorTabSettingsItem>();
+                
+                return ((List<EditorTabSettingsItem>)(this["EditorItems"]));
+            }
+            set
+            {
+                this["EditorItems"] = value;
             }
         }
     }

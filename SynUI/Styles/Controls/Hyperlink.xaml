@@ -3,14 +3,14 @@
     <Style TargetType="{x:Type Hyperlink}">
         <Setter Property="Foreground" Value="{DynamicResource HyperlinkForegroundLowBrush}" />
         <Setter Property="TextDecorations" Value="{x:Null}" />
-        
+
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="{DynamicResource HyperlinkForegroundMidBrush}" />
             </Trigger>
-            
+
             <Trigger Property="AreAnyTouchesOver" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource HyperlinkForegroundHighBrush}"></Setter>
+                <Setter Property="Foreground" Value="{DynamicResource HyperlinkForegroundHighBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>

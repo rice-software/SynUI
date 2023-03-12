@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Interop;
 
 namespace SynUI.Utilities;
 
@@ -36,11 +31,11 @@ internal class WindowBackdrop
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         public struct MARGINS
         {
-            public int cxLeftWidth;      // width of left border that retains its size
-            public int cxRightWidth;     // width of right border that retains its size
-            public int cyTopHeight;      // height of top border that retains its size
-            public int cyBottomHeight;   // height of bottom border that retains its size
-        };
+            public int cxLeftWidth; // width of left border that retains its size
+            public int cxRightWidth; // width of right border that retains its size
+            public int cyTopHeight; // height of top border that retains its size
+            public int cyBottomHeight; // height of bottom border that retains its size
+        }
     }
 
     public static class Methods
@@ -51,13 +46,17 @@ internal class WindowBackdrop
             ref ParameterTypes.MARGINS pMarInset);
 
         [DllImport("dwmapi.dll")]
-        private static extern int DwmSetWindowAttribute(IntPtr hwnd, ParameterTypes.DWMWINDOWATTRIBUTE dwAttribute, ref int pvAttribute, int cbAttribute);
+        private static extern int DwmSetWindowAttribute(IntPtr hwnd, ParameterTypes.DWMWINDOWATTRIBUTE dwAttribute,
+            ref int pvAttribute, int cbAttribute);
 
         public static int ExtendFrame(IntPtr hwnd, ParameterTypes.MARGINS margins)
-            => DwmExtendFrameIntoClientArea(hwnd, ref margins);
+        {
+            return DwmExtendFrameIntoClientArea(hwnd, ref margins);
+        }
 
         public static int SetWindowAttribute(IntPtr hwnd, ParameterTypes.DWMWINDOWATTRIBUTE attribute, int parameter)
-            => DwmSetWindowAttribute(hwnd, attribute, ref parameter, Marshal.SizeOf<int>());
+        {
+            return DwmSetWindowAttribute(hwnd, attribute, ref parameter, Marshal.SizeOf<int>());
+        }
     }
-
 }

@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net.WebSockets;
-using System.Text;
-using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ICSharpCode.AvalonEdit.Document;
 using Microsoft.Win32;
-using Newtonsoft.Json;
-using Serilog;
+using SynUI.Configurations;
 using SynUI.Models;
+using SynUI.Properties;
 using SynUI.Services;
 using SynUI.Utilities;
 using SynUI.ViewModels.TabViewModels;
-using WatsonWebsocket;
 
 namespace SynUI.ViewModels;
 
@@ -28,6 +19,53 @@ public class EditorViewModel : ViewModelBase
 {
     private ViewModelBase? _selectedEditorItem;
     private Output? _selectedOutput;
+
+
+    public EditorViewModel(
+        ISynapseService synapseServiceService,
+        IDirectoryService directoryService,
+        ISocketService socketService)
+    {
+        SynapseService = synapseServiceService;
+        DirectoryService = directoryService;
+        SocketService = socketService;
+
+        AddItemCommand = new RelayCommand(_addItemCommand);
+        RemoveItemCommand = new RelayCommand<ViewModelBase>(_removeItemCommand);
+        KillRobloxItemCommand = new RelayCommand(_killRobloxCommand);
+        SelectedExplorerNodeChangedCommand = new RelayCommand<ExplorerNode>(_selectedExplorerNodeChangedCommand);
+        SaveCommand = new RelayCommand(_saveCommand, () => SelectedEditorItem is EditorTabViewModel);
+        LoadCommand = new RelayCommand(_loadCommand);
+
+        EditorItems = new ObservableCollection<ViewModelBase>();
+
+        EditorItems.CollectionChanged += (_, o) =>
+        {
+            if (o.NewItems is not null)
+                foreach (var newItems in o.NewItems)
+                    if (newItems is EditorTabViewModel model)
+                        model.PropertyChanged += (_, _) => _updateSettings();
+
+            _updateSettings();
+        };
+
+        Settings.Default.EditorItems?.ForEach(o => EditorItems.Add(new EditorTabViewModel
+        {
+            Document =
+            {
+                FileName = o.FileName,
+                Text = o.Content
+            },
+            IsAnchored = !string.IsNullOrWhiteSpace(o.FileName)
+        }));
+
+        if (EditorItems.Count == 0)
+        {
+            var welcome = new WelcomeTabViewModel(this);
+            EditorItems.Add(welcome);
+            SelectedEditorItem = welcome;
+        }
+    }
 
     public ICommand AddItemCommand { get; }
     public ICommand RemoveItemCommand { get; }
@@ -60,25 +98,16 @@ public class EditorViewModel : ViewModelBase
         }
     }
 
-    public EditorViewModel(
-        ISynapseService synapseServiceService,
-        IDirectoryService directoryService,
-        ISocketService socketService)
+    private void _updateSettings()
     {
-        SynapseService = synapseServiceService;
-        DirectoryService = directoryService;
-        SocketService = socketService;
-        
-        AddItemCommand = new RelayCommand(_addItemCommand);
-        RemoveItemCommand = new RelayCommand<ViewModelBase>(_removeItemCommand);
-        KillRobloxItemCommand = new RelayCommand(_killRobloxCommand);
-        SelectedExplorerNodeChangedCommand = new RelayCommand<ExplorerNode>(_selectedExplorerNodeChangedCommand);
-        SaveCommand = new RelayCommand(_saveCommand, () => SelectedEditorItem is EditorTabViewModel);
-        LoadCommand = new RelayCommand(_loadCommand);
-
-        var welcomeModel = new WelcomeTabViewModel(this);
-        EditorItems = new ObservableCollection<ViewModelBase> { welcomeModel };
-        SelectedEditorItem = welcomeModel;
+        Settings.Default.EditorItems = (
+            from vm in EditorItems.ToList()
+            where vm is EditorTabViewModel
+            select new EditorTabSettingsItem
+            {
+                FileName = ((EditorTabViewModel)vm).Document.FileName,
+                Content = ((EditorTabViewModel)vm).Document.Text
+            }).ToList();
     }
 
     private void _addItemCommand()
@@ -100,7 +129,11 @@ public class EditorViewModel : ViewModelBase
         {
             foreach (var process in Process.GetProcessesByName("RobloxPlayerBeta"))
                 process.Kill();
-        } catch { /* ignore */ }
+        }
+        catch
+        {
+            /* ignore */
+        }
     }
 
     private void _selectedExplorerNodeChangedCommand(ExplorerNode? parameter)
@@ -116,20 +149,20 @@ public class EditorViewModel : ViewModelBase
         {
             item = new EditorTabViewModel
             {
-                Document = { FileName = parameter.FullPath },
+                Document = { FileName = parameter.FullPath, Text = File.ReadAllText(parameter.FullPath) },
                 IsAnchored = true
             };
 
             EditorItems.Add(item);
         }
-        
+
         SelectedEditorItem = item;
     }
 
     private void _saveCommand()
     {
         if (SelectedEditorItem is not EditorTabViewModel model) return;
-        
+
         if (string.IsNullOrWhiteSpace(model.Document.FileName))
         {
             var dialog = new SaveFileDialog
@@ -158,12 +191,12 @@ public class EditorViewModel : ViewModelBase
             InitialDirectory = Path.Combine(Directory.GetCurrentDirectory(), "scripts"),
             RestoreDirectory = true
         };
-        
+
         if (dialog.ShowDialog() == true)
             EditorItems.Add(new EditorTabViewModel
             {
                 Document = { FileName = dialog.FileName, Text = File.ReadAllText(dialog.FileName) },
-                IsAnchored = true,
+                IsAnchored = true
             });
     }
 }

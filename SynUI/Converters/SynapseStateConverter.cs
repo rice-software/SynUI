@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using sxlib.Specialized;
 
@@ -31,8 +27,10 @@ public class SynapseLoadStateConverter : IValueConverter
         };
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
         throw new NotImplementedException();
+    }
 }
 
 public class SynapseAttachStateConverter : IValueConverter
@@ -44,12 +42,14 @@ public class SynapseAttachStateConverter : IValueConverter
             // Generic states
             SxLibBase.SynAttachEvents.ALREADY_INJECTED or SxLibBase.SynAttachEvents.READY => "Injected",
             SxLibBase.SynAttachEvents.INJECTING or SxLibBase.SynAttachEvents.REINJECTING => "Injecting",
-            SxLibBase.SynAttachEvents.NOT_INJECTED or SxLibBase.SynAttachEvents.PROC_CREATION or SxLibBase.SynAttachEvents.PROC_DELETION => "Not injected",
+            SxLibBase.SynAttachEvents.NOT_INJECTED or SxLibBase.SynAttachEvents.PROC_CREATION
+                or SxLibBase.SynAttachEvents.PROC_DELETION => "Not injected",
 
             // Injecting
             SxLibBase.SynAttachEvents.CHECKING_WHITELIST => "Injecting (Checking whitelist)",
             SxLibBase.SynAttachEvents.SCANNING => "Injecting (Scanning)",
-            SxLibBase.SynAttachEvents.UPDATING_DLLS or SxLibBase.SynAttachEvents.NOT_RUNNING_LATEST_VER_UPDATING => "Injecting (Updating)",
+            SxLibBase.SynAttachEvents.UPDATING_DLLS or SxLibBase.SynAttachEvents.NOT_RUNNING_LATEST_VER_UPDATING =>
+                "Injecting (Updating)",
 
             // Not injected
             SxLibBase.SynAttachEvents.FAILED_TO_ATTACH => "Not injected (Failed to attach to Roblox)",
@@ -62,6 +62,8 @@ public class SynapseAttachStateConverter : IValueConverter
         };
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
         throw new NotImplementedException();
+    }
 }

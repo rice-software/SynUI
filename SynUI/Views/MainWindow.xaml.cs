@@ -1,8 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Markup;
 using System.Windows.Media;
 using SynUI.Utilities;
 using static SynUI.Utilities.WindowBackdrop.ParameterTypes;
@@ -32,7 +29,7 @@ public partial class MainWindow : Window
     {
         var mainWindowPtr = new WindowInteropHelper(this).Handle;
         var mainWindowSrc = HwndSource.FromHwnd(mainWindowPtr);
-        
+
         if (mainWindowSrc?.CompositionTarget == null) return;
         mainWindowSrc.CompositionTarget.BackgroundColor = Color.FromArgb(0, 0, 0, 0);
 

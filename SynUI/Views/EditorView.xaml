@@ -5,10 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:SynUI.ViewModels"
              xmlns:c="clr-namespace:SynUI.Converters"
-             xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              xmlns:models="clr-namespace:SynUI.Models"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:tabSystem="clr-namespace:SynUI.ViewModels.TabViewModels"
              xmlns:tabViews="clr-namespace:SynUI.Views.TabViews"
              mc:Ignorable="d"
@@ -19,6 +17,12 @@
              Foreground="{DynamicResource ThemeForegroundLowBrush}"
              Background="Transparent"
              d:DataContext="{d:DesignInstance vm:EditorViewModel}">
+    <UserControl.InputBindings>
+        <KeyBinding
+            Key="N" Modifiers="Control"
+            Command="{Binding AddItemCommand}" />
+    </UserControl.InputBindings>
+
     <UserControl.Resources>
         <c:OutputTypeToBrushConverter x:Key="OutputTypeToBrushConverter" />
         <c:OutputTypeToCodiconGlyphConverter x:Key="OutputTypeToCodiconGlyphConverter" />
@@ -56,12 +60,14 @@
             Grid.Row="0"
             Grid.Column="2">
             <DockPanel LastChildFill="False">
-                <StackPanel DockPanel.Dock="Left" Margin="8" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <StackPanel DockPanel.Dock="Left" Margin="8" Orientation="Horizontal" VerticalAlignment="Center"
+                            HorizontalAlignment="Left">
                     <TextBlock Text="&#xeac4;" FontFamily="{DynamicResource Codicon}" VerticalAlignment="Center" />
                     <TextBlock Text="Editor" Margin="8 0 0 0" VerticalAlignment="Center" />
                 </StackPanel>
 
-                <Border DockPanel.Dock="Right" BorderThickness="1 0 0 0" BorderBrush="{DynamicResource ThemeBorderHighBrush}">
+                <Border DockPanel.Dock="Right" BorderThickness="1 0 0 0"
+                        BorderBrush="{DynamicResource ThemeBorderHighBrush}">
                     <StackPanel Orientation="Horizontal">
                         <Button Command="{Binding SynapseService.ExecuteCommand}"
                                 CommandParameter="{Binding SelectedEditorItem.Document.Text}"
@@ -129,7 +135,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
             <ListBox
                 Grid.Row="0"
                 Style="{DynamicResource HorizontalListBox}"
@@ -137,18 +143,19 @@
                 ItemsSource="{Binding EditorItems}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Margin="0 2">
                             <ContentControl VerticalAlignment="Center" Padding="2" Content="{Binding}">
                                 <ContentControl.Resources>
                                     <DataTemplate DataType="{x:Type tabSystem:EditorTabViewModel}">
-                                        <TextBlock Text="{Binding Document.FileName, Converter={StaticResource FullPathConverter}}" />
+                                        <TextBlock
+                                            Text="{Binding Document.FileName, Converter={StaticResource FullPathConverter}}" />
                                     </DataTemplate>
                                     <DataTemplate DataType="{x:Type tabSystem:WelcomeTabViewModel}">
                                         <TextBlock Text="Welcome" />
                                     </DataTemplate>
                                 </ContentControl.Resources>
                             </ContentControl>
-                            
+
                             <Button
                                 Background="Transparent"
                                 Content="&#xea76;"
@@ -162,28 +169,29 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            
-            <ContentControl Grid.Row="1">
-                    <ContentControl.Resources>
-                        <DataTemplate DataType="{x:Type tabSystem:EditorTabViewModel}">
-                            <tabViews:EditorTabView />
-                        </DataTemplate>
 
-                        <DataTemplate DataType="{x:Type tabSystem:WelcomeTabViewModel}">
-                            <tabViews:WelcomeTabView />
-                        </DataTemplate>
-                    </ContentControl.Resources>
-                
-                    <ContentControl.Content>
-                        <Binding Path="SelectedEditorItem">
-                            <Binding.TargetNullValue>
-                                <Grid>
-                                    <Image Width="128" Opacity="0.1" Source="/Assets/Images/synapse_x_grayscale_256.png" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                </Grid>
-                            </Binding.TargetNullValue>
-                        </Binding>
-                    </ContentControl.Content>
-                </ContentControl>
+            <ContentControl Grid.Row="1">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type tabSystem:EditorTabViewModel}">
+                        <tabViews:EditorTabView />
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type tabSystem:WelcomeTabViewModel}">
+                        <tabViews:WelcomeTabView />
+                    </DataTemplate>
+                </ContentControl.Resources>
+
+                <ContentControl.Content>
+                    <Binding Path="SelectedEditorItem">
+                        <Binding.TargetNullValue>
+                            <Grid>
+                                <Image Width="128" Opacity="0.1" Source="/Assets/Images/synapse_x_grayscale_256.png"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Grid>
+                        </Binding.TargetNullValue>
+                    </Binding>
+                </ContentControl.Content>
+            </ContentControl>
         </Grid>
 
         <GridSplitter

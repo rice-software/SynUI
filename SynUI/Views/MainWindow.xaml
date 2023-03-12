@@ -82,13 +82,15 @@
                     FontFamily="{DynamicResource Codicon}" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource ChromeForegroundBrush}">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                        TextBlock.Foreground="{DynamicResource ChromeForegroundBrush}">
                 <Image Source="/Assets/Images/synapse_x_16.png" Width="16"
                        RenderOptions.BitmapScalingMode="HighQuality" Margin="8 0" />
                 <TextBlock>
                     <Run Text="{Binding Title, Mode=OneWay}" />
                     <Run Text="-" />
-                    <Run Text="{Binding SynapseService.LoadState, Mode=OneWay, Converter={StaticResource SynapseLoadStateConverter}}" />
+                    <Run
+                        Text="{Binding SynapseService.LoadState, Mode=OneWay, Converter={StaticResource SynapseLoadStateConverter}}" />
                 </TextBlock>
             </StackPanel>
         </DockPanel>
@@ -125,11 +127,12 @@
             BorderThickness="0 1 0 0">
             <StackPanel Orientation="Horizontal">
                 <Border Padding="8, 4">
-                    <TextBlock Text="{Binding Version}" /> 
+                    <TextBlock Text="{Binding Version}" />
                 </Border>
 
                 <Border Padding="8, 4">
-                    <TextBlock Text="{Binding SynapseService.AttachState, Mode=OneWay, Converter={StaticResource SynapseAttachStateConverter}}" />
+                    <TextBlock
+                        Text="{Binding SynapseService.AttachState, Mode=OneWay, Converter={StaticResource SynapseAttachStateConverter}}" />
                 </Border>
             </StackPanel>
         </Border>

@@ -15,7 +15,7 @@
     <Color x:Key="ThemeForegroundLowColor">#A0A0A0</Color>
     <Color x:Key="ThemeForegroundMidColor">#BEBEBE</Color>
     <Color x:Key="ThemeForegroundHighColor">#DCDCDC</Color>
-    
+
     <!-- Hyperlink -->
     <Color x:Key="HyperlinkForegroundLowColor">#1E6EA3</Color>
     <Color x:Key="HyperlinkForegroundMidColor">#1F81B8</Color>
@@ -26,7 +26,7 @@
     <Color x:Key="ChromeControlMidColor">#0DFFFFFF</Color>
     <Color x:Key="ChromeControlHighColor">#1AFFFFFF</Color>
     <Color x:Key="ChromeForegroundColor">White</Color>
-    
+
     <!-- Output type colors -->
     <Color x:Key="InformationOutputColor">#4F84E2</Color>
     <Color x:Key="WarningOutputColor">#F2B335</Color>

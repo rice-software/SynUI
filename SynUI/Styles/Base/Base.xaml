@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                    xmlns:ui="http://schemas.modernwpf.com/2019">
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Styles/Base/BaseDark.xaml" />
         <ResourceDictionary Source="/Styles/Controls/Controls.xaml" />
@@ -31,7 +30,7 @@
     <SolidColorBrush x:Key="ThemeForegroundLowBrush" Color="{DynamicResource ThemeForegroundLowColor}" />
     <SolidColorBrush x:Key="ThemeForegroundMidBrush" Color="{DynamicResource ThemeForegroundMidColor}" />
     <SolidColorBrush x:Key="ThemeForegroundHighBrush" Color="{DynamicResource ThemeForegroundHighColor}" />
-    
+
     <!-- Hyperlink -->
     <SolidColorBrush x:Key="HyperlinkForegroundLowBrush" Color="{DynamicResource HyperlinkForegroundLowColor}" />
     <SolidColorBrush x:Key="HyperlinkForegroundMidBrush" Color="{DynamicResource HyperlinkForegroundMidColor}" />

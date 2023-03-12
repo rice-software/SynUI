@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace SynUI.Models;
@@ -24,4 +19,6 @@ public class ExplorerDirectory : ExplorerNode
     public ObservableCollection<ExplorerNode> Nodes { get; } = new();
 }
 
-public class ExplorerFile : ExplorerNode {}
+public class ExplorerFile : ExplorerNode
+{
+}

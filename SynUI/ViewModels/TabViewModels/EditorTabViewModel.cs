@@ -8,22 +8,7 @@ namespace SynUI.ViewModels.TabViewModels;
 public class EditorTabViewModel : ViewModelBase
 {
     private readonly FileSystemWatcher _watcher;
-    
     private bool _isAnchored;
-
-    public bool IsAnchored
-    {
-        get => _isAnchored;
-        set
-        {
-            SetProperty(ref _isAnchored, value);
-            Document.Text = File.ReadAllText(Document.FileName);
-            _watcher.Path = Path.GetDirectoryName(Document.FileName);
-            _watcher.EnableRaisingEvents = IsAnchored;
-        }
-    }
-
-    public TextDocument Document { get; } = new();
 
     public EditorTabViewModel()
     {
@@ -39,5 +24,19 @@ public class EditorTabViewModel : ViewModelBase
         _watcher.EnableRaisingEvents = IsAnchored;
 
         Document.FileNameChanged += (_, _) => OnPropertyChanged(nameof(Document));
+        Document.TextChanged += (_, _) => OnPropertyChanged(nameof(Document));
     }
+
+    public bool IsAnchored
+    {
+        get => _isAnchored;
+        set
+        {
+            SetProperty(ref _isAnchored, value);
+            _watcher.Path = Path.GetDirectoryName(Document.FileName);
+            _watcher.EnableRaisingEvents = IsAnchored;
+        }
+    }
+
+    public TextDocument Document { get; } = new();
 }

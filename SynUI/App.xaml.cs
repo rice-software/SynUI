@@ -1,23 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Windows;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using Serilog;
-using Serilog.Exceptions;
-using Serilog.Formatting.Json;
-using sxlib;
 using SynUI.Properties;
 using SynUI.Services;
 using SynUI.Utilities;
 using SynUI.ViewModels;
 using SynUI.Views;
-using static Microsoft.WindowsAPICodePack.Shell.PropertySystem.SystemProperties.System;
 
 namespace SynUI;
 
@@ -26,36 +18,28 @@ namespace SynUI;
 /// </summary>
 public partial class App : Application
 {
-    public static IHost? AppHost { get; private set; }
-
-    public string Location => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
-
     public App()
     {
         // Auto save settings
         Settings.Default.PropertyChanged += (_, _) =>
             Settings.Default.Save();
-        
+
         // logging
         var logFolder = Directory.CreateDirectory(Path.Combine(Location, "logs"));
-        var latestLog = Path.Combine(logFolder.FullName, "latest.log" + ".log");
+        var latestLog = Path.Combine(logFolder.FullName, "latest.log");
         var instanceLog = Path.Combine(logFolder.FullName, DateTime.Now.ToString("HH-mm-ss yy-MM-dd") + ".log");
         File.WriteAllText(latestLog, string.Empty);
-        
+
         AppDomain.CurrentDomain.FirstChanceException += (_, e) =>
         {
             File.AppendAllText(instanceLog, e.Exception.ToString());
             File.AppendAllText(latestLog, e.Exception.ToString());
         };
-
-        _initializeEnvironment();
-
-        // Initialize hosting
-        AppHost = Host.CreateDefaultBuilder()
-            .ConfigureAppConfiguration(ConfigureAppConfiugration)
-            .ConfigureServices(ConfigureServices)
-            .Build();
     }
+
+    public static IHost? AppHost { get; private set; }
+
+    public string Location => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
 
     private void ConfigureServices(HostBuilderContext context, IServiceCollection services)
     {
@@ -75,13 +59,18 @@ public partial class App : Application
         services.AddSingleton<INavigationService, NavigationService>();
         services.AddSingleton<Func<Type, ViewModelBase>>(provider =>
             viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType));
+
+        // Add settings
+        // var configurationRoot = context.Configuration;
+        //
+        // services.Configure<EditorSettings>(configurationRoot.GetSection(nameof(EditorSettings)));
     }
 
-    private void ConfigureAppConfiugration(HostBuilderContext context, IConfigurationBuilder configuration)
-    {
-        configuration.Sources.Clear();
-        configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-    }
+    // private void ConfigureAppConfiugration(HostBuilderContext context, IConfigurationBuilder configuration)
+    // {
+    //     configuration.SetBasePath(Location);
+    //     configuration.AddJsonFile("appsettings.json", false, true);
+    // }
 
     private static void _initializeEnvironment()
     {
@@ -110,16 +99,28 @@ public partial class App : Application
         Environment.CurrentDirectory = Settings.Default.SynapseDirectory;
     }
 
-    private async void App_OnStartup(object sender, StartupEventArgs e)
+    protected override async void OnStartup(StartupEventArgs e)
     {
-        await AppHost!.StartAsync();
+        _initializeEnvironment();
+
+        // Initialize hosting
+        AppHost = Host.CreateDefaultBuilder()
+            // .ConfigureAppConfiguration(ConfigureAppConfiugration)
+            .ConfigureServices(ConfigureServices)
+            .Build();
+
+        await AppHost.StartAsync();
 
         var startupView = AppHost.Services.GetRequiredService<MainWindow>();
         startupView.Show();
+
+        base.OnStartup(e);
     }
 
-    private async void App_OnExit(object sender, ExitEventArgs e)
+    protected override async void OnExit(ExitEventArgs e)
     {
         await AppHost!.StopAsync();
+
+        base.OnExit(e);
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using SynUI.Models;
 using SynUI.Utilities;
@@ -18,9 +15,8 @@ public interface IDirectoryService
 
 public class DirectoryService : IDirectoryService
 {
-    private readonly FileSystemWatcher _fileWatcher;
     private readonly FileSystemWatcher _directoryWatcher;
-    public ObservableCollection<ExplorerNode> Items { get; } = new();
+    private readonly FileSystemWatcher _fileWatcher;
 
     public DirectoryService()
     {
@@ -40,8 +36,10 @@ public class DirectoryService : IDirectoryService
             EnableRaisingEvents = true
         };
 
-        _initFolder(Path.Combine(Directory.GetCurrentDirectory(),  "scripts"), new[] { ".txt", ".lua" }, Items);
+        _initFolder(Path.Combine(Directory.GetCurrentDirectory(), "scripts"), new[] { ".txt", ".lua" }, Items);
     }
+
+    public ObservableCollection<ExplorerNode> Items { get; } = new();
 
     private void _initFile(string path, ICollection<ExplorerNode> nodes)
     {
@@ -86,7 +84,8 @@ public class DirectoryService : IDirectoryService
 
         _fileWatcher.Created += (_, e) => Application.Current.Dispatcher.Invoke(() =>
         {
-            if (FileSystem.IsPathEquals(true, Path.GetDirectoryName(e.FullPath)!, item.FullPath) && extensions.Contains(Path.GetExtension(e.FullPath)))
+            if (FileSystem.IsPathEquals(true, Path.GetDirectoryName(e.FullPath)!, item.FullPath) &&
+                extensions.Contains(Path.GetExtension(e.FullPath)))
                 _initFile(e.FullPath, item.Nodes);
         });
 
