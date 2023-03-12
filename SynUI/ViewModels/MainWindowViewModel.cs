@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
@@ -38,10 +39,7 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand NavigateToEditorCommand { get; }
     public ICommand NavigateToSettingsCommand { get; }
 
-    public string Version => Assembly
-        .GetExecutingAssembly()
-        .GetName()
-        .Version.ToString();
+    public string Version => FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
     public INavigationService? NavigationService
     {
