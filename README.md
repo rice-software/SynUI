@@ -1,6 +1,6 @@
 # SynUI
 
-the predecessor to [BetterSynapse](https://github.com/rice-cracker-2234/BetterSynapse).
+the successor to [BetterSynapse](https://github.com/rice-cracker-2234/BetterSynapse).
 
 <a name=""></a>
 
