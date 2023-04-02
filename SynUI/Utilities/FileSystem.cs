@@ -22,12 +22,15 @@ internal static class FileSystem
         return folderPath + Path.DirectorySeparatorChar;
     }
 
-    public static bool IsPathEquals(bool isFolder, string path, params string[] paths)
+    public static bool IsPathEquals(bool isFolder, string? path, params string?[] paths)
     {
+        if (path == null)
+            return false;
+
         return paths.All(p =>
-            isFolder
+            p != null && (isFolder
                 ? NormalizeDirectoryPath(Path.GetFullPath(p)) == NormalizeDirectoryPath(Path.GetFullPath(path))
-                : Path.GetFullPath(p) == Path.GetFullPath(path));
+                : Path.GetFullPath(p) == Path.GetFullPath(path)));
     }
 
     public static bool IsDirectorySynapse(string path)

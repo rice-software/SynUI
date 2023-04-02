@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using SynUI.Services;
+using SynUI.ViewModels.TabViewModels;
 
 namespace SynUI.ViewModels;
 
@@ -15,18 +16,23 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel(
         INavigationService navigationServiceService,
-        ISynapseService synapseServiceService,
+        ISettingsService settingsService,
+        ISynapseService synapseService,
         EditorViewModel editorViewModel)
     {
         NavigationService = navigationServiceService;
-        SynapseService = synapseServiceService;
+        SettingsService = settingsService;
+        SynapseService = synapseService;
+        EditorViewModel = editorViewModel;
 
         StateCommand = new RelayCommand(_stateCommand);
         MinimizeCommand = new RelayCommand(_minimizeCommand);
         LoadedCommand = new RelayCommand(SynapseService!.Initialize);
         ClosingCommand = new RelayCommand(() => Environment.Exit(0));
 
-        NavigateToEditorCommand = new RelayCommand(() => NavigationService!.NavigateTo<EditorViewModel>());
+        NavigateToEditorCommand = new RelayCommand(() => NavigationService.NavigateTo<EditorViewModel>());
+        NavigateToSettingsCommand =
+            new RelayCommand(() => EditorViewModel.AddItemCommand.Execute(new SettingsTabViewModel(SettingsService)));
 
         NavigationService!.NavigateTo<EditorViewModel>();
     }
@@ -37,12 +43,15 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand ClosingCommand { get; }
 
     public ICommand NavigateToEditorCommand { get; }
+    public ICommand NavigateToSettingsCommand { get; }
 
     public string Version =>
         FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
     public INavigationService? NavigationService { get; }
+    public ISettingsService? SettingsService { get; }
     public ISynapseService? SynapseService { get; }
+    public EditorViewModel? EditorViewModel { get; }
 
     public string Title
     {

@@ -78,6 +78,7 @@
                 <Button
                     Command="{Binding NavigateToSettingsCommand}"
                     Content="&#xeb51;" Padding="12 0"
+                    Visibility="Collapsed"
                     Style="{DynamicResource ChromeButton}"
                     FontFamily="{DynamicResource Codicon}" />
             </StackPanel>
@@ -100,22 +101,6 @@
             Background="{DynamicResource ThemeControlMidBrush}"
             BorderBrush="{DynamicResource ThemeBorderHighBrush}"
             BorderThickness="0 1 0 0">
-            <!-- <TabControl TabStripPlacement="Left" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"> -->
-            <!--     <TabItem> -->
-            <!--         <TabItem.Header> -->
-            <!--             <StackPanel Orientation="Horizontal"> -->
-            <!--                 <TextBlock Text="&#xeac4;" FontSize="{DynamicResource FontSizeMedium}" -->
-            <!--                            FontFamily="{DynamicResource Codicon}" VerticalAlignment="Center" /> -->
-            <!--                 <TextBlock Text="Editor" FontSize="{DynamicResource FontSizeMedium}" Margin="4 0 0 0" -->
-            <!--                            VerticalAlignment="Center" /> -->
-            <!--             </StackPanel> -->
-            <!--         </TabItem.Header> -->
-            <!-- -->
-            <!--         <views:Editor -->
-            <!--             Foreground="{Binding ElementName=AppWindow, Path=Foreground}" -->
-            <!--             HorizontalAlignment="Stretch" VerticalAlignment="Stretch" /> -->
-            <!--     </TabItem> -->
-            <!-- </TabControl> -->
 
             <ContentControl Content="{Binding NavigationService.CurrentView}" />
         </Border>

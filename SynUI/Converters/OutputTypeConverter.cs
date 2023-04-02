@@ -12,9 +12,9 @@ public class OutputTypeToBrushConverter : IValueConverter
     {
         return value switch
         {
-            OutputType.Info => Application.Current.TryFindResource("InformationOutputBrush"),
-            OutputType.Warning => Application.Current.TryFindResource("WarningOutputBrush"),
-            OutputType.Error => Application.Current.TryFindResource("ErrorOutputBrush"),
+            OutputInfo => Application.Current.TryFindResource("InformationOutputBrush"),
+            OutputWarning => Application.Current.TryFindResource("WarningOutputBrush"),
+            OutputError => Application.Current.TryFindResource("ErrorOutputBrush"),
             _ => Application.Current.TryFindResource("ThemeForegroundLowBrush")
         };
     }
@@ -31,9 +31,9 @@ public class OutputTypeToCodiconGlyphConverter : IValueConverter
     {
         return value switch
         {
-            OutputType.Info => "\xea74",
-            OutputType.Warning => "\xea6c",
-            OutputType.Error => "\xea87",
+            OutputInfo => "\xea74",
+            OutputWarning => "\xea6c",
+            OutputError => "\xea87",
             _ => ""
         };
     }

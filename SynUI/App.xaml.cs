@@ -57,6 +57,7 @@ public partial class App : Application
         services.AddSingleton<IDirectoryService, DirectoryService>();
         services.AddSingleton<ISocketService, SocketService>();
         services.AddSingleton<INavigationService, NavigationService>();
+        services.AddSingleton<ISettingsService, SettingsService>();
         services.AddSingleton<Func<Type, ViewModelBase>>(provider =>
             viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType));
 

@@ -8,6 +8,7 @@
         <Setter Property="Padding" Value="4 2" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
 
         <Setter Property="Template">
             <Setter.Value>
@@ -67,6 +68,7 @@
 
     <Style x:Key="ChromeButton" TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="{DynamicResource ChromeForegroundBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
 
         <Setter Property="Template">
             <Setter.Value>

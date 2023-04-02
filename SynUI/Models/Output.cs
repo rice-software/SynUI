@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Runtime.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 
@@ -9,7 +8,7 @@ public class OutputResponse : ObservableObject
 {
     private string? _message;
     private string? _name;
-    private OutputType _type;
+    private string? _type;
 
     [JsonProperty("name")]
     public string? Name
@@ -26,7 +25,7 @@ public class OutputResponse : ObservableObject
     }
 
     [JsonProperty("messageType")]
-    public OutputType Type
+    public string? Type
     {
         get => _type;
         set => SetProperty(ref _type, value);
@@ -49,25 +48,22 @@ public class Output : ObservableObject
 public class OutputMessage : ObservableObject
 {
     private string? _content;
-    private OutputType? _type;
 
     public string? Content
     {
         get => _content;
         set => SetProperty(ref _content, value);
     }
-
-    public OutputType? Type
-    {
-        get => _type;
-        set => SetProperty(ref _type, value);
-    }
 }
 
-public enum OutputType
+public class OutputInfo : OutputMessage
 {
-    [EnumMember(Value = "MessageOutput")] Output,
-    [EnumMember(Value = "MessageInfo")] Info,
-    [EnumMember(Value = "MessageWarning")] Warning,
-    [EnumMember(Value = "MessageError")] Error
+}
+
+public class OutputWarning : OutputMessage
+{
+}
+
+public class OutputError : OutputMessage
+{
 }

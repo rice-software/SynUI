@@ -43,7 +43,13 @@ public class SocketService : ISocketService
                 Outputs.Add(message);
             }
 
-            message.Outputs.Add(new OutputMessage { Content = deserialized!.Message, Type = deserialized.Type });
+            message.Outputs.Add(deserialized?.Type switch
+            {
+                "MessageInfo" => new OutputInfo { Content = deserialized.Message },
+                "MessageWarning" => new OutputWarning { Content = deserialized.Message },
+                "MessageError" => new OutputError { Content = deserialized.Message },
+                _ => new OutputMessage { Content = deserialized?.Message }
+            });
         });
     }
 }

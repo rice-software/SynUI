@@ -9,7 +9,6 @@ using SynUI.Configurations;
 using SynUI.Models;
 using SynUI.Properties;
 using SynUI.Services;
-using SynUI.Utilities;
 using SynUI.ViewModels.TabViewModels;
 
 namespace SynUI.ViewModels;
@@ -30,12 +29,15 @@ public class EditorViewModel : ViewModelBase
         DirectoryService = directoryService;
         SocketService = socketService;
 
-        AddItemCommand = new RelayCommand(_addItemCommand);
+        AddItemCommand = new RelayCommand<ViewModelBase?>(_addItemCommand);
         RemoveItemCommand = new RelayCommand<ViewModelBase>(_removeItemCommand);
         KillRobloxItemCommand = new RelayCommand(_killRobloxCommand);
-        SelectedExplorerNodeChangedCommand = new RelayCommand<ExplorerNode>(_selectedExplorerNodeChangedCommand);
+        SelectedExplorerNodeOnDoubleClickCommand =
+            new RelayCommand<ExplorerNode>(_selectedExplorerNodeOnDoubleClickCommand);
         SaveCommand = new RelayCommand(_saveCommand, () => SelectedEditorItem is EditorTabViewModel);
         LoadCommand = new RelayCommand(_loadCommand);
+        SelectNextTabCommand = new RelayCommand(_selectNextTabCommand);
+        SelectPreviousTabCommand = new RelayCommand(_selectPreviousTabCommand);
 
         EditorItems = new ObservableCollection<ViewModelBase>();
 
@@ -43,8 +45,16 @@ public class EditorViewModel : ViewModelBase
         {
             if (o.NewItems is not null)
                 foreach (var newItems in o.NewItems)
+                {
                     if (newItems is EditorTabViewModel model)
                         model.PropertyChanged += (_, _) => _updateSettings();
+                    SelectedEditorItem = (ViewModelBase)newItems;
+                }
+
+            if (o.OldItems is not null &&
+                (SelectedEditorItem is null || o.OldItems.Contains(SelectedEditorItem)) &&
+                EditorItems.Count > 0)
+                SelectedEditorItem = EditorItems[o.OldStartingIndex - 1 >= 0 ? o.OldStartingIndex - 1 : 0];
 
             _updateSettings();
         };
@@ -60,19 +70,17 @@ public class EditorViewModel : ViewModelBase
         }));
 
         if (EditorItems.Count == 0)
-        {
-            var welcome = new WelcomeTabViewModel(this);
-            EditorItems.Add(welcome);
-            SelectedEditorItem = welcome;
-        }
+            EditorItems.Add(new WelcomeTabViewModel(this));
     }
 
     public ICommand AddItemCommand { get; }
     public ICommand RemoveItemCommand { get; }
     public ICommand KillRobloxItemCommand { get; }
-    public ICommand SelectedExplorerNodeChangedCommand { get; }
+    public ICommand SelectedExplorerNodeOnDoubleClickCommand { get; }
     public RelayCommand SaveCommand { get; }
     public RelayCommand LoadCommand { get; }
+    public RelayCommand SelectPreviousTabCommand { get; }
+    public RelayCommand SelectNextTabCommand { get; }
 
     public ObservableCollection<ViewModelBase> EditorItems { get; }
 
@@ -94,9 +102,14 @@ public class EditorViewModel : ViewModelBase
         set
         {
             SetProperty(ref _selectedEditorItem, value);
+            OnPropertyChanged(nameof(SelectedDocument));
+            OnPropertyChanged(nameof(IsSelectedDocument));
             SaveCommand.NotifyCanExecuteChanged();
         }
     }
+
+    public EditorTabViewModel? SelectedDocument => SelectedEditorItem as EditorTabViewModel;
+    public bool IsSelectedDocument => SelectedEditorItem is EditorTabViewModel;
 
     private void _updateSettings()
     {
@@ -110,10 +123,15 @@ public class EditorViewModel : ViewModelBase
             }).ToList();
     }
 
-    private void _addItemCommand()
+    private void _addItemCommand(ViewModelBase? item)
     {
-        var item = new EditorTabViewModel();
-        EditorItems.Add(item);
+        item ??= new EditorTabViewModel();
+
+        if (EditorItems.Contains(item))
+            item = EditorItems.FirstOrDefault(o => o.Equals(item));
+        else
+            EditorItems.Add(item);
+
         SelectedEditorItem = item;
     }
 
@@ -136,27 +154,18 @@ public class EditorViewModel : ViewModelBase
         }
     }
 
-    private void _selectedExplorerNodeChangedCommand(ExplorerNode? parameter)
+    private void _selectedExplorerNodeOnDoubleClickCommand(ExplorerNode? parameter)
     {
         if (parameter is not ExplorerFile || parameter.FullPath == null)
             return;
 
-        var item = EditorItems.FirstOrDefault(o =>
-            o is EditorTabViewModel { Document.FileName: { } } model &&
-            FileSystem.IsPathEquals(false, model.Document.FileName, parameter.FullPath));
-
-        if (item == null)
+        var item = new EditorTabViewModel
         {
-            item = new EditorTabViewModel
-            {
-                Document = { FileName = parameter.FullPath, Text = File.ReadAllText(parameter.FullPath) },
-                IsAnchored = true
-            };
+            Document = { FileName = parameter.FullPath, Text = File.ReadAllText(parameter.FullPath) },
+            IsAnchored = true
+        };
 
-            EditorItems.Add(item);
-        }
-
-        SelectedEditorItem = item;
+        _addItemCommand(item);
     }
 
     private void _saveCommand()
@@ -176,7 +185,7 @@ public class EditorViewModel : ViewModelBase
             if (dialog.ShowDialog() != true)
                 return;
 
-            model!.Document.FileName = dialog.FileName;
+            model.Document.FileName = dialog.FileName;
         }
 
         File.WriteAllText(model.Document.FileName, model.Document.Text);
@@ -198,5 +207,37 @@ public class EditorViewModel : ViewModelBase
                 Document = { FileName = dialog.FileName, Text = File.ReadAllText(dialog.FileName) },
                 IsAnchored = true
             });
+    }
+
+    private void _selectNextTabCommand()
+    {
+        if (EditorItems.Count == 0)
+            return;
+
+        if (SelectedEditorItem is null)
+        {
+            SelectedEditorItem = EditorItems[0];
+        }
+        else
+        {
+            var index = EditorItems.IndexOf(SelectedEditorItem);
+            SelectedEditorItem = EditorItems[index + 1 < EditorItems.Count ? index + 1 : 0];
+        }
+    }
+
+    private void _selectPreviousTabCommand()
+    {
+        if (EditorItems.Count == 0)
+            return;
+
+        if (SelectedEditorItem is null)
+        {
+            SelectedEditorItem = EditorItems[EditorItems.Count - 1];
+        }
+        else
+        {
+            var index = EditorItems.IndexOf(SelectedEditorItem);
+            SelectedEditorItem = EditorItems[index - 1 >= 0 ? index - 1 : EditorItems.Count - 1];
+        }
     }
 }

@@ -9,11 +9,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <avalonedit:TextEditor
-        Background="{DynamicResource ThemeControlLowBrush}"
+        Background="Transparent"
         Foreground="{DynamicResource ThemeForegroundLowBrush}"
-        BorderBrush="{DynamicResource ThemeBorderHighBrush}"
         FontFamily="{DynamicResource 'Jetbrains Mono'}"
-        BorderThickness="0 1 0 0" ShowLineNumbers="True"
+        ShowLineNumbers="True"
         HorizontalScrollBarVisibility="Auto"
         Document="{Binding Document, Mode=OneWay}"
         Loaded="TextEditor_OnLoad" />

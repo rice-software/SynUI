@@ -1,11 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using ICSharpCode.AvalonEdit.Document;
 using SynUI.Utilities;
 
 namespace SynUI.ViewModels.TabViewModels;
 
-public class EditorTabViewModel : ViewModelBase
+public class EditorTabViewModel : ViewModelBase, IEquatable<EditorTabViewModel>
 {
     private readonly FileSystemWatcher _watcher;
     private bool _isAnchored;
@@ -39,4 +40,28 @@ public class EditorTabViewModel : ViewModelBase
     }
 
     public TextDocument Document { get; } = new();
+
+    public bool Equals(EditorTabViewModel? other)
+    {
+        if (ReferenceEquals(null, other)) return false;
+        return ReferenceEquals(this, other) ||
+               FileSystem.IsPathEquals(false, other.Document.FileName, Document.FileName);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        return obj.GetType() == GetType() && Equals((EditorTabViewModel)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            var hashCode = _watcher.GetHashCode();
+            hashCode = (hashCode * 397) ^ Document.GetHashCode();
+            return hashCode;
+        }
+    }
 }

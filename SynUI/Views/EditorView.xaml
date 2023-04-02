@@ -6,7 +6,6 @@
              xmlns:vm="clr-namespace:SynUI.ViewModels"
              xmlns:c="clr-namespace:SynUI.Converters"
              xmlns:models="clr-namespace:SynUI.Models"
-             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:tabSystem="clr-namespace:SynUI.ViewModels.TabViewModels"
              xmlns:tabViews="clr-namespace:SynUI.Views.TabViews"
              mc:Ignorable="d"
@@ -17,17 +16,10 @@
              Foreground="{DynamicResource ThemeForegroundLowBrush}"
              Background="Transparent"
              d:DataContext="{d:DesignInstance vm:EditorViewModel}">
-    <UserControl.InputBindings>
-        <KeyBinding
-            Key="N" Modifiers="Control"
-            Command="{Binding AddItemCommand}" />
-    </UserControl.InputBindings>
-
     <UserControl.Resources>
         <c:OutputTypeToBrushConverter x:Key="OutputTypeToBrushConverter" />
         <c:OutputTypeToCodiconGlyphConverter x:Key="OutputTypeToCodiconGlyphConverter" />
         <c:FullPathConverter x:Key="FullPathConverter" />
-        <c:NullToBooleanConverter x:Key="NullToBooleanConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -70,8 +62,8 @@
                         BorderBrush="{DynamicResource ThemeBorderHighBrush}">
                     <StackPanel Orientation="Horizontal">
                         <Button Command="{Binding SynapseService.ExecuteCommand}"
-                                CommandParameter="{Binding SelectedEditorItem.Document.Text}"
-                                IsEnabled="{Binding SelectedEditorItem, Converter={StaticResource NullToBooleanConverter}}"
+                                CommandParameter="{Binding SelectedDocument.Document.Text}"
+                                IsEnabled="{Binding IsSelectedDocument}"
                                 Width="32" Height="32" Content="&#xeb2c;"
                                 Background="Transparent" FontFamily="{DynamicResource Codicon}" />
                         <Button Command="{Binding SynapseService.AttachCommand}"
@@ -101,6 +93,13 @@
             Grid.Column="0"
             Grid.Row="2" Grid.RowSpan="3"
             ItemsSource="{Binding DirectoryService.Items}">
+            <TreeView.ItemContainerStyle>
+                <Style
+                    TargetType="{x:Type TreeViewItem}"
+                    BasedOn="{StaticResource {x:Type TreeViewItem}}">
+                    <EventSetter Event="MouseDoubleClick" Handler="Explorer_TreeViewItem_OnMouseDoubleClick" />
+                </Style>
+            </TreeView.ItemContainerStyle>
             <TreeView.Resources>
                 <HierarchicalDataTemplate
                     ItemsSource="{Binding Nodes}"
@@ -112,15 +111,6 @@
                     <TextBlock Text="{Binding FullPath, Converter={StaticResource FullPathConverter}}" />
                 </DataTemplate>
             </TreeView.Resources>
-
-            <!-- goofy ahh work-around since SelectedValue property is read-only -->
-            <b:Interaction.Triggers>
-                <b:EventTrigger EventName="SelectedItemChanged">
-                    <b:InvokeCommandAction
-                        Command="{Binding SelectedExplorerNodeChangedCommand}"
-                        CommandParameter="{Binding ElementName=Explorer, Path=SelectedValue}" />
-                </b:EventTrigger>
-            </b:Interaction.Triggers>
         </TreeView>
 
         <GridSplitter
@@ -137,7 +127,8 @@
             </Grid.RowDefinitions>
 
             <ListBox
-                Grid.Row="0"
+                Grid.Row="0" Height="28"
+                BorderThickness="0 0 0 1"
                 Style="{DynamicResource HorizontalListBox}"
                 SelectedItem="{Binding SelectedEditorItem}"
                 ItemsSource="{Binding EditorItems}">
@@ -147,11 +138,20 @@
                             <ContentControl VerticalAlignment="Center" Padding="2" Content="{Binding}">
                                 <ContentControl.Resources>
                                     <DataTemplate DataType="{x:Type tabSystem:EditorTabViewModel}">
-                                        <TextBlock
-                                            Text="{Binding Document.FileName, Converter={StaticResource FullPathConverter}}" />
+                                        <TextBlock VerticalAlignment="Center"
+                                                   Text="{Binding Document.FileName, Converter={StaticResource FullPathConverter}}" />
                                     </DataTemplate>
+
                                     <DataTemplate DataType="{x:Type tabSystem:WelcomeTabViewModel}">
-                                        <TextBlock Text="Welcome" />
+                                        <TextBlock VerticalAlignment="Center" Text="Welcome" />
+                                    </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type tabSystem:SettingsTabViewModel}">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock VerticalAlignment="Center" Text="&#xeb51;"
+                                                       FontFamily="{DynamicResource Codicon}" />
+                                            <TextBlock VerticalAlignment="Center" Text="Settings" />
+                                        </StackPanel>
                                     </DataTemplate>
                                 </ContentControl.Resources>
                             </ContentControl>
@@ -170,28 +170,35 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <ContentControl Grid.Row="1">
-                <ContentControl.Resources>
-                    <DataTemplate DataType="{x:Type tabSystem:EditorTabViewModel}">
-                        <tabViews:EditorTabView />
-                    </DataTemplate>
+            <Border Grid.Row="1" Background="{DynamicResource ThemeControlLowBrush}">
+                <ContentControl>
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type tabSystem:EditorTabViewModel}">
+                            <tabViews:EditorTabView />
+                        </DataTemplate>
 
-                    <DataTemplate DataType="{x:Type tabSystem:WelcomeTabViewModel}">
-                        <tabViews:WelcomeTabView />
-                    </DataTemplate>
-                </ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type tabSystem:WelcomeTabViewModel}">
+                            <tabViews:WelcomeTabView />
+                        </DataTemplate>
 
-                <ContentControl.Content>
-                    <Binding Path="SelectedEditorItem">
-                        <Binding.TargetNullValue>
-                            <Grid>
-                                <Image Width="128" Opacity="0.1" Source="/Assets/Images/synapse_x_grayscale_256.png"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </Grid>
-                        </Binding.TargetNullValue>
-                    </Binding>
-                </ContentControl.Content>
-            </ContentControl>
+                        <DataTemplate DataType="{x:Type tabSystem:SettingsTabViewModel}">
+                            <tabViews:SettingsTabView />
+                        </DataTemplate>
+                    </ContentControl.Resources>
+
+                    <ContentControl.Content>
+                        <Binding Path="SelectedEditorItem">
+                            <Binding.TargetNullValue>
+                                <Grid>
+                                    <Image Width="128" Opacity="0.1"
+                                           Source="/Assets/Images/synapse_x_grayscale_256.png"
+                                           HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Grid>
+                            </Binding.TargetNullValue>
+                        </Binding>
+                    </ContentControl.Content>
+                </ContentControl>
+            </Border>
         </Grid>
 
         <GridSplitter
@@ -238,7 +245,6 @@
             <ListBox
                 x:Name="OutputPlayerList"
                 Grid.Row="1" Grid.Column="2" Padding="0"
-                BorderBrush="{DynamicResource ThemeBorderHighBrush}"
                 SelectedItem="{Binding SelectedOuput, Mode=TwoWay}"
                 ItemsSource="{Binding SocketService.Outputs}">
                 <ListBox.ItemTemplate>
@@ -262,14 +268,14 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock
-                                Text="{Binding Type, Converter={StaticResource OutputTypeToCodiconGlyphConverter}}"
-                                Foreground="{Binding Type, Converter={StaticResource OutputTypeToBrushConverter}}"
+                                Text="{Binding Converter={StaticResource OutputTypeToCodiconGlyphConverter}}"
                                 Width="24"
+                                Foreground="{Binding Converter={StaticResource OutputTypeToBrushConverter}}"
                                 FontFamily="{DynamicResource Codicon}"
                                 VerticalAlignment="Center" />
 
                             <TextBox Background="Transparent"
-                                     Foreground="{Binding Type, Converter={StaticResource OutputTypeToBrushConverter}}"
+                                     Foreground="{Binding Converter={StaticResource OutputTypeToBrushConverter}}"
                                      BorderThickness="0"
                                      Text="{Binding Content, Mode=OneWay}"
                                      IsReadOnly="True"
