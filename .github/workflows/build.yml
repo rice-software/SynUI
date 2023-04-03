@@ -41,18 +41,18 @@ jobs:
       - name: Build the application
         working-directory: ${{ env.GITHUB_WORKSPACE }}
         run: msbuild -m -p:Configuration=Release "${{ env.Project_Path }}"
-        
-      # List files
-      - name: List files
-        working-directory: ${{ env.GITHUB_WORKSPACE }}
-        run: |
-          & tree
       
       # Package the application
       - name: Package the application
         working-directory: ${{ env.GITHUB_WORKSPACE }}
         run: |
           & "SynUI.Setup\bin\Release\SynUI.Setup.exe"
+      
+      # List files
+      - name: List files
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+        run: |
+          & tree
       
       # Upload the application
       - name: Upload artifacts (Setup)
