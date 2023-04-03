@@ -2,9 +2,15 @@ name: SynUI
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    branches: "**"
+    
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.gitignore"
+      - "**/*.gitattributes"
+    
+permissions:
+  contents: write
 
 jobs:
   build:
