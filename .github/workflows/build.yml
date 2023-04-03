@@ -50,6 +50,7 @@ jobs:
       
       # Package the application
       - name: Package the application
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
         run: |
           & "SynUI.Setup\bin\Release\SynUI.Setup.exe"
       
