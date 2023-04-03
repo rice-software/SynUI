@@ -8,8 +8,8 @@ namespace SynUI.Setup
     internal class Program
     {
         public const string InnoSetupCompilerPath = @"C:\Program Files (x86)\Inno Setup 6\ISCC.exe";
-        public const string AppName = "SynUI";
-        public static string AppVersion;
+        // public const string AppName = "SynUI";
+        // public static string AppVersion;
 
         public static string SolutionDirectory => Path.GetFullPath(@"..\..\..\");
 
@@ -27,10 +27,18 @@ namespace SynUI.Setup
 
         public static void Main(string[] args)
         {
-            AppVersion = FileVersionInfo.GetVersionInfo(AppExecPath).ProductVersion;
-
             // Create output folder
             Directory.CreateDirectory(OutputDirectory);
+            
+            Console.WriteLine(SolutionDirectory);
+            Console.WriteLine(AppDirectory);
+            Console.WriteLine(AppReleaseDirectory);
+            Console.WriteLine(AppExecPath);
+            Console.WriteLine(SetupDirectory);
+            Console.WriteLine(InnoSetupDirectory);
+            Console.WriteLine(InnoSetupPath);
+            Console.WriteLine(OutputDirectory);
+            Console.WriteLine(OutputPortableZipPath);
 
             CompileInno();
             CompilePortableZip();
