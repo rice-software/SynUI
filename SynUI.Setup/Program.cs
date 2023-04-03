@@ -13,15 +13,15 @@ namespace SynUI.Setup
 
         public static string SolutionDirectory => Path.GetFullPath(@"..\..\..\");
 
-        public static string AppDirectory => Path.Combine(SolutionDirectory, @"SynUI\");
-        public static string AppReleaseDirectory => Path.Combine(AppDirectory, @"bin\Release\");
+        public static string AppDirectory => Path.Combine(SolutionDirectory, @"SynUI");
+        public static string AppReleaseDirectory => Path.Combine(AppDirectory, @"bin\Release");
         public static string AppExecPath => Path.Combine(AppReleaseDirectory, "SynUI.exe");
 
-        public static string SetupDirectory => Path.Combine(SolutionDirectory, @"SynUI.Setup\");
-        public static string InnoSetupDirectory => Path.Combine(SetupDirectory, @"Inno\");
+        public static string SetupDirectory => Path.Combine(SolutionDirectory, @"SynUI.Setup");
+        public static string InnoSetupDirectory => Path.Combine(SetupDirectory, @"Inno");
         public static string InnoSetupPath => Path.Combine(InnoSetupDirectory, "setup.iss");
 
-        public static string OutputDirectory => Path.Combine(SolutionDirectory, @"Output\");
+        public static string OutputDirectory => Path.Combine(SolutionDirectory, @"Output");
         public static string OutputPortableZipPath => Path.Combine(OutputDirectory, "portable.zip");
 
 
@@ -64,8 +64,11 @@ namespace SynUI.Setup
         {
             if (File.Exists(OutputPortableZipPath))
                 File.Delete(OutputPortableZipPath);
-
-            ZipFile.CreateFromDirectory(AppReleaseDirectory, OutputPortableZipPath);
+            
+            if (Directory.Exists(AppReleaseDirectory))
+                ZipFile.CreateFromDirectory(AppReleaseDirectory, OutputPortableZipPath);
+            else
+                Console.WriteLine("Build directory doesn't exist!");
         }
     }
 }

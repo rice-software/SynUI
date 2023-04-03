@@ -40,7 +40,7 @@ jobs:
       # Build the application
       - name: Build the application
         working-directory: ${{ env.GITHUB_WORKSPACE }}
-        run: msbuild -m -t:Build -p:Configuration=Release "${{ env.Project_Path }}"
+        run: msbuild -m -p:Configuration=Release "${{ env.Project_Path }}"
         
       # List files
       - name: List files
