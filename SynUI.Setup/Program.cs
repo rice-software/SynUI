@@ -13,16 +13,16 @@ namespace SynUI.Setup
 
         public static string SolutionDirectory => Path.GetFullPath(@"..\..\..\");
 
-        public static string AppDirectory => Path.GetFullPath(Path.Combine(SolutionDirectory, "SynUI"));
-        public static string AppReleaseDirectory => Path.GetFullPath(Path.Combine(AppDirectory, @"bin\Release"));
-        public static string AppExecPath => Path.GetFullPath(Path.Combine(AppReleaseDirectory, "SynUI.exe"));
+        public static string AppDirectory => Path.Combine(SolutionDirectory, @"SynUI\");
+        public static string AppReleaseDirectory => Path.Combine(AppDirectory, @"bin\Release\");
+        public static string AppExecPath => Path.Combine(AppReleaseDirectory, "SynUI.exe");
 
-        public static string SetupDirectory => Path.GetFullPath(Path.Combine(SolutionDirectory, "SynUI.Setup"));
-        public static string InnoSetupDirectory => Path.GetFullPath(Path.Combine(SetupDirectory, "Inno"));
-        public static string InnoSetupPath => Path.GetFullPath(Path.Combine(InnoSetupDirectory, "setup.iss"));
+        public static string SetupDirectory => Path.Combine(SolutionDirectory, @"SynUI.Setup\");
+        public static string InnoSetupDirectory => Path.Combine(SetupDirectory, @"Inno\");
+        public static string InnoSetupPath => Path.Combine(InnoSetupDirectory, "setup.iss");
 
-        public static string OutputDirectory => Path.GetFullPath(Path.Combine(SolutionDirectory, "Output"));
-        public static string OutputPortableZipPath => Path.GetFullPath(Path.Combine(OutputDirectory, "portable.zip"));
+        public static string OutputDirectory => Path.Combine(SolutionDirectory, @"Output\");
+        public static string OutputPortableZipPath => Path.Combine(OutputDirectory, "portable.zip");
 
 
         public static void Main(string[] args)
