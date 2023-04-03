@@ -56,7 +56,6 @@ namespace SynUI.Setup
             {
                 FileName = InnoSetupCompilerPath,
                 Arguments = $"/Q \"{InnoSetupPath}\"",
-                WorkingDirectory = InnoSetupDirectory,
                 UseShellExecute = false
             });
         }
