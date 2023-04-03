@@ -11,7 +11,9 @@ namespace SynUI.Setup
         // public const string AppName = "SynUI";
         // public static string AppVersion;
 
-        public static string SolutionDirectory => Path.GetFullPath(@"..\..\..\");
+        public static string SolutionDirectory;
+        
+        public static string SolutionPath => Path.Combine(SolutionDirectory, "SynUI.sln");
 
         public static string AppDirectory => Path.Combine(SolutionDirectory, @"SynUI");
         public static string AppReleaseDirectory => Path.Combine(AppDirectory, @"bin\Release");
@@ -27,21 +29,33 @@ namespace SynUI.Setup
 
         public static void Main(string[] args)
         {
-            // Create output folder
-            Directory.CreateDirectory(OutputDirectory);
-            
-            Console.WriteLine(SolutionDirectory);
-            Console.WriteLine(AppDirectory);
-            Console.WriteLine(AppReleaseDirectory);
-            Console.WriteLine(AppExecPath);
-            Console.WriteLine(SetupDirectory);
-            Console.WriteLine(InnoSetupDirectory);
-            Console.WriteLine(InnoSetupPath);
-            Console.WriteLine(OutputDirectory);
-            Console.WriteLine(OutputPortableZipPath);
-
+            InitializePath();
             CompileInno();
             CompilePortableZip();
+        }
+
+        public static void InitializePath()
+        {
+            SolutionDirectory = Directory.GetCurrentDirectory();
+
+            if (!File.Exists(SolutionPath))
+            {
+                Console.WriteLine("Invalid parent directory: " + SolutionDirectory);
+                SolutionDirectory = Path.GetFullPath(@"..\..\..\");
+
+                if (!File.Exists(SolutionPath))
+                {
+                    Console.WriteLine("Invalid parent directory: " + SolutionDirectory);
+                    Environment.Exit(0);
+                }
+            }
+            
+            // Cleaning up output
+            if (Directory.Exists(OutputDirectory))
+                Directory.Delete(OutputDirectory, true);
+            
+            // Create output folder
+            Directory.CreateDirectory(OutputDirectory);
         }
 
         public static void CompileInno()
@@ -52,12 +66,14 @@ namespace SynUI.Setup
                 return;
             }
 
-            Process.Start(new ProcessStartInfo
+            var proc = Process.Start(new ProcessStartInfo
             {
                 FileName = InnoSetupCompilerPath,
                 Arguments = $"/Q \"{InnoSetupPath}\"",
                 UseShellExecute = false
             });
+
+            proc?.WaitForExit();
         }
 
         public static void CompilePortableZip()
