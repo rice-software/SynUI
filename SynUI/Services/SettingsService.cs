@@ -3,11 +3,11 @@
 namespace SynUI.Services;
 
 public interface ISettingsService
-{ 
+{
     bool? Test { get; set; }
 }
 
-public partial class SettingsService : ObservableObject, ISettingsService
+public class SettingsService : ObservableObject, ISettingsService
 {
     private bool? test;
 

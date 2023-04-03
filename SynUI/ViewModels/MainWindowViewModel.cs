@@ -11,8 +11,8 @@ namespace SynUI.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private string _title = "SynUI";
-    private WindowState _windowState;
+    private string title = "SynUI";
+    private WindowState windowState;
 
     public MainWindowViewModel(
         INavigationService navigationServiceService,
@@ -55,14 +55,14 @@ public class MainWindowViewModel : ViewModelBase
 
     public string Title
     {
-        get => _title;
-        set => SetProperty(ref _title, value);
+        get => title;
+        set => SetProperty(ref title, value);
     }
 
     public WindowState WindowState
     {
-        get => _windowState;
-        set => SetProperty(ref _windowState, value);
+        get => windowState;
+        set => SetProperty(ref windowState, value);
     }
 
     private void _stateCommand()

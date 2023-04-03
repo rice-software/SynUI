@@ -7,12 +7,10 @@ on:
     branches: [ "master" ]
 
 jobs:
-
   build:
-
     strategy:
       matrix:
-        configuration: [ Debug, Release ]
+      # configuration: [ Debug, Release ]
 
     runs-on: windows-latest  # For a list of available runner types, refer to
     # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -42,19 +40,26 @@ jobs:
       
       # Restore the application
       - name: Restore the application
-        run: msbuild $env:Project_Path /t:Restore /p:Configuration=$env:Configuration
-        env:
-          Configuration: ${{ matrix.configuration }}
+        run: msbuild $env:Project_Path /t:Restore /p:Configuration=Release
       
       # Build the application
       - name: Build the application
-        run: msbuild $env:Project_Path /t:Build /p:Platform=x86 /p:Configuration=$env:Configuration
-        env:
-          Configuration: ${{ matrix.configuration }}
+        run: msbuild $env:Project_Path /t:Build /p:Configuration=Release
+      
+      # Package the application
+      - name: Package the application
+        run: |
+          & "SynUI.Setup\bin\Release\SynUI.Setup.exe"
       
       # Upload the application
-      - name: Upload build artifacts
+      - name: Upload artifacts (Setup)
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ steps.nbgv.outputs.SemVer2 }}-${{ matrix.configuration }}
-          path: SynUI/bin/x86/${{ matrix.configuration }}
+          name: Setup
+          path: Output\setup.exe
+
+      - name: Upload artifacts (Portable)
+        uses: actions/upload-artifact@v3
+        with:
+          name: Portable
+          path: Output\portable.zip

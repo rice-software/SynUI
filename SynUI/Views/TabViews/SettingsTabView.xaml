@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:tabViewModels="clr-namespace:SynUI.ViewModels.TabViewModels"
              xmlns:userControls="clr-namespace:SynUI.UserControls"
-             xmlns:properties="clr-namespace:SynUI.Properties"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance tabViewModels:SettingsTabViewModel}"
              Foreground="{DynamicResource ThemeForegroundLowBrush}"
              d:DesignHeight="300" d:DesignWidth="300" Background="Transparent">

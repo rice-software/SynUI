@@ -21,14 +21,14 @@ public interface ISynapseService
 
 public class SynapseService : ObservableObject, ISynapseService
 {
-    private SxLibOffscreen? _api;
-    private SxLibBase.SynAttachEvents _attachState;
-    private SxLibBase.SynLoadEvents _loadState;
+    private SxLibOffscreen? api;
+    private SxLibBase.SynAttachEvents attachState;
+    private SxLibBase.SynLoadEvents loadState;
 
     public SynapseService()
     {
         ExecuteCommand = new RelayCommand<string>(
-            script => _api?.Execute(script),
+            script => api?.Execute(script),
             _ => true
             // AttachState is
             //     SxLibBase.SynAttachEvents.READY or
@@ -36,7 +36,7 @@ public class SynapseService : ObservableObject, ISynapseService
         );
 
         AttachCommand = new RelayCommand(
-            () => _api?.Attach(),
+            () => api?.Attach(),
             () => LoadState == SxLibBase.SynLoadEvents.READY);
     }
 
@@ -45,10 +45,10 @@ public class SynapseService : ObservableObject, ISynapseService
 
     public SxLibBase.SynLoadEvents LoadState
     {
-        get => _loadState;
+        get => loadState;
         private set
         {
-            SetProperty(ref _loadState, value);
+            SetProperty(ref loadState, value);
             ExecuteCommand.NotifyCanExecuteChanged();
             AttachCommand.NotifyCanExecuteChanged();
         }
@@ -56,10 +56,10 @@ public class SynapseService : ObservableObject, ISynapseService
 
     public SxLibBase.SynAttachEvents AttachState
     {
-        get => _attachState;
+        get => attachState;
         private set
         {
-            SetProperty(ref _attachState, value);
+            SetProperty(ref attachState, value);
             ExecuteCommand.NotifyCanExecuteChanged();
             AttachCommand.NotifyCanExecuteChanged();
         }
@@ -67,9 +67,9 @@ public class SynapseService : ObservableObject, ISynapseService
 
     public void Initialize()
     {
-        _api = SxLib.InitializeOffscreen(Directory.GetCurrentDirectory());
-        _api.LoadEvent += _sxlib_OnLoadEvent;
-        _api.AttachEvent += _sxlib_OnAttachEvent;
+        api = SxLib.InitializeOffscreen(Directory.GetCurrentDirectory());
+        api.LoadEvent += _sxlib_OnLoadEvent;
+        api.AttachEvent += _sxlib_OnAttachEvent;
 
         // Add autoexec script
         var autoexecPath = Path.Combine(Directory.GetCurrentDirectory(), "autoexec",
@@ -79,7 +79,7 @@ public class SynapseService : ObservableObject, ISynapseService
         using var file = File.Open(autoexecPath, FileMode.OpenOrCreate);
         script?.CopyTo(file);
 
-        _api.Load();
+        api.Load();
     }
 
     private void _sxlib_OnAttachEvent(SxLibBase.SynAttachEvents @event, object param)

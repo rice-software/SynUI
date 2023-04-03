@@ -9,7 +9,7 @@ public class SettingsTabViewModel : ViewModelBase, IEquatable<SettingsTabViewMod
     {
         SettingsService = settingsService;
     }
-    
+
     public ISettingsService SettingsService { get; }
 
     public bool Equals(SettingsTabViewModel? other)

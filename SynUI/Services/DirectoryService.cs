@@ -15,12 +15,12 @@ public interface IDirectoryService
 
 public class DirectoryService : IDirectoryService
 {
-    private readonly FileSystemWatcher _directoryWatcher;
-    private readonly FileSystemWatcher _fileWatcher;
+    private readonly FileSystemWatcher directoryWatcher;
+    private readonly FileSystemWatcher fileWatcher;
 
     public DirectoryService()
     {
-        _fileWatcher = new FileSystemWatcher
+        fileWatcher = new FileSystemWatcher
         {
             Path = Path.Combine(Directory.GetCurrentDirectory(), "scripts"),
             NotifyFilter = NotifyFilters.FileName,
@@ -28,7 +28,7 @@ public class DirectoryService : IDirectoryService
             EnableRaisingEvents = true
         };
 
-        _directoryWatcher = new FileSystemWatcher
+        directoryWatcher = new FileSystemWatcher
         {
             Path = Path.Combine(Directory.GetCurrentDirectory(), "scripts"),
             NotifyFilter = NotifyFilters.DirectoryName,
@@ -45,13 +45,13 @@ public class DirectoryService : IDirectoryService
     {
         var item = new ExplorerFile { FullPath = path };
 
-        _fileWatcher.Renamed += (_, e) => Application.Current.Dispatcher.Invoke(() =>
+        fileWatcher.Renamed += (_, e) => Application.Current.Dispatcher.Invoke(() =>
         {
             if (FileSystem.IsPathEquals(false, e.OldFullPath, item.FullPath))
                 item.FullPath = e.FullPath;
         });
 
-        _fileWatcher.Deleted += (_, e) => Application.Current.Dispatcher.Invoke(() =>
+        fileWatcher.Deleted += (_, e) => Application.Current.Dispatcher.Invoke(() =>
         {
             if (FileSystem.IsPathEquals(false, e.FullPath, item.FullPath))
                 nodes.Remove(item);
@@ -64,25 +64,25 @@ public class DirectoryService : IDirectoryService
     {
         var item = new ExplorerDirectory { FullPath = path };
 
-        _directoryWatcher.Renamed += (_, e) => Application.Current.Dispatcher.Invoke(() =>
+        directoryWatcher.Renamed += (_, e) => Application.Current.Dispatcher.Invoke(() =>
         {
             if (FileSystem.IsPathEquals(true, e.OldFullPath, item.FullPath))
                 item.FullPath = e.FullPath;
         });
 
-        _directoryWatcher.Deleted += (_, e) => Application.Current.Dispatcher.Invoke(() =>
+        directoryWatcher.Deleted += (_, e) => Application.Current.Dispatcher.Invoke(() =>
         {
             if (FileSystem.IsPathEquals(true, e.FullPath, item.FullPath))
                 nodes.Remove(item);
         });
 
-        _directoryWatcher.Created += (_, e) => Application.Current.Dispatcher.Invoke(() =>
+        directoryWatcher.Created += (_, e) => Application.Current.Dispatcher.Invoke(() =>
         {
             if (FileSystem.IsPathEquals(true, Path.GetDirectoryName(e.FullPath)!, item.FullPath))
                 _initFolder(e.FullPath, extensions, item.Nodes);
         });
 
-        _fileWatcher.Created += (_, e) => Application.Current.Dispatcher.Invoke(() =>
+        fileWatcher.Created += (_, e) => Application.Current.Dispatcher.Invoke(() =>
         {
             if (FileSystem.IsPathEquals(true, Path.GetDirectoryName(e.FullPath)!, item.FullPath) &&
                 extensions.Contains(Path.GetExtension(e.FullPath)))

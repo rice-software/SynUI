@@ -5,12 +5,12 @@ namespace SynUI.Models;
 
 public class ExplorerNode : ObservableObject
 {
-    private string? _fullPath;
+    private string? fullPath;
 
     public string? FullPath
     {
-        get => _fullPath;
-        set => SetProperty(ref _fullPath, value);
+        get => fullPath;
+        set => SetProperty(ref fullPath, value);
     }
 }
 

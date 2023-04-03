@@ -12,23 +12,23 @@ public interface INavigationService
 
 public class NavigationService : ObservableObject, INavigationService
 {
-    private readonly Func<Type, ViewModelBase> _viewModelFactory;
-    private ViewModelBase? _currentView;
+    private readonly Func<Type, ViewModelBase> viewModelFactory;
+    private ViewModelBase? currentView;
 
     public NavigationService(Func<Type, ViewModelBase> viewModelFactory)
     {
-        _viewModelFactory = viewModelFactory;
+        this.viewModelFactory = viewModelFactory;
     }
 
     public ViewModelBase? CurrentView
     {
-        get => _currentView;
-        private set => SetProperty(ref _currentView, value);
+        get => currentView;
+        private set => SetProperty(ref currentView, value);
     }
 
     public void NavigateTo<TViewModel>() where TViewModel : ViewModelBase
     {
-        var viewModel = _viewModelFactory.Invoke(typeof(TViewModel));
+        var viewModel = viewModelFactory.Invoke(typeof(TViewModel));
         CurrentView = viewModel;
     }
 }

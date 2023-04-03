@@ -16,9 +16,8 @@ namespace SynUI.ViewModels;
 // TODO: Refactor this whole thing.
 public class EditorViewModel : ViewModelBase
 {
-    private ViewModelBase? _selectedEditorItem;
-    private Output? _selectedOutput;
-
+    private ViewModelBase? selectedEditorItem;
+    private Output? selectedOutput;
 
     public EditorViewModel(
         ISynapseService synapseServiceService,
@@ -86,8 +85,8 @@ public class EditorViewModel : ViewModelBase
 
     public Output? SelectedOuput
     {
-        get => _selectedOutput;
-        set => SetProperty(ref _selectedOutput, value);
+        get => selectedOutput;
+        set => SetProperty(ref selectedOutput, value);
     }
 
     public ISynapseService? SynapseService { get; }
@@ -98,10 +97,10 @@ public class EditorViewModel : ViewModelBase
 
     public ViewModelBase? SelectedEditorItem
     {
-        get => _selectedEditorItem;
+        get => selectedEditorItem;
         set
         {
-            SetProperty(ref _selectedEditorItem, value);
+            SetProperty(ref selectedEditorItem, value);
             OnPropertyChanged(nameof(SelectedDocument));
             OnPropertyChanged(nameof(IsSelectedDocument));
             SaveCommand.NotifyCanExecuteChanged();

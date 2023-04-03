@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:SynUI.UserControls"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" x:Name="View"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -13,10 +12,13 @@
             <RowDefinition Height="Auto" MaxHeight="36" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-            
-        <TextBlock Grid.Row="0" Foreground="{DynamicResource ThemeForegroundHighBrush}" TextTrimming="CharacterEllipsis" Text="Sample settings 1" />
-        <TextBlock Grid.Row="1" Foreground="{DynamicResource ThemeForegroundLowBrush}" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Text="lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum " />
-        
+
+        <TextBlock Grid.Row="0" Foreground="{DynamicResource ThemeForegroundHighBrush}"
+                   TextTrimming="CharacterEllipsis" Text="Sample settings 1" />
+        <TextBlock Grid.Row="1" Foreground="{DynamicResource ThemeForegroundLowBrush}" TextWrapping="Wrap"
+                   TextTrimming="CharacterEllipsis"
+                   Text="lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum " />
+
         <ContentControl Grid.Row="2" Margin="0 8" Content="{Binding ElementName=View, Path=Property}">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type sys:Boolean}">

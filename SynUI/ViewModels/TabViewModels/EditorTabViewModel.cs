@@ -8,34 +8,41 @@ namespace SynUI.ViewModels.TabViewModels;
 
 public class EditorTabViewModel : ViewModelBase, IEquatable<EditorTabViewModel>
 {
-    private readonly FileSystemWatcher _watcher;
-    private bool _isAnchored;
+    private readonly FileSystemWatcher watcher;
+    private int caretOffset = 3;
+    private bool isAnchored;
 
     public EditorTabViewModel()
     {
-        _watcher = new FileSystemWatcher();
+        watcher = new FileSystemWatcher();
 
-        _watcher.Renamed += (_, o) => Application.Current.Dispatcher.Invoke(() =>
+        watcher.Renamed += (_, o) => Application.Current.Dispatcher.Invoke(() =>
         {
             if (FileSystem.IsPathEquals(false, o.OldFullPath, Document.FileName))
                 Document.FileName = o.FullPath;
         });
 
-        _watcher.NotifyFilter = NotifyFilters.FileName;
-        _watcher.EnableRaisingEvents = IsAnchored;
+        watcher.NotifyFilter = NotifyFilters.FileName;
+        watcher.EnableRaisingEvents = IsAnchored;
 
         Document.FileNameChanged += (_, _) => OnPropertyChanged(nameof(Document));
         Document.TextChanged += (_, _) => OnPropertyChanged(nameof(Document));
     }
 
+    public int CaretOffset
+    {
+        get => caretOffset;
+        set => SetProperty(ref caretOffset, value);
+    }
+
     public bool IsAnchored
     {
-        get => _isAnchored;
+        get => isAnchored;
         set
         {
-            SetProperty(ref _isAnchored, value);
-            _watcher.Path = Path.GetDirectoryName(Document.FileName);
-            _watcher.EnableRaisingEvents = IsAnchored;
+            SetProperty(ref isAnchored, value);
+            watcher.Path = Path.GetDirectoryName(Document.FileName);
+            watcher.EnableRaisingEvents = IsAnchored;
         }
     }
 
@@ -59,7 +66,7 @@ public class EditorTabViewModel : ViewModelBase, IEquatable<EditorTabViewModel>
     {
         unchecked
         {
-            var hashCode = _watcher.GetHashCode();
+            var hashCode = watcher.GetHashCode();
             hashCode = (hashCode * 397) ^ Document.GetHashCode();
             return hashCode;
         }

@@ -6,40 +6,40 @@ namespace SynUI.Models;
 
 public class OutputResponse : ObservableObject
 {
-    private string? _message;
-    private string? _name;
-    private string? _type;
+    private string? message;
+    private string? name;
+    private string? type;
 
     [JsonProperty("name")]
     public string? Name
     {
-        get => _name;
-        set => SetProperty(ref _name, value);
+        get => name;
+        set => SetProperty(ref name, value);
     }
 
     [JsonProperty("message")]
     public string? Message
     {
-        get => _message;
-        set => SetProperty(ref _message, value);
+        get => message;
+        set => SetProperty(ref message, value);
     }
 
     [JsonProperty("messageType")]
     public string? Type
     {
-        get => _type;
-        set => SetProperty(ref _type, value);
+        get => type;
+        set => SetProperty(ref type, value);
     }
 }
 
 public class Output : ObservableObject
 {
-    private string? _name;
+    private string? name;
 
     public string? Name
     {
-        get => _name;
-        set => SetProperty(ref _name, value);
+        get => name;
+        set => SetProperty(ref name, value);
     }
 
     public ObservableCollection<OutputMessage> Outputs { get; } = new();
@@ -47,12 +47,12 @@ public class Output : ObservableObject
 
 public class OutputMessage : ObservableObject
 {
-    private string? _content;
+    private string? content;
 
     public string? Content
     {
-        get => _content;
-        set => SetProperty(ref _content, value);
+        get => content;
+        set => SetProperty(ref content, value);
     }
 }
 
