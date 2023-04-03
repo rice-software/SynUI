@@ -41,12 +41,18 @@ jobs:
       # Restore the application
       - name: Restore the application
         working-directory: ${{ env.GITHUB_WORKSPACE }}
-        run: msbuild $env:Project_Path -t:Restore -p:Configuration=Release
+        run: nuget restore "${{ env.Project_Path }}"
       
       # Build the application
       - name: Build the application
         working-directory: ${{ env.GITHUB_WORKSPACE }}
-        run: msbuild $env:Project_Path -m -t:Build -p:Configuration=Release
+        run: msbuild -m -t:Build -p:Configuration=Release "${{ env.Project_Path }}"
+        
+      # List files
+      - name: List files
+        working-directory: ${{ env.GITHUB_WORKSPACE }}
+        run: |
+          & tree
       
       # Package the application
       - name: Package the application
