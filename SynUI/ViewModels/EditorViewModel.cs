@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
@@ -44,18 +45,12 @@ public class EditorViewModel : ViewModelBase
         {
             if (o.NewItems is not null)
                 foreach (var newItems in o.NewItems)
-                {
-                    if (newItems is EditorTabViewModel model)
-                        model.PropertyChanged += (_, _) => _updateSettings();
                     SelectedEditorItem = (ViewModelBase)newItems;
-                }
 
             if (o.OldItems is not null &&
                 (SelectedEditorItem is null || o.OldItems.Contains(SelectedEditorItem)) &&
                 EditorItems.Count > 0)
                 SelectedEditorItem = EditorItems[o.OldStartingIndex - 1 >= 0 ? o.OldStartingIndex - 1 : 0];
-
-            _updateSettings();
         };
 
         Settings.Default.EditorItems?.ForEach(o => EditorItems.Add(new EditorTabViewModel
@@ -110,7 +105,7 @@ public class EditorViewModel : ViewModelBase
     public EditorTabViewModel? SelectedDocument => SelectedEditorItem as EditorTabViewModel;
     public bool IsSelectedDocument => SelectedEditorItem is EditorTabViewModel;
 
-    private void _updateSettings()
+    public void UpdateSettings()
     {
         Settings.Default.EditorItems = (
             from vm in EditorItems.ToList()

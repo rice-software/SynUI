@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="SynUI.Views.TabViews.SettingsView.SettingsSynapseXView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:SynUI.Views.TabViews.SettingsView"
+             xmlns:settingsViewModels="clr-namespace:SynUI.ViewModels.TabViewModels.SettingsViewModels"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance settingsViewModels:SettingsSynapseXViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300" Background="Transparent"
+             Foreground="{DynamicResource ThemeForegroundLowBrush}">
+    <StackPanel>
+        <TextBlock Text="To be implemented" />
+    </StackPanel>
+</UserControl>

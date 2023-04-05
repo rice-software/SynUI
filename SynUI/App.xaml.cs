@@ -9,6 +9,7 @@ using SynUI.Properties;
 using SynUI.Services;
 using SynUI.Utilities;
 using SynUI.ViewModels;
+using SynUI.ViewModels.TabViewModels;
 using SynUI.Views;
 
 namespace SynUI;
@@ -20,6 +21,9 @@ public partial class App : Application
 {
     public App()
     {
+        // forcefully shutdown (fuck you sxlib)
+        Exit += (_, _) => Environment.Exit(0);
+
         // Auto save settings
         Settings.Default.PropertyChanged += (_, _) =>
             Settings.Default.Save();
@@ -51,13 +55,16 @@ public partial class App : Application
         // Add views
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<EditorViewModel>();
+        
+        // settings view
+        services.AddSingleton<SettingsTabViewModel>();
 
         // Add services
         services.AddSingleton<ISynapseService, SynapseService>();
         services.AddSingleton<IDirectoryService, DirectoryService>();
         services.AddSingleton<ISocketService, SocketService>();
         services.AddSingleton<INavigationService, NavigationService>();
-        services.AddSingleton<ISettingsService, SettingsService>();
+        
         services.AddSingleton<Func<Type, ViewModelBase>>(provider =>
             viewModelType => (ViewModelBase)provider.GetRequiredService(viewModelType));
 
@@ -120,7 +127,9 @@ public partial class App : Application
 
     protected override async void OnExit(ExitEventArgs e)
     {
-        await AppHost!.StopAsync();
+        AppHost!.Services.GetRequiredService<EditorViewModel>().UpdateSettings();
+
+        await AppHost.StopAsync();
 
         base.OnExit(e);
     }

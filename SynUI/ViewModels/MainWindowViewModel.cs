@@ -16,23 +16,23 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel(
         INavigationService navigationServiceService,
-        ISettingsService settingsService,
         ISynapseService synapseService,
+        SettingsTabViewModel settingsTabViewModel,
         EditorViewModel editorViewModel)
     {
         NavigationService = navigationServiceService;
-        SettingsService = settingsService;
         SynapseService = synapseService;
+        SettingsTabViewModel = settingsTabViewModel;
         EditorViewModel = editorViewModel;
 
         StateCommand = new RelayCommand(_stateCommand);
         MinimizeCommand = new RelayCommand(_minimizeCommand);
         LoadedCommand = new RelayCommand(SynapseService!.Initialize);
-        ClosingCommand = new RelayCommand(() => Environment.Exit(0));
+        // ClosingCommand = new RelayCommand(() => Environment.Exit(0));
 
         NavigateToEditorCommand = new RelayCommand(() => NavigationService.NavigateTo<EditorViewModel>());
         NavigateToSettingsCommand =
-            new RelayCommand(() => EditorViewModel.AddItemCommand.Execute(new SettingsTabViewModel(SettingsService)));
+            new RelayCommand(() => EditorViewModel.AddItemCommand.Execute(SettingsTabViewModel));
 
         NavigationService!.NavigateTo<EditorViewModel>();
     }
@@ -40,7 +40,7 @@ public class MainWindowViewModel : ViewModelBase
     public ICommand StateCommand { get; }
     public ICommand MinimizeCommand { get; }
     public ICommand LoadedCommand { get; }
-    public ICommand ClosingCommand { get; }
+    // public ICommand ClosingCommand { get; }
 
     public ICommand NavigateToEditorCommand { get; }
     public ICommand NavigateToSettingsCommand { get; }
@@ -49,8 +49,8 @@ public class MainWindowViewModel : ViewModelBase
         FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
 
     public INavigationService? NavigationService { get; }
-    public ISettingsService? SettingsService { get; }
     public ISynapseService? SynapseService { get; }
+    public SettingsTabViewModel? SettingsTabViewModel { get; }
     public EditorViewModel? EditorViewModel { get; }
 
     public string Title

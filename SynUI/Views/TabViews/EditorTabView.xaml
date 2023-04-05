@@ -6,7 +6,7 @@
              xmlns:tabViewModels="clr-namespace:SynUI.ViewModels.TabViewModels"
              xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance tabViewModels:EditorTabViewModel}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Background="Transparent">
 
     <avalonedit:TextEditor
         Background="Transparent"

@@ -5,10 +5,44 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:tabViewModels="clr-namespace:SynUI.ViewModels.TabViewModels"
              xmlns:userControls="clr-namespace:SynUI.UserControls"
+             xmlns:properties="clr-namespace:SynUI.Properties"
+             xmlns:settingsViewModels="clr-namespace:SynUI.ViewModels.TabViewModels.SettingsViewModels"
+             xmlns:settingsView="clr-namespace:SynUI.Views.TabViews.SettingsView"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance tabViewModels:SettingsTabViewModel}"
              Foreground="{DynamicResource ThemeForegroundLowBrush}"
              d:DesignHeight="300" d:DesignWidth="300" Background="Transparent">
-    <StackPanel>
-        <userControls:SettingsItem Property="{Binding Path=SettingsService.Test, Mode=TwoWay}" />
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="128" />
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+        
+        <ListBox Grid.Column="0" SelectedItem="{Binding SelectedSettingsView}" SelectedIndex="0" BorderThickness="0 0 1 0">
+            <ListBox.Resources>
+                <DataTemplate DataType="{x:Type settingsViewModels:SettingsSynapseXViewModel}">
+                    <TextBlock Text="Synapse X" />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type settingsViewModels:SettingsEditorViewModel}">
+                    <TextBlock Text="Editor" />
+                </DataTemplate>
+            </ListBox.Resources>
+            
+            <settingsViewModels:SettingsSynapseXViewModel />
+            <settingsViewModels:SettingsEditorViewModel />
+        </ListBox>
+        
+        <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Visible">
+            <ContentControl Margin="8" Content="{Binding SelectedSettingsView}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type settingsViewModels:SettingsSynapseXViewModel}">
+                        <settingsView:SettingsSynapseXView />
+                    </DataTemplate>
+                
+                    <DataTemplate DataType="{x:Type settingsViewModels:SettingsEditorViewModel}">
+                        <settingsView:SettingsEditorView />
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+        </ScrollViewer>
+    </Grid>
 </UserControl>

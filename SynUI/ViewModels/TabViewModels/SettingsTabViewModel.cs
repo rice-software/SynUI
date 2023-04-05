@@ -1,16 +1,20 @@
 ﻿using System;
+using System.Windows;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using SynUI.Services;
 
 namespace SynUI.ViewModels.TabViewModels;
 
 public class SettingsTabViewModel : ViewModelBase, IEquatable<SettingsTabViewModel>
 {
-    public SettingsTabViewModel(ISettingsService settingsService)
-    {
-        SettingsService = settingsService;
-    }
+    private ViewModelBase? selectedSettingsView;
 
-    public ISettingsService SettingsService { get; }
+    public ViewModelBase? SelectedSettingsView
+    {
+        get => selectedSettingsView;
+        set => SetProperty(ref selectedSettingsView, value);
+    }
 
     public bool Equals(SettingsTabViewModel? other)
     {
