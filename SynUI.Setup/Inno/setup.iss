@@ -26,7 +26,7 @@ AppUpdatesURL = {#MyAppURL}
 DefaultDirName = {autopf}\{#MyAppName}
 DisableProgramGroupPage = yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
-PrivilegesRequired=admin
+PrivilegesRequired = admin
 OutputBaseFilename = setup
 OutputDir = {#MyAppOutputDirectory}
 Compression = lzma
@@ -49,5 +49,5 @@ Name : "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name : "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename : "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename : "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent runascurrentuser
 
